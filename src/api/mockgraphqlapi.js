@@ -1,6 +1,9 @@
 
 class MockGraphQLApi {
 
+    // TODO Eventually this will be replaced by an implementation which calls the GraphQL API
+    // TODO Probably using Apollo GraphQL client.
+
     getQuestionnaire(questionnaireId) {
         return {
             "data": {
