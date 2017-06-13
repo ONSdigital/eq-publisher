@@ -15,5 +15,8 @@
   "devDependencies": {
     "jest": "^20.0.4",
     "nodemon": "^1.11.0"
-  }
+  },
+  "moduleRoots": [
+    "src/"
+  ]
 }
