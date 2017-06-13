@@ -1,19 +1,18 @@
 const express = require('express');
 const app = express();
 
-const GraphQLApi = require('./api/mockgraphqlapi')
+const GraphQLApi = require('./api/mockgraphqlapi');
+const EQConverter = require('./converter/converter');
 
 const PORT = 9000;
 
-const AUTHOR_API = '';
-
-
-app.get('/', (req, res) => {
-    res.send({
-        key: 'value'
-    })
+app.get('/mock/graphql/:questionnaireId(\\d+)', (req, res) => {
+    res.send(GraphQLApi.getQuestionnaire(req.params.questionnaireId));
 });
 
+app.get('/mock/publish/:questionnaireId(\\d+)', (req, res) => {
+    res.send(EQConverter.convert(GraphQLApi.getQuestionnaire(req.params.questionnaireId)));
+});
 
 app.get('/publish/:questionnaireId(\\d+)', (req, res) => {
     res.send(req.params)
