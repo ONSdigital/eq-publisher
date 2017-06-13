@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const GraphQLApi = require('./api/mock-graphql-api')
+const GraphQLApi = require('./api/mockgraphqlapi')
 
 const PORT = 9000;
 
