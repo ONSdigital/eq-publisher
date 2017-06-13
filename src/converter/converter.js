@@ -1,8 +1,9 @@
 class EQConverter {
     convert(authorJson) {
-        return {
 
-        }
+        // TODO Transform authorJson to EQ schema valid JSON
+
+        return Object.assign({}, authorJson);
     }
 }
 
