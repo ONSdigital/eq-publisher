@@ -10,9 +10,9 @@ describe('schema parser', () => {
 
     describe('getRequired', () => {
 
-        it('should return empty array if element is not a key of parser', () => {
+        it('should throw error if element is not a key of parser', () => {
             const schemaParser = new SchemaParser(eqSchema);
-            expect(schemaParser.getRequired('not-in-schema')).toEqual([]);
+            expect(() => schemaParser.getRequired('not-in-schema')).toThrow();
         });
 
         it('should return required meta elements when requested', () => {
@@ -45,9 +45,9 @@ describe('schema parser', () => {
 
     describe('getProperties', () => {
 
-        it('should return empty object when elem is not in schema keys', () => {
+        it('should throw error when elem is not in schema keys', () => {
             const schemaParser = new SchemaParser(eqSchema);
-            expect(schemaParser.getProperties('not-in-schema')).toEqual({});
+            expect(() => schemaParser.getProperties('not-in-schema')).toThrow();
         });
 
         it('should return meta properties when called with "meta"', () => {

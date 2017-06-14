@@ -14,7 +14,7 @@ class SchemaParser {
 
     getRequired(elem) {
         if (!Object.keys(this).includes(elem)) {
-            return [];
+            throw Error(elem + " is not a key of eq json schema");
         } else if (elem === 'meta') {
             return this.meta.required;
         } else {
@@ -24,7 +24,7 @@ class SchemaParser {
 
     getProperties(elem) {
         if (!Object.keys(this).includes(elem)) {
-            return {};
+            throw Error(elem + " is not a key of eq json schema");
         } else if (elem == 'meta') {
             return this.meta.properties;
         } else {
