@@ -1,3 +1,5 @@
+const convertMeta = require('./convertMeta')
+
 class EQConverter {
     convert(authorJson) {
 

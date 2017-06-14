@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 
-const GraphQLApi = require('./api/mockgraphqlapi');
-const EQConverter = require('./converter/converter');
+const GraphQLApi = require('./api/MockGraphQLApi');
+const EQConverter = require('./converter/EQConverter');
 
 const PORT = 9000;
 

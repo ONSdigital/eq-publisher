@@ -1,4 +1,4 @@
-const SchemaValidator = require('./schemavalidator');
+const SchemaValidator = require('./SchemaValidator');
 const eqJsonSchema = require('../../data/schema_v1.json');
 const quarterlyBusinessSurvey = require('../../data/2_0001.json');
 
