@@ -1,5 +1,5 @@
 const RenameProperties = require('../transform/RenameProperty');
-const AddRequiredProperties = require('../transform/AddProperty');
+const AddProperty = require('../transform/AddProperty');
 const RemoveProperty = require('../transform/RemoveProperty');
 
 class ConvertQuestionnaire {
@@ -18,7 +18,7 @@ class ConvertQuestionnaire {
                 "legalBasis": "legal_basis",
                 "pages": "groups"
             }),
-            new AddRequiredProperties(this.properties.getRequired('meta'), this.properties.getProperties('meta')),
+            new AddProperty(this.properties.getRequired('meta'), this.properties.getProperties('meta')),
             new RemoveProperty(Object.keys(this.properties.getProperties('meta')))
         ];
 
