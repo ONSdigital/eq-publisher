@@ -1,4 +1,4 @@
-class SchemaParser {
+class SchemaHelper {
 
     constructor(schema) {
         this.meta = schema;
@@ -38,4 +38,4 @@ class SchemaParser {
 
 }
 
-module.exports = SchemaParser;
+module.exports = SchemaHelper;

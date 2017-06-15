@@ -1,22 +1,22 @@
-const SchemaParser = require('./SchemaHelper')
+const SchemaHelper = require('./SchemaHelper')
 const eqSchema = require('../../data/schema_v1.json');
 
-describe('schema parser', () => {
+describe('schema helper', () => {
 
     it('should accept a schema', () => {
-        const schemaParser = new SchemaParser(eqSchema);
-        expect(schemaParser.meta).toEqual(eqSchema);
+        const schemaHelper = new SchemaHelper(eqSchema);
+        expect(schemaHelper.meta).toEqual(eqSchema);
     });
 
     describe('getRequired', () => {
 
-        it('should throw error if element is not a key of parser', () => {
-            const schemaParser = new SchemaParser(eqSchema);
-            expect(() => schemaParser.getRequired('not-in-schema')).toThrow();
+        it('should throw error if element is not a key of helper', () => {
+            const schemaHelper = new SchemaHelper(eqSchema);
+            expect(() => schemaHelper.getRequired('not-in-schema')).toThrow();
         });
 
         it('should return required meta elements when requested', () => {
-            const schemaParser = new SchemaParser(eqSchema);
+            const schemaHelper = new SchemaHelper(eqSchema);
             const expected = [
                 "mime_type",
                 "schema_version",
@@ -27,17 +27,17 @@ describe('schema parser', () => {
                 "theme",
                 "legal_basis"
             ];
-            expect(schemaParser.getRequired('meta')).toEqual(expected);
+            expect(schemaHelper.getRequired('meta')).toEqual(expected);
         });
 
         it('should return required question elements when requested', () => {
-            const schemaParser = new SchemaParser(eqSchema);
+            const schemaHelper = new SchemaHelper(eqSchema);
             const expected = [
                 "id",
                 "type",
                 "mandatory",
             ];
-            expect(schemaParser.getRequired('answers')).toEqual(expected);
+            expect(schemaHelper.getRequired('answers')).toEqual(expected);
         });
 
     });
@@ -46,12 +46,12 @@ describe('schema parser', () => {
     describe('getProperties', () => {
 
         it('should throw error when elem is not in schema keys', () => {
-            const schemaParser = new SchemaParser(eqSchema);
-            expect(() => schemaParser.getProperties('not-in-schema')).toThrow();
+            const schemaHelper = new SchemaHelper(eqSchema);
+            expect(() => schemaHelper.getProperties('not-in-schema')).toThrow();
         });
 
         it('should return meta properties when called with "meta"', () => {
-            const schemaParser = new SchemaParser(eqSchema);
+            const schemaHelper = new SchemaHelper(eqSchema);
 
             const expectedKeys = [
                 "mime_type",
@@ -69,11 +69,11 @@ describe('schema parser', () => {
                 "groups"
             ];
 
-            expect(Object.keys(schemaParser.getProperties('meta'))).toEqual(expectedKeys);
+            expect(Object.keys(schemaHelper.getProperties('meta'))).toEqual(expectedKeys);
         });
 
         it('should return questions properties when called with "questions"', () => {
-            const schemaParser = new SchemaParser(eqSchema);
+            const schemaHelper = new SchemaHelper(eqSchema);
 
             const expectedKeys = [
                 "id",
@@ -86,7 +86,7 @@ describe('schema parser', () => {
                 "answers"
             ];
 
-            expect(Object.keys(schemaParser.getProperties('questions'))).toEqual(expectedKeys);
+            expect(Object.keys(schemaHelper.getProperties('questions'))).toEqual(expectedKeys);
         });
 
     });

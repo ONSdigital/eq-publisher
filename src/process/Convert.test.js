@@ -1,17 +1,17 @@
 const eqSchema = require('../../data/schema_v1.json');
-const SchemaParser = require('../schema/SchemaHelper');
-const GraphQLEqConverter = require('./Convert');
+const SchemaHelper = require('../schema/SchemaHelper');
+const Convert = require('./Convert');
 
 describe('graphql to eq converter', () => {
 
     let schemaParser;
 
     beforeAll(() => {
-        schemaParser = new SchemaParser(eqSchema);
+        schemaParser = new SchemaHelper(eqSchema);
     });
 
     it('should convert meta', () => {
-        // const converter = new GraphQLEqConverter(schemaParser);
+        // const converter = new Convert(schemaHelper);
         //
         // const input = {
         //     "id": questionnaireId,
@@ -27,7 +27,7 @@ describe('graphql to eq converter', () => {
         //     "data_version": "0.0.1",
         //     "description": "Quarterly Business Survey",
         //     "groups": [],
-        //     "legal_basis": "S§tatisticsOfTradeAct",
+        //     "legal_basis": "StatisticsOfTradeAct",
         //     "mime_type": "application/json/ons/eq",
         //     "schema_version": "0.0.1",
         //     "survey_id": "139",
