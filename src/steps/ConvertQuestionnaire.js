@@ -5,7 +5,7 @@ const RemoveProperty = require('../transform/RemoveProperty');
 class ConvertQuestionnaire {
 
     constructor(schemaHelper) {
-        this.schemaHelper = schemaHelper;
+        this.properties = schemaHelper;
     }
 
     convert(input) {
@@ -18,8 +18,8 @@ class ConvertQuestionnaire {
                 "legalBasis": "legal_basis",
                 "pages": "groups"
             }),
-            new AddRequiredProperties(this.schemaHelper.getRequired('meta'), this.schemaHelper.getProperties('meta')),
-            new RemoveProperty(Object.keys(this.schemaHelper.getProperties('meta')))
+            new AddRequiredProperties(this.properties.getRequired('meta'), this.properties.getProperties('meta')),
+            new RemoveProperty(Object.keys(this.properties.getProperties('meta')))
         ];
 
         transformations.forEach(t => result = t.transform(result));
