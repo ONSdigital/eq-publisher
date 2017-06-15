@@ -1,23 +1,23 @@
-const Transformer = require('./Transformer');
+const RemameProperty = require('./RenameProperty');
 
 describe('transformer', () => {
 
-    let transforms;
+    let renameTransforms;
 
     beforeAll(() => {
-        transforms = {
+        renameTransforms = {
             "from_property": "to_property",
             "from_property_2": "to_property_2"
         };
     });
 
-    it('should allow us to define a set of transforms', () => {
-        const testTransformer = new Transformer(transforms);
-        expect(testTransformer.transforms).toBe(transforms);
+    it('should allow us to define a set of renameTransforms', () => {
+        const renameProperty = new RemameProperty(renameTransforms);
+        expect(renameProperty.renameTransforms).toBe(renameTransforms);
     });
 
-    it('should transform our data according to the transforms specified', () => {
-        const testTransformer = new Transformer(transforms);
+    it('should transform our data according to the renameTransforms specified', () => {
+        const renameProperty = new RemameProperty(renameTransforms);
 
         const input = {
             should_not_be_affected: "data 1",
@@ -38,7 +38,7 @@ describe('transformer', () => {
         };
 
 
-        expect(testTransformer.transform(input)).toEqual(expected);
+        expect(renameProperty.transform(input)).toEqual(expected);
     });
 
 });

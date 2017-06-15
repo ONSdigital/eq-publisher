@@ -1,4 +1,4 @@
-const SchemaParser = require('./SchemaParser')
+const SchemaParser = require('./SchemaHelper')
 const eqSchema = require('../../data/schema_v1.json');
 
 describe('schema parser', () => {

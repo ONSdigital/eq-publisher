@@ -1,11 +1,8 @@
-class PropertyFiller {
+class AddProperty {
 
     constructor(required=[], properties={}) {
         this.required = required;
         this.properties = properties;
-
-        this.transform.bind(this);
-        this.createEmptyValue.bind(this);
     }
 
     transform(input) {
@@ -42,13 +39,8 @@ class PropertyFiller {
                         result =  {};
                         break;
                 }
-
-                if (result === null
-                    && this.properties[k].type.hasOwnProperty('enum')
-                    && this.properties[k].type.enum.length > 0) {
-                    result = this.properties[k].type.enum[0];
-                }
-
+            } else if (key === k && this.properties[k].hasOwnProperty('enum') && this.properties[k].enum.length > 0) {
+                result = this.properties[k].enum[0];
             }
 
             if (result !== null) {
@@ -62,4 +54,4 @@ class PropertyFiller {
 
 }
 
-module.exports = PropertyFiller;
+module.exports = AddProperty;

@@ -1,21 +1,19 @@
-class Transformer {
+class RenameProperty {
 
-    constructor(transforms) {
-        this.transforms = transforms;
-
-        this.transform.bind(this);
+    constructor(renameTransforms) {
+        this.renameTransforms = renameTransforms;
     }
 
     transform(input) {
         // Clone the input.
         const result = Object.assign({}, input);
 
-        // Loop through the transforms.
-        Object.keys(this.transforms).forEach(key => {
+        // Loop through the renameTransforms.
+        Object.keys(this.renameTransforms).forEach(key => {
             // If we find a transform that should happen.
             if(Object.keys(result).includes(key)) {
                 // Add the new key into the result object;
-                result[this.transforms[key]] = result[key];
+                result[this.renameTransforms[key]] = result[key];
                 // Delete the old key.
                 delete result[key];
             }
@@ -26,4 +24,4 @@ class Transformer {
 
 }
 
-module.exports = Transformer;
+module.exports = RenameProperty;

@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 
 const GraphQLApi = require('./api/MockGraphQLApi');
-const GraphQLEqConverter = require('./transform/GraphQLEqConverter');
-const SchemaParser = require('./schema/SchemaParser')
+const GraphQLEqConverter = require('./process/Convert');
+const SchemaParser = require('./schema/SchemaHelper')
 const EQ_JSON_SCHEMA = require('../data/schema_v1.json');
 const PORT = 9000;
 
