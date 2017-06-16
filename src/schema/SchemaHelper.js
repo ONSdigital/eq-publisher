@@ -23,7 +23,7 @@ class SchemaHelper {
         if (!Object.keys(this).includes(elem)) {
             throw Error(elem + " is not a key of eq json schema");
         } else if (includes(this._singularKeys, elem)) {
-            return this.meta.required;
+            return this[elem].required;
         } else {
             return this[elem].items.required;
         }

@@ -1,20 +1,15 @@
 class Convert {
 
-    constructor(schemaHelper, steps=[]) {
-        this.schemaHelper = schemaHelper;
-        this.steps = steps;
-
-        this.convert.bind(this);
+    constructor(schemaGenerator) {
+        this.schemaGenerator = schemaGenerator;
     }
 
     convert(authorJson) {
-        let output = Object.assign({}, authorJson);
+        let output = Object.assign({}, this.schemaGenerator.generate());
 
-        this.steps.forEach(step => {
-            const task = new step(this.schemaHelper);
-            output = task.convert(output);
-        });
+        // TODO Generate a valid empty eQ schema
 
+        // TODO Go through the Author schema and transform / set values as necessary
         return output;
     }
 }

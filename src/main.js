@@ -2,20 +2,21 @@ const express = require('express');
 const app = express();
 
 const GraphQLApi = require('./api/MockGraphQLApi');
-const GraphQLEqConverter = require('./process/Convert');
-const SchemaParser = require('./schema/SchemaHelper')
+const Convert = require('./process/Convert');
+const SchemaHelper = require('./schema/SchemaHelper')
 const EQ_JSON_SCHEMA = require('../data/schema_v1.json');
 const PORT = 9000;
 
-const schemaParser = new SchemaParser(EQ_JSON_SCHEMA);
-const transformer = new GraphQLEqConverter(schemaParser);
+const schemaHelper = new SchemaHelper(EQ_JSON_SCHEMA);
+const schemaGenerator = SchemaGenerator(schemaHelper);
+const converter = new Convert(schemaGenerator);
 
 app.get('/mock/graphql/:questionnaireId(\\d+)', (req, res) => {
     res.send(GraphQLApi.getAuthorData(req.params.questionnaireId));
 });
 
 app.get('/mock/publish/:questionnaireId(\\d+)', (req, res) => {
-    res.send(transformer.convert(GraphQLApi.getAuthorData(req.params.questionnaireId)));
+    res.send(converter.convert(GraphQLApi.getAuthorData(req.params.questionnaireId)));
 });
 
 app.get('/publish/:questionnaireId(\\d+)', (req, res) => {

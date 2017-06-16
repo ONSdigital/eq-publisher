@@ -10,8 +10,8 @@ describe('schema generator', () => {
 
         const result = generator.generate();
 
-        console.warn(result);
-        console.error(validator.validate(result));
+        // console.warn(result);
+        // console.error(validator.validate(result));
         expect(validator.validate(result).valid).toBe(true);
     });
 

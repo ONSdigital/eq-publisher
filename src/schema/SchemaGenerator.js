@@ -1,4 +1,5 @@
-const Builder = require('../transform/Builder');
+const build = require('../transform/Builder');
+const RemoveProperty = require('../transform/RemoveProperty');
 const SchemaHelper = require('./SchemaHelper');
 
 class SchemaGenerator {
@@ -9,7 +10,12 @@ class SchemaGenerator {
 
     generate() {
 
-        const questionnaire = new Builder(this.schemaHelper.getProperties('meta')).build();
+        let questionnaire = build(this.schemaHelper.getProperties('meta'), this.schemaHelper);
+
+        let group = build(this.schemaHelper.getProperties('group'), this.schemaHelper);
+        group = new RemoveProperty(this.schemaHelper.getRequired('group')).transform(group);
+
+        questionnaire.groups.push(group);
 
         return questionnaire;
     }
