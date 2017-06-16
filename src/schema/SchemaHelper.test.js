@@ -91,4 +91,29 @@ describe('schema helper', () => {
 
     });
 
+    describe('getDefinition', () => {
+
+        it('should error when invalid reference passed in', () => {
+            const schemaHelper = new SchemaHelper(eqSchema);
+            expect(() => schemaHelper.getDefinition('#/not/a/valid/ref')).toThrow();
+        });
+
+        it('should error when ref not found in schema', () => {
+           const schemaHelper = new SchemaHelper(eqSchema);
+           expect(() => schemaHelper.getDefinition('#/definitions/notfound')).toThrow();
+        });
+
+        it('should return definition when found in the schema', () => {
+            const schemaHelper = new SchemaHelper(eqSchema);
+            const expected = {
+                "type": "string",
+                "description": "A lowercase alphanumeric string separated by hyphens.",
+                "pattern": "^[a-z0-9][a-z0-9\\-]*[a-z0-9]$"
+
+            };
+            expect(schemaHelper.getDefinition('#/definitions/id')).toEqual(expected);
+        });
+
+    });
+
 });

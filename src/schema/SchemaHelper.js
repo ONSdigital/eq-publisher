@@ -1,3 +1,5 @@
+const includes = require('lodash').includes
+
 class SchemaHelper {
 
     constructor(schema) {
@@ -13,12 +15,14 @@ class SchemaHelper {
         this.question = this.questions.items;
         this.answers = this.questions.items.properties.answers;
         this.answer = this.answers.items;
+
+        this._singularKeys = ['meta', 'group', 'block', 'section', 'question', 'answer'];
     }
 
     getRequired(elem) {
         if (!Object.keys(this).includes(elem)) {
             throw Error(elem + " is not a key of eq json schema");
-        } else if (elem === 'meta') {
+        } else if (includes(this._singularKeys, elem)) {
             return this.meta.required;
         } else {
             return this[elem].items.required;
@@ -28,11 +32,23 @@ class SchemaHelper {
     getProperties(elem) {
         if (!Object.keys(this).includes(elem)) {
             throw Error(elem + " is not a key of eq json schema");
-        } else if (elem === 'meta' || elem === 'group' || elem === 'block' || elem === 'section' || elem === 'question' || elem === 'answer') {
+        } else if (includes(this._singularKeys, elem)) {
             return this[elem].properties;
         } else {
             return this[elem].items.properties;
         }
+    }
+
+    getDefinition(ref) {
+        const definitionRegex = /^\#\/definitions\/(.+)$/;
+        const match = definitionRegex.exec(ref);
+        if (match === null) {
+            throw Error(ref + ' is not a valid definition reference');
+        } else if (!includes(Object.keys(this.definitions), match[1])) {
+            throw Error(ref + ' definition not found');
+        }
+
+        return this.definitions[match[1]];
     }
 
 
