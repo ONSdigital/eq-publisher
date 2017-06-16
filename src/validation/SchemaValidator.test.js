@@ -23,7 +23,7 @@ describe('Schema validator', () => {
     it('should fail validation when json does not match schema', () => {
         const jsonSchema = {
             type: "object",
-            properties: [{
+            schemaHelper: [{
                 "message": {
                     "type": "string"
                 }
@@ -43,7 +43,7 @@ describe('Schema validator', () => {
     it('should pass validation when json matches schema', () => {
         const jsonSchema = {
             type: "object",
-            properties: [{
+            schemaHelper: [{
                 "message": {
                     "type": "string"
                 }

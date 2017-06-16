@@ -16,7 +16,7 @@ describe('transformer', () => {
         expect(renameProperty.renameTransforms).toBe(renameTransforms);
     });
 
-    it('should transform our data according to the renameTransforms specified', () => {
+    it('should build our data according to the renameTransforms specified', () => {
         const renameProperty = new RemameProperty(renameTransforms);
 
         const input = {

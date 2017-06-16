@@ -2,7 +2,7 @@ const RemoveProperty = require('./RemoveProperty');
 
 describe('Remove property', () => {
 
-    it('should remove all properties when no allowed properties', () => {
+    it('should remove all schemaHelper when no allowed schemaHelper', () => {
 
         const allowedProperties = [];
         const removeProperty = new RemoveProperty(allowedProperties);
@@ -17,7 +17,7 @@ describe('Remove property', () => {
 
     });
 
-    it('should remove properties not listed in allowed properties', () => {
+    it('should remove schemaHelper not listed in allowed schemaHelper', () => {
 
         const allowedProperties = ['two'];
         const removeProperty = new RemoveProperty(allowedProperties);

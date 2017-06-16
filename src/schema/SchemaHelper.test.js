@@ -50,7 +50,7 @@ describe('schema helper', () => {
             expect(() => schemaHelper.getProperties('not-in-schema')).toThrow();
         });
 
-        it('should return meta properties when called with "meta"', () => {
+        it('should return meta schemaHelper when called with "meta"', () => {
             const schemaHelper = new SchemaHelper(eqSchema);
 
             const expectedKeys = [
@@ -72,7 +72,7 @@ describe('schema helper', () => {
             expect(Object.keys(schemaHelper.getProperties('meta'))).toEqual(expectedKeys);
         });
 
-        it('should return questions properties when called with "questions"', () => {
+        it('should return questions schemaHelper when called with "questions"', () => {
             const schemaHelper = new SchemaHelper(eqSchema);
 
             const expectedKeys = [

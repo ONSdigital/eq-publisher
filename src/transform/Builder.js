@@ -1,14 +1,14 @@
 const createEmptyValue = require('./CreateEmptyValue');
 
-class BuildProperty {
+class Builder {
 
     constructor(properties) {
         this.properties = properties;
 
-        this.transform.bind(this);
+        this.build.bind(this);
     }
 
-    transform(input) {
+    build(input = {}) {
         let result = Object.assign({}, input);
 
         Object.keys(this.properties).forEach(prop => {
@@ -21,4 +21,4 @@ class BuildProperty {
     }
 }
 
-module.exports = BuildProperty;
+module.exports = Builder;

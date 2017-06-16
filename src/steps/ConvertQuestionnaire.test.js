@@ -29,7 +29,7 @@ describe('convert meta', () => {
         expect(convertMeta.convert(input)).toEqual(expected);
     });
 
-    it('should rename properties as required', () => {
+    it('should rename schemaHelper as required', () => {
         const input = {
             "id": "1",
             "title": "Quarterly Business Survey",
@@ -57,7 +57,7 @@ describe('convert meta', () => {
         expect(convertMeta.convert(input)).toEqual(expected);
     });
 
-    it('should remove any properties that are not supported by the schema', () => {
+    it('should remove any schemaHelper that are not supported by the schema', () => {
         const input = {
             "does_not_belong": "should be removed in result",
             "id": "1",

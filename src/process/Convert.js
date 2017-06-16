@@ -8,9 +8,14 @@ class Convert {
     }
 
     convert(authorJson) {
-        // TODO Transform authorJson to EQ schema valid JSON
-        const result = Object.assign({}, authorJson);
-        return result;
+        let output = Object.assign({}, authorJson);
+
+        this.steps.forEach(step => {
+            const task = new step(this.schemaHelper);
+            output = task.convert(output);
+        });
+
+        return output;
     }
 }
 

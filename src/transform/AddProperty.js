@@ -4,7 +4,7 @@ class AddProperty {
 
     constructor(required=[], properties={}) {
         this.required = required;
-        this.properties = properties;
+        this.schemaHelper = properties;
     }
 
     transform(input) {
@@ -22,9 +22,9 @@ class AddProperty {
     createEmptyValues(key) {
         let result = null;
 
-        for (let k  of Object.keys(this.properties)) {
+        for (let k  of Object.keys(this.schemaHelper)) {
             if (key == k) {
-                result = createEmptyValue(this.properties[k]);
+                result = createEmptyValue(this.schemaHelper[k]);
             }
 
             if (result !== null) {

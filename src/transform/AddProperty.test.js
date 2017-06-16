@@ -2,20 +2,20 @@ const AddProperty = require('./AddProperty');
 
 describe('property filler', () => {
 
-    it('should accept required properties and optional property hints', () => {
+    it('should accept required schemaHelper and optional property hints', () => {
         const addProperty = new AddProperty([], {hint: "hint"});
         expect(addProperty.required).toEqual([]);
-        expect(addProperty.properties).toEqual({hint: "hint"})
+        expect(addProperty.schemaHelper).toEqual({hint: "hint"})
     });
 
-    it('should add required properties to object if they do not exist', () => {
+    it('should add required schemaHelper to object if they do not exist', () => {
         const required = ['required_1', 'required_2'];
         const addProperty = new AddProperty(required, {hint: "hint"});
 
         expect(Object.keys(addProperty.transform({}))).toEqual(required);
     });
 
-    it('should add missing required properties even if some are present', () => {
+    it('should add missing required schemaHelper even if some are present', () => {
         const required = ['required_1', 'required_2'];
         const addProperty = new AddProperty(required, {hint: "hint"});
 
@@ -25,7 +25,7 @@ describe('property filler', () => {
         expect(result.required_1).toEqual('in the input');
     });
 
-    it('should use property hints to intelligently fill in missing properties', () => {
+    it('should use property hints to intelligently fill in missing schemaHelper', () => {
 
         const required = ['required_string', 'required_boolean', 'required_array', 'required_object'];
         const properties = {
