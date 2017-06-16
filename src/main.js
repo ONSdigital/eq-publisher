@@ -3,12 +3,11 @@ const app = express();
 
 const GraphQLApi = require('./api/MockGraphQLApi');
 const Convert = require('./process/Convert');
-const SchemaHelper = require('./schema/SchemaHelper')
+const SchemaGenerator = require('./schema/SchemaGenerator');
 const EQ_JSON_SCHEMA = require('../data/schema_v1.json');
 const PORT = 9000;
 
-const schemaHelper = new SchemaHelper(EQ_JSON_SCHEMA);
-const schemaGenerator = SchemaGenerator(schemaHelper);
+const schemaGenerator = new SchemaGenerator(EQ_JSON_SCHEMA);
 const converter = new Convert(schemaGenerator);
 
 app.get('/mock/graphql/:questionnaireId(\\d+)', (req, res) => {
