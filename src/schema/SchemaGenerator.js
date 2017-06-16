@@ -1,4 +1,4 @@
-const build = require('../transform/Builder');
+const build = require('./Builder');
 const RemoveProperty = require('../transform/RemoveProperty');
 const SchemaHelper = require('./SchemaHelper');
 

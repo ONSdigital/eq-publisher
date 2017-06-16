@@ -1,4 +1,4 @@
-const createEmptyValue = require('./CreateEmptyValue');
+const createEmptyValue = require('../transform/CreateEmptyValue');
 const uuid = require('uuid/v4');
 
 const merge = require('lodash').merge;

@@ -1,5 +1,5 @@
 const eqSchema = require('../../data/schema_v1.json');
-const SchemaHelper = require('../schema/SchemaHelper');
+const SchemaHelper = require('./SchemaHelper');
 
 const build = require('./Builder');
 
