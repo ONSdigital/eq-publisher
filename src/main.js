@@ -5,12 +5,13 @@ const GraphQLApi = require('./api/MockGraphQLApi');
 const Convert = require('./process/Convert');
 const SchemaGenerator = require('./schema/SchemaGenerator');
 const SchemaValidator = require('./validation/SchemaValidator');
+const performTransforms = require('./process/performTransforms');
 const EQ_JSON_SCHEMA = require('../data/schema_v1.json');
 const PORT = 9000;
 
 const schemaGenerator = new SchemaGenerator(EQ_JSON_SCHEMA);
 const schemaValidator = new SchemaValidator(EQ_JSON_SCHEMA);
-const converter = new Convert(schemaGenerator, schemaValidator);
+const converter = new Convert(schemaGenerator, schemaValidator, performTransforms);
 
 app.get('/mock/graphql/:questionnaireId(\\d+)', (req, res) => {
     res.send(GraphQLApi.getAuthorData(req.params.questionnaireId));
