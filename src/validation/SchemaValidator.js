@@ -8,8 +8,7 @@ class SchemaValidator {
     }
 
     validate(json) {
-        const validation = validateJson(json, this.jsonSchema);
-        return validation;
+        return validateJson(json, this.jsonSchema);
     }
 
 }

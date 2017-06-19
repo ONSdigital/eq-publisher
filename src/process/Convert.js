@@ -1,15 +1,22 @@
 class Convert {
 
-    constructor(schemaGenerator) {
+    constructor(schemaGenerator, schemaValidator) {
         this.schemaGenerator = schemaGenerator;
+        this.schemaValidator = schemaValidator;
     }
 
     convert(authorJson) {
+
+        // Step 1: Generate a valid empty eQ schema
         let output = Object.assign({}, this.schemaGenerator.generate());
 
-        // TODO Generate a valid empty eQ schema
+        // TODO Step 2: Go through the Author schema and transform / set values in output as necessary
 
-        // TODO Go through the Author schema and transform / set values as necessary
+        // Step 3: Ensure the output is valid eQ schema
+        if (!this.schemaValidator.validate(output).valid) {
+            throw Error('Converted author schema is not valid EQ schema.');
+        }
+
         return output;
     }
 }
