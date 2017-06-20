@@ -9,7 +9,7 @@ The conversion pipeline is made up of a series of steps to convert each part of 
 
 Each step applies a series of transforms to manipulate the resulting JSON.
 
-![process.jpg](docs/images/process.jpg)
+![process.jpg](docs/images/process.png)
 
 ## Installation
 
