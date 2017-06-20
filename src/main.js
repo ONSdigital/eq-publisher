@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const GraphQLApi = require('./api/MockGraphQLApi');
+const GraphQLApi = require('./api/GraphQLApi');
 const Convert = require('./process/Convert');
 const SchemaValidator = require('./validation/SchemaValidator');
 const EQ_JSON_SCHEMA = require('../data/schema_v1.json');
