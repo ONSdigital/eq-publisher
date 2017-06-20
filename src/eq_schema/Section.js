@@ -4,6 +4,7 @@ class Section {
 
     constructor(page) {
         this.id = 'section-' + page.id.toString();
+        this.title = page.title;
         this.questions = this.buildQuestions(page.questions);
     }
 
