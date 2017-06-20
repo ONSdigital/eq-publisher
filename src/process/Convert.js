@@ -3,6 +3,9 @@ const Questionnaire = require('../eq_schema/Questionnaire');
 class Convert {
 
     constructor(schemaValidator) {
+        if (!schemaValidator) {
+            throw Error('no schema validator provided');
+        }
         this.schemaValidator = schemaValidator;
     }
 
