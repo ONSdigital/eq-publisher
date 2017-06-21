@@ -55,7 +55,6 @@ class GraphQLApi {
         }`,
             variables: { questionnaireId: questionnaireId }
         });
-
     }
 
 }
