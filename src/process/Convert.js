@@ -14,7 +14,6 @@ class Convert {
 
         let validation = this.schemaValidator.validate(output);
         if (!validation.valid) {
-            console.error(validation);
             throw Error('Converted author schema is not valid EQ schema.');
         }
 

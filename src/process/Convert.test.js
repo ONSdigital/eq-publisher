@@ -21,7 +21,7 @@ describe('Convert', () => {
 
     describe('behaviour', () => {
 
-        it('should validate result against schema', () => {
+        it('should validate result against schema', async () => {
 
             const mockSchemaValidator = {
                 validate: jest.fn()
@@ -29,8 +29,9 @@ describe('Convert', () => {
 
             mockSchemaValidator.validate.mockReturnValue({ valid: true })
 
+            const result = await getAuthorData(1);
             const convert = new Convert(mockSchemaValidator);
-            convert.convert(getAuthorData(1).data);
+            convert.convert(result.data);
 
 
             expect(mockSchemaValidator.validate).toBeCalled();
@@ -38,7 +39,7 @@ describe('Convert', () => {
         });
 
 
-        it('should error if resulting json is invalid', () => {
+        it('should error if resulting json is invalid', async () => {
 
             const mockSchemaValidator = {
                 validate: jest.fn()
@@ -48,8 +49,9 @@ describe('Convert', () => {
 
             const convert = new Convert(mockSchemaValidator);
 
-            expect( () => convert.convert(getAuthorData(1).data)).toThrow();
+            const result = await getAuthorData(1);
 
+            expect(() => convert.convert(result.data)).toThrow();
         });
     });
 

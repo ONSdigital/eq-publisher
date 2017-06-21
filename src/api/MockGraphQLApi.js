@@ -5,7 +5,7 @@ class MockGraphQLApi {
     // TODO Probably using Apollo GraphQL client.
 
     getAuthorData(questionnaireId) {
-        return {
+        return new Promise((resolve, reject) => resolve({
             "data": {
                 "questionnaire": {
                     "id": questionnaireId,
@@ -100,7 +100,7 @@ class MockGraphQLApi {
                     }]
                 }
             }
-        }
+        }))
     }
 
 }
