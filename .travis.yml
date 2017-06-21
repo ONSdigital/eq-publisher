@@ -2,4 +2,7 @@ language: node_js
 node_js:
   - "8"
 
-git scache: yarn
+cache:
+  yarn: true
+  directories:
+    - node_modules
