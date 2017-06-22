@@ -4,7 +4,6 @@ class SchemaValidator {
 
     constructor(jsonSchema) {
         this.jsonSchema = jsonSchema;
-        this.validate.bind(this);
     }
 
     validate(json) {
