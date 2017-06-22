@@ -10,13 +10,7 @@ class Question {
     }
 
     buildAnswers(answers) {
-        const result = [];
-
-        answers.forEach(answer => {
-            result.push(new Answer(answer));
-        });
-
-        return result;
+        return answers.map(answer => new Answer(answer));
     }
 
 }
