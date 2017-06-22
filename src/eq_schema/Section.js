@@ -9,13 +9,7 @@ class Section {
     }
 
     buildQuestions(questions) {
-        const result = [];
-
-        questions.map(question => {
-            result.push(new Question(question));
-        });
-
-        return result;
+        return questions.map(question => new Question(question));
     }
 
 }

@@ -14,13 +14,7 @@ class Questionnaire {
     }
 
     buildSections(sections) {
-        const result = [];
-
-        sections.map(section => {
-            result.push(new Group(section));
-        });
-
-        return result;
+        return sections.map(section => new Group(section));
     }
 
 }

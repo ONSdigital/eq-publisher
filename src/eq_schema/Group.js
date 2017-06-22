@@ -9,13 +9,7 @@ class Group {
     }
 
     buildBlocks(pages) {
-        const result = [];
-
-        pages.map(page => {
-            result.push(new Block(page));
-        });
-
-        return result;
+        return pages.map(page => new Block(page));
     }
 }
 
