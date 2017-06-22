@@ -1,11 +1,10 @@
 
 class MockGraphQLApi {
 
-    // TODO Eventually this will be replaced by an implementation which calls the GraphQL API
-    // TODO Probably using Apollo GraphQL client.
+    // TODO This will eventually be removed. For now it's useful for development purposes.
 
     getAuthorData(questionnaireId) {
-        return new Promise((resolve, reject) => resolve({
+        return Promise.resolve({
             "data": {
                 "questionnaire": {
                     "id": questionnaireId,
@@ -100,7 +99,7 @@ class MockGraphQLApi {
                     }]
                 }
             }
-        }))
+        })
     }
 
 }

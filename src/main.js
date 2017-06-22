@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const GraphQLApi = require('./api/MockGraphQLApi');
+const getGraphQLApi = require('./api/createGraphQLApi');
 const Convert = require('./process/Convert');
 const SchemaValidator = require('./validation/SchemaValidator');
 const EQ_JSON_SCHEMA = require('../data/schema_v1.json');
@@ -9,6 +9,8 @@ const PORT = 9000;
 
 const schemaValidator = new SchemaValidator(EQ_JSON_SCHEMA);
 const converter = new Convert(schemaValidator);
+
+const GraphQLApi = getGraphQLApi();
 
 app.get('/mock/graphql/:questionnaireId(\\d+)', async (req, res, next) => {
     try {
