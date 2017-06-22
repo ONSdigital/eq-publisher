@@ -16,7 +16,7 @@ class Questionnaire {
     buildSections(sections) {
         const result = [];
 
-        sections.forEach(section => {
+        sections.map(section => {
             result.push(new Group(section));
         });
 

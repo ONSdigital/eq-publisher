@@ -11,7 +11,7 @@ class Group {
     buildBlocks(pages) {
         const result = [];
 
-        pages.forEach(page => {
+        pages.map(page => {
             result.push(new Block(page));
         });
 

@@ -11,7 +11,7 @@ class Section {
     buildQuestions(questions) {
         const result = [];
 
-        questions.forEach(question => {
+        questions.map(question => {
             result.push(new Question(question));
         });
 

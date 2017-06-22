@@ -12,7 +12,7 @@ class Question {
     buildAnswers(answers) {
         const result = [];
 
-        answers.forEach(answer => {
+        answers.map(answer => {
             result.push(new Answer(answer));
         });
 
