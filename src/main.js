@@ -14,7 +14,7 @@ const GraphQLApi = getGraphQLApi();
 
 app.get('/graphql/:questionnaireId(\\d+)', async (req, res, next) => {
     try {
-        const result = await GraphQLApi.getAuthorData(req.params['questionnaireId']);
+        const result = await GraphQLApi.getAuthorData(req.params.questionnaireId);
         if(result.data.questionnaire === null) {
             return next();
         }
@@ -27,7 +27,7 @@ app.get('/graphql/:questionnaireId(\\d+)', async (req, res, next) => {
 
 app.get('/publish/:questionnaireId(\\d+)', async (req, res, next) => {
     try {
-        const result = await GraphQLApi.getAuthorData(req.params['questionnaireId']);
+        const result = await GraphQLApi.getAuthorData(req.params.questionnaireId);
         if(result.data.questionnaire === null) {
             return next();
         }
