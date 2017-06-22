@@ -30,6 +30,14 @@ To run all tests:
 yarn test
 ```
 
+## Configuration
+
+The following environment variables can be configured.
+
+| Name | Description |
+| ---- | ----------- |
+| `GRAPHQL_API_URL` | The URL of the GraphQL API server (not required with the Mock API implementation) |
+
 ## Routes
 
 By default, the express server will bind to port `9000`. 
