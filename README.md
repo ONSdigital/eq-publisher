@@ -48,5 +48,5 @@ Since the API is still under active development, there are only two routes at pr
 
 | Route  | Description |
 | ------------- | ------------- |
-| [/graphql/:questionaireId](http://localhost:9000/mock/graphql/1)  | Demonstrates the JSON that is output by the Author API.  |
-| [/publish/:questionaireId](http://localhost:9000/mock/publish/1)  | Demonstrates the published EQ JSON.  |
+| [/graphql/:questionaireId](http://localhost:9000/graphql/1)  | Demonstrates the JSON that is output by the Author API.  |
+| [/publish/:questionaireId](http://localhost:9000/publish/1)  | Demonstrates the published EQ JSON.  |
