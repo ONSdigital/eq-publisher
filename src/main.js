@@ -5,7 +5,7 @@ const getGraphQLApi = require('./api/createGraphQLApi');
 const Convert = require('./process/Convert');
 const SchemaValidator = require('./validation/SchemaValidator');
 const EQ_JSON_SCHEMA = require('../data/schema_v1.json');
-const PORT = 9000;
+const PORT = process.env.PORT || 9000;
 
 const schemaValidator = new SchemaValidator(EQ_JSON_SCHEMA);
 const converter = new Convert(schemaValidator);
@@ -39,10 +39,10 @@ app.get('/publish/:questionnaireId(\\d+)', async (req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.log('Listening on port', PORT)
+    console.log('Listening on port', PORT);
 });
 
 function errorHandler (err, req, res) {
-    res.status(500)
-    res.render('error', { error: err })
+    res.status(500);
+    res.render('error', { error: err });
 }
