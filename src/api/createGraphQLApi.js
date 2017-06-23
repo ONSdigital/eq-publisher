@@ -4,8 +4,6 @@ const createNetworkInterface = require('apollo-client').createNetworkInterface;
 const GraphQLApi = require('./GraphQLApi');
 const MockGraphQLApi = require('./MockGraphQLApi');
 
-const includes = require('lodash').includes;
-
 module.exports = () => {
 
     let result = MockGraphQLApi;
