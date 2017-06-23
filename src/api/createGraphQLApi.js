@@ -10,7 +10,7 @@ module.exports = () => {
 
     let result = MockGraphQLApi;
 
-    if (includes(process.argv, 'withGraphQL')) {
+    if (process.env.GRAPHQL_API_URL) {
         const client = new ApolloClient({
             networkInterface: createNetworkInterface({
                 uri: process.env.GRAPHQL_API_URL,
