@@ -14,41 +14,40 @@ class GraphQLApi {
        return this.client.query({
             query: gql`
             query GetQuestionnaire($questionnaireId : ID!){
-                questionnaire(id: $questionnaireId) {
-                    id
-                    title
-                    description
-                    theme
-                    legalBasis
-                    navigation
-                    pages {
+              questionnaire(id:1) {
+                id
+                title
+                description
+                theme
+                legalBasis
+                navigation
+                groups {
+                  id
+                  title
+                  description
+                  pages {
+                    ... on Question {
                       id
                       title
                       description
-                      questions {
+                      guidance
+                      pageType
+                      type
+                      mandatory
+                      answers{
                         id
-                        title
                         description
                         guidance
+                        qCode
+                        label
                         type
                         mandatory
-                        createdAt
-                        updatedAt
-                        answers {
-                          id
-                          description
-                          guidance
-                          qCode
-                          label
-                          type
-                          mandatory
-                          createdAt
-                          updatedAt
-                        }
                       }
                     }
+                  }
                 }
-        }`,
+              }
+            }`,
             variables: { questionnaireId: questionnaireId }
         });
     }
