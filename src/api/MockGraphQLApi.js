@@ -7,7 +7,7 @@ class MockGraphQLApi {
         return Promise.resolve({
             "data": {
                 "questionnaire": {
-                    "id": 1,
+                    "id": questionnaireId,
                     "title": "Quarterly Business Survey",
                     "description": "This is the survey description",
                     "theme": "default",

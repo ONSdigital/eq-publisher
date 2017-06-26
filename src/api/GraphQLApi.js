@@ -13,8 +13,8 @@ class GraphQLApi {
     getAuthorData(questionnaireId) {
        return this.client.query({
             query: gql`
-            query GetQuestionnaire($questionnaireId : ID!){
-              questionnaire(id:1) {
+            query GetQuestionnaire($questionnaireId : Int!){
+              questionnaire(id: $questionnaireId) {
                 id
                 title
                 description

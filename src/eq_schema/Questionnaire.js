@@ -14,7 +14,7 @@ class Questionnaire {
     }
 
     buildSections(groups) {
-        return groups.map(section => new Group(groups));
+        return groups.map(group => new Group(group));
     }
 
 }
