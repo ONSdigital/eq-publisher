@@ -11,7 +11,7 @@ describe('Questionnaire', () => {
             "theme": "default",
             "legalBasis": "StatisticsOfTradeAct",
             "navigation": false,
-            "sections": []
+            "groups": []
         };
 
         const questionnaire = new Questionnaire(authorJson);

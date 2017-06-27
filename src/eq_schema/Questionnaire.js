@@ -8,12 +8,12 @@ class Questionnaire {
         this.data_version = "0.0.1";
         this.survey_id = authorJson.id.toString();
         this.title = authorJson.title;
-        this.groups = this.buildSections(authorJson.groups);
+        this.groups = this.buildGroups(authorJson.groups);
         this.theme = authorJson.theme;
         this.legal_basis = authorJson.legalBasis;
     }
 
-    buildSections(groups) {
+    buildGroups(groups) {
         return groups.map(group => new Group(group));
     }
 
