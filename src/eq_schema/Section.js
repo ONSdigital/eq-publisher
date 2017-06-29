@@ -9,11 +9,7 @@ class Section {
     }
 
     buildQuestions(page) {
-        const result = [];
-
-        result.push(new Question(page));
-
-        return result;
+        return [new Question(page)];
     }
 
 }

@@ -1,4 +1,5 @@
 const Questionnaire = require('../eq_schema/Questionnaire');
+const ValidationError = require('../validation/ValidationError');
 
 class Convert {
 
@@ -14,8 +15,7 @@ class Convert {
 
         let validation = this.schemaValidator.validate(output);
         if (!validation.valid) {
-            console.error(validation);
-            throw Error('Converted author schema is not valid EQ schema.');
+            throw ValidationError('Converted author schema is not valid EQ schema.', validation);
         }
 
         return output;
