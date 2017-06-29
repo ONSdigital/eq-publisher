@@ -1,11 +1,11 @@
-const Section = require('./Section');
+const Section = require("./Section");
 
-const get = require('lodash').get;
+const get = require("lodash").get;
 
 class Block {
 
     constructor(page) {
-        this.id = 'block-' + page.id.toString();
+        this.id = "block-" + page.id.toString();
         this.title = page.title;
         this.description = page.description;
         this.type = this.convertPageType(page.pageType);

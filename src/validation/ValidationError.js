@@ -6,7 +6,7 @@ class ValidationError extends Error {
     }
 
     toString() {
-        return this.message + '\n' + JSON.stringify(this.validation);
+        return this.message + "\n" + JSON.stringify(this.validation);
     }
 
 }
