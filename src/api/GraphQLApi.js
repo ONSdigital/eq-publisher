@@ -48,7 +48,8 @@ class GraphQLApi {
                 }
               }
             }`,
-            variables: { questionnaireId: questionnaireId }
+            variables: { questionnaireId: questionnaireId },
+            fetchPolicy: 'network-only'
         });
     }
 
