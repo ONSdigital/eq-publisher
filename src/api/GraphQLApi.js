@@ -26,7 +26,7 @@ class GraphQLApi {
                   title
                   description
                   pages {
-                    ... on Question {
+                    ... on QuestionPage {
                       id
                       title
                       description
