@@ -27,5 +27,9 @@
   ],
   "engines": {
     "node": ">=7.10.0"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   }
 }

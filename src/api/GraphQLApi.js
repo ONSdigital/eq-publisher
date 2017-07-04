@@ -13,43 +13,43 @@ class GraphQLApi {
     getAuthorData(questionnaireId) {
        return this.client.query({
             query: gql`
-            query GetQuestionnaire($questionnaireId : ID!){
-                questionnaire(id: $questionnaireId) {
-                    id
-                    title
-                    description
-                    theme
-                    legalBasis
-                    navigation
-                    pages {
+            query GetQuestionnaire($questionnaireId : Int!){
+              questionnaire(id: $questionnaireId) {
+                id
+                title
+                description
+                theme
+                legalBasis
+                navigation
+                groups {
+                  id
+                  title
+                  description
+                  pages {
+                    ... on QuestionPage {
                       id
                       title
                       description
-                      questions {
+                      guidance
+                      pageType
+                      type
+                      mandatory
+                      answers{
                         id
-                        title
                         description
                         guidance
+                        qCode
+                        label
                         type
                         mandatory
-                        createdAt
-                        updatedAt
-                        answers {
-                          id
-                          description
-                          guidance
-                          qCode
-                          label
-                          type
-                          mandatory
-                          createdAt
-                          updatedAt
-                        }
                       }
                     }
+                  }
                 }
-        }`,
-            variables: { questionnaireId: questionnaireId }
+              }
+            }`,
+            variables: { questionnaireId: questionnaireId },
+            fetchPolicy: 'network-only'
         });
     }
 

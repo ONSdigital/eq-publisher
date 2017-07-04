@@ -1,10 +1,11 @@
-const Questionnaire = require('../eq_schema/Questionnaire');
+const Questionnaire = require("../eq_schema/Questionnaire");
+const ValidationError = require("../validation/ValidationError");
 
 class Convert {
 
     constructor(schemaValidator) {
         if (!schemaValidator) {
-            throw Error('no schema validator provided');
+            throw Error("no schema validator provided");
         }
         this.schemaValidator = schemaValidator;
     }
@@ -14,7 +15,7 @@ class Convert {
 
         let validation = this.schemaValidator.validate(output);
         if (!validation.valid) {
-            throw Error('Converted author schema is not valid EQ schema.');
+            throw new ValidationError("Converted author schema is not valid EQ schema.", validation);
         }
 
         return output;

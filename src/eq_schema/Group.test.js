@@ -13,7 +13,7 @@ describe('Group', () => {
         const group = new Group(authorJson);
 
         expect(group).toMatchObject({
-            id: "1",
+            id: "group-1",
             title: "Section.js 1",
             blocks: []
         });

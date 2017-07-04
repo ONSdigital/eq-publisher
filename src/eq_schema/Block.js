@@ -1,12 +1,14 @@
-const Section = require('./Section');
+const Section = require("./Section");
+
+const get = require("lodash").get;
 
 class Block {
 
     constructor(page) {
-        this.id = 'block-' + page.id.toString();
+        this.id = "block-" + page.id.toString();
         this.title = page.title;
         this.description = page.description;
-        this.type = page.type;
+        this.type = this.convertPageType(page.pageType);
         this.sections = this.buildSections(page);
     }
 
@@ -18,6 +20,13 @@ class Block {
         return result;
     }
 
+    convertPageType(type) {
+        const mappings = {
+            "Question": "Questionnaire"
+        };
+
+        return get(mappings, type, type);
+    }
 }
 
 module.exports = Block;
