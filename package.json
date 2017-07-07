@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon src/main.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
     "apollo-client": "^1.4.2",
@@ -16,10 +17,13 @@
     "jsonschema": "^1.1.1",
     "lodash": "^4.17.4",
     "node-fetch": "^1.7.1",
-    "uuid": "^3.0.1",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-ons-author": "https://github.com/ONSdigital/eslint-config-author",
+    "eslint-plugin-jest": "^20.0.3",
     "jest": "^20.0.4"
   },
   "moduleRoots": [
