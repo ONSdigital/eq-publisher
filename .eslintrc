@@ -1,3 +1,13 @@
 {
-  "extends": ["eslint-config-ons-author"]
+  "extends": ["eslint-config-ons-author"],
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "rules": {
+    "camelcase": "off"
+  }
 }

@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 const express = require('express');
 const app = express();
 
@@ -43,8 +45,3 @@ app.get('/publish/:questionnaireId(\\d+)', async (req, res, next) => {
 app.listen(PORT, () => {
     console.log('Listening on port', PORT);
 });
-
-function errorHandler (err, req, res) {
-    res.status(500);
-    res.render('error', { error: err });
-}
