@@ -2,13 +2,13 @@ var validateJson = require('jsonschema').validate;
 
 class SchemaValidator {
 
-    constructor(jsonSchema) {
-        this.jsonSchema = jsonSchema;
-    }
+  constructor(jsonSchema) {
+    this.jsonSchema = jsonSchema;
+  }
 
-    validate(json) {
-        return validateJson(json, this.jsonSchema);
-    }
+  validate(json) {
+    return validateJson(json, this.jsonSchema);
+  }
 
 }
 

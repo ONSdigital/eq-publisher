@@ -6,13 +6,13 @@ global.fetch = fetch;
 
 class GraphQLApi {
 
-    constructor(client) {
-        this.client = client;
-    }
+  constructor(client) {
+    this.client = client;
+  }
 
-    getAuthorData(questionnaireId) {
-       return this.client.query({
-            query: gql`
+  getAuthorData(questionnaireId) {
+    return this.client.query({
+      query: gql`
             query GetQuestionnaire($questionnaireId : Int!){
               questionnaire(id: $questionnaireId) {
                 id
@@ -48,10 +48,10 @@ class GraphQLApi {
                 }
               }
             }`,
-            variables: { questionnaireId: questionnaireId },
-            fetchPolicy: 'network-only'
-        });
-    }
+      variables: { questionnaireId: questionnaireId },
+      fetchPolicy: 'network-only'
+    });
+  }
 
 }
 
