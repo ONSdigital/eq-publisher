@@ -6,18 +6,18 @@ const MockGraphQLApi = require('./MockGraphQLApi');
 
 module.exports = () => {
 
-    let result = MockGraphQLApi;
+  let result = MockGraphQLApi;
 
-    if (process.env.GRAPHQL_API_URL) {
-        const client = new ApolloClient({
-            networkInterface: createNetworkInterface({
-                uri: process.env.GRAPHQL_API_URL,
-            }),
-        });
+  if (process.env.GRAPHQL_API_URL) {
+    const client = new ApolloClient({
+      networkInterface: createNetworkInterface({
+        uri: process.env.GRAPHQL_API_URL,
+      }),
+    });
 
-        result = new GraphQLApi(client)
-    }
+    result = new GraphQLApi(client)
+  }
 
-    return result;
+  return result;
 
 };

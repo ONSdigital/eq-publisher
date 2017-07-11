@@ -15,33 +15,33 @@ const converter = new Convert(schemaValidator);
 const GraphQLApi = getGraphQLApi();
 
 app.get('/graphql/:questionnaireId(\\d+)', async (req, res, next) => {
-    try {
-        const result = await GraphQLApi.getAuthorData(req.params.questionnaireId);
-        if(result.data.questionnaire === null) {
-            return next();
-        }
-        res.json(result);
+  try {
+    const result = await GraphQLApi.getAuthorData(req.params.questionnaireId);
+    if(result.data.questionnaire === null) {
+      return next();
     }
-    catch(err) {
-        console.error(err);
-        next(err);
-    }
+    res.json(result);
+  }
+  catch(err) {
+    console.error(err);
+    next(err);
+  }
 });
 
 app.get('/publish/:questionnaireId(\\d+)', async (req, res, next) => {
-    try {
-        const result = await GraphQLApi.getAuthorData(req.params.questionnaireId);
-        if(result.data.questionnaire === null) {
-            return next();
-        }
-        res.json(converter.convert(result.data));
+  try {
+    const result = await GraphQLApi.getAuthorData(req.params.questionnaireId);
+    if(result.data.questionnaire === null) {
+      return next();
     }
-    catch(err) {
-        console.error(err);
-        next(err);
-    }
+    res.json(converter.convert(result.data));
+  }
+  catch(err) {
+    console.error(err);
+    next(err);
+  }
 });
 
 app.listen(PORT, () => {
-    console.log('Listening on port', PORT);
+  console.log('Listening on port', PORT);
 });
