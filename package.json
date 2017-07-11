@@ -11,6 +11,7 @@
   "dependencies": {
     "apollo-client": "^1.4.2",
     "commonjs-utils": "^0.1.1",
+    "eslint-config-eq-author": "^1.0.2",
     "express": "^4.15.3",
     "graphql-tag": "^2.4.0",
     "json-schema": "^0.2.3",
@@ -22,10 +23,11 @@
   },
   "devDependencies": {
     "eslint": "^3.19.0",
-    "eslint-config-ons-author": "ONSdigital/eslint-config-author#v1.0.2",
     "jest": "^20.0.4"
   },
-  "moduleRoots": ["src/"],
+  "moduleRoots": [
+    "src/"
+  ],
   "engines": {
     "node": ">=7.10.0"
   },
