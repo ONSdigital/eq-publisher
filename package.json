@@ -22,13 +22,10 @@
   },
   "devDependencies": {
     "eslint": "^3.19.0",
-    "eslint-config-ons-author": "https://github.com/ONSdigital/eslint-config-author",
-    "eslint-plugin-jest": "^20.0.3",
+    "eslint-config-ons-author": "ONSdigital/eslint-config-author#v1.0.2",
     "jest": "^20.0.4"
   },
-  "moduleRoots": [
-    "src/"
-  ],
+  "moduleRoots": ["src/"],
   "engines": {
     "node": ">=7.10.0"
   },

@@ -6,8 +6,5 @@
   },
   "parserOptions": {
     "ecmaVersion": 8
-  },
-  "rules": {
-    "camelcase": "off"
   }
 }
