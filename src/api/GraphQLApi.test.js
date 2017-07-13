@@ -1,14 +1,12 @@
-const GraphQLApi = require('./GraphQLApi');
+const GraphQLApi = require("./GraphQLApi");
 
-describe('GraphQL Api', () => {
-
-  it('should accept a client', () => {
+describe("GraphQL Api", () => {
+  it("should accept a client", () => {
     const mockClient = jest.fn();
     expect(new GraphQLApi(mockClient).client).toBe(mockClient);
   });
 
-  describe('interaction with client', () => {
-
+  describe("interaction with client", () => {
     let mockClient;
     let api;
 
@@ -20,19 +18,20 @@ describe('GraphQL Api', () => {
       api = new GraphQLApi(mockClient);
     });
 
-    it('should call query on the client', () => {
+    it("should call query on the client", () => {
       api.getAuthorData(1);
 
       expect(mockClient.query).toHaveBeenCalled();
     });
 
-    it('should pass questionnaire Id into query', () => {
+    it("should pass questionnaire Id into query", () => {
       api.getAuthorData(13);
 
-      expect(mockClient.query).toBeCalledWith(expect.objectContaining({
-        variables: { questionnaireId: 13 }
-      }))
+      expect(mockClient.query).toBeCalledWith(
+        expect.objectContaining({
+          variables: { questionnaireId: 13 }
+        })
+      );
     });
   });
-
 });

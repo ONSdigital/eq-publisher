@@ -1,11 +1,10 @@
-const Block = require('./Block');
+const Block = require("./Block");
 
 class Group {
-
-  constructor(group) {
-    this.id = "group-" + group.id.toString();
-    this.title = group.title;
-    this.blocks = this.buildBlocks(group.pages);
+  constructor(section) {
+    this.id = "group-" + section.id.toString();
+    this.title = section.title;
+    this.blocks = this.buildBlocks(section.pages);
   }
 
   buildBlocks(pages) {
