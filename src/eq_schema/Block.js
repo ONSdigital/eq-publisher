@@ -3,7 +3,6 @@ const Section = require("./Section");
 const get = require("lodash").get;
 
 class Block {
-
   constructor(page) {
     this.id = "block-" + page.id.toString();
     this.title = page.title;
@@ -22,7 +21,8 @@ class Block {
 
   convertPageType(type) {
     const mappings = {
-      "Question": "Questionnaire"
+      QuestionPage: "Questionnaire",
+      InterstitialPage: "Interstitial"
     };
 
     return get(mappings, type, type);
