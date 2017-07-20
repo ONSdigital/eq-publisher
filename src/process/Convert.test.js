@@ -24,7 +24,7 @@ describe("Convert", () => {
 
       mockSchemaValidator.validate.mockReturnValue({ valid: true });
 
-      const result = await getAuthorData(1);
+      const result = await getAuthorData(2);
       const convert = new Convert(mockSchemaValidator);
       convert.convert(result.data);
 

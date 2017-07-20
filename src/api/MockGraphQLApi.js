@@ -1,56 +1,13 @@
-class MockGraphQLApi {
-  // TODO This will eventually be removed. For now it's useful for development purposes.
+const schema = require("eq-author-graphql-schema/schema");
+const mockServer = require("graphql-tools").mockServer;
+const getQuestionnaire = require("./queries").getQuestionnaire;
 
+const mockApi = mockServer(schema);
+
+class MockGraphQLApi {
   getAuthorData(questionnaireId) {
-    return Promise.resolve({
-      data: {
-        questionnaire: {
-          id: questionnaireId,
-          title: "Quarterly Business Survey",
-          description: "This is the survey description",
-          theme: "default",
-          legalBasis: "Voluntary",
-          navigation: true,
-          sections: [
-            {
-              id: 1,
-              title: "Section 1",
-              description: "This is section 1",
-              pages: [
-                {
-                  id: 4,
-                  title: "Question 1",
-                  description: "This is quesstion 1",
-                  guidance: "",
-                  pageType: "Question",
-                  type: "General",
-                  mandatory: false,
-                  answers: [
-                    {
-                      id: 2,
-                      description: "This is answer 2",
-                      guidance: "",
-                      qCode: "Answer-2-Qcode",
-                      label: "Answer 2",
-                      type: "PositiveInteger",
-                      mandatory: false
-                    },
-                    {
-                      id: 1,
-                      description: "This is answer 1",
-                      guidance: "",
-                      qCode: "Answer-1-Qcode",
-                      label: "Answer 1",
-                      type: "PositiveInteger",
-                      mandatory: false
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
+    return mockApi.query(getQuestionnaire, {
+      questionnaireId: questionnaireId
     });
   }
 }

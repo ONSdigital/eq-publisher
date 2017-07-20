@@ -1,5 +1,6 @@
-const gql = require("graphql-tag");
+const getQuestionnaire = require("./queries").getQuestionnaire;
 const fetch = require("node-fetch");
+const gql = require("graphql-tag");
 
 global.fetch = fetch;
 
@@ -10,43 +11,7 @@ class GraphQLApi {
 
   getAuthorData(questionnaireId) {
     return this.client.query({
-      query: gql`
-        query GetQuestionnaire($questionnaireId: Int!) {
-          questionnaire(id: $questionnaireId) {
-            id
-            title
-            description
-            theme
-            legalBasis
-            navigation
-            sections {
-              id
-              title
-              description
-              pages {
-                ... on QuestionPage {
-                  id
-                  title
-                  description
-                  guidance
-                  pageType
-                  type
-                  mandatory
-                  answers {
-                    id
-                    description
-                    guidance
-                    qCode
-                    label
-                    type
-                    mandatory
-                  }
-                }
-              }
-            }
-          }
-        }
-      `,
+      query: gql(getQuestionnaire),
       variables: { questionnaireId: questionnaireId },
       fetchPolicy: "network-only"
     });
