@@ -39,7 +39,7 @@ app.get("/publish/:questionnaireId(\\d+)", async (req, res, next) => {
 
     res.json(converter.convert(result.data));
   } catch (err) {
-    console.error(e);
+    console.error(err);
     next(err);
   }
 });
