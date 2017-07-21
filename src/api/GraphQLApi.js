@@ -1,4 +1,4 @@
-const getQuestionnaire = require("./queries").getQuestionnaire;
+const { getQuestionnaire } = require("./queries");
 const fetch = require("node-fetch");
 const gql = require("graphql-tag");
 

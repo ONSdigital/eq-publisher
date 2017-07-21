@@ -1,6 +1,6 @@
 const schema = require("eq-author-graphql-schema/schema");
-const mockServer = require("graphql-tools").mockServer;
-const getQuestionnaire = require("./queries").getQuestionnaire;
+const { mockServer } = require("graphql-tools");
+const { getQuestionnaire } = require("./queries");
 
 const mockApi = mockServer(schema);
 

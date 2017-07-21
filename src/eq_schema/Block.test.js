@@ -36,34 +36,25 @@ describe("Block", () => {
   });
 
   describe("conversion of page types", () => {
-    it("should convert QuestonPage to Questionnaire", () => {
-      const authorJson = {
-        id: 1,
-        title: "Question 1",
-        description: "This is quesstion 1",
-        guidance: "",
-        pageType: "QuestionPage",
-        type: "General",
-        mandatory: false,
-        answers: []
-      };
+    const authorJson = {
+      id: 1,
+      title: "Question 1",
+      description: "This is quesstion 1",
+      guidance: "",
+      pageType: "QuestionPage",
+      type: "General",
+      mandatory: false,
+      answers: []
+    };
 
+    it("should convert QuestonPage to Questionnaire", () => {
       const block = new Block(authorJson);
 
       expect(block.type).toEqual("Questionnaire");
     });
 
     it("should convert InterstitialPage to Interstitial", () => {
-      const authorJson = {
-        id: 1,
-        title: "Question 1",
-        description: "This is quesstion 1",
-        guidance: "",
-        pageType: "InterstitialPage",
-        type: "General",
-        mandatory: false,
-        answers: []
-      };
+      authorJson.pageType = "InterstitialPage";
 
       const block = new Block(authorJson);
 
