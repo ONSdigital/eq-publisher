@@ -6,9 +6,7 @@ const GraphQLApi = require("./GraphQLApi");
 
 exports.createNetworkInterface = (fn, mocks = {}) => {
   return process.env.GRAPHQL_API_URL
-    ? fn({
-        uri: process.env.GRAPHQL_API_URL
-      })
+    ? fn({ uri: process.env.GRAPHQL_API_URL })
     : new MockNetworkInterface(schema, mocks);
 };
 

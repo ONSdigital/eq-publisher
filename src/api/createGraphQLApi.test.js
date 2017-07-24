@@ -3,7 +3,6 @@ const {
   createNetworkInterface,
   createApolloClient
 } = require("./createGraphQLApi");
-const GraphQLApi = require("./GraphQLApi");
 const MockNetworkInterface = require("./MockNetworkInterface");
 const { ApolloClient } = require("apollo-client");
 
@@ -27,7 +26,7 @@ describe("createGraphQLApi", () => {
 
       const mockCreateNetworkInterface = jest.fn();
 
-      const result = createNetworkInterface(mockCreateNetworkInterface);
+      createNetworkInterface(mockCreateNetworkInterface);
 
       expect(mockCreateNetworkInterface).toHaveBeenCalledWith({
         uri: endpoint
