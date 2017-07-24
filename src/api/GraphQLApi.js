@@ -5,12 +5,12 @@ const gql = require("graphql-tag");
 global.fetch = fetch;
 
 class GraphQLApi {
-  constructor(client) {
-    this.client = client;
+  constructor(apolloClient) {
+    this.apolloClient = apolloClient;
   }
 
   getAuthorData(questionnaireId) {
-    return this.client.query({
+    return this.apolloClient.query({
       query: gql(getQuestionnaire),
       variables: { questionnaireId: questionnaireId },
       fetchPolicy: "network-only"

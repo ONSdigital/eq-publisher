@@ -3,7 +3,7 @@ const GraphQLApi = require("./GraphQLApi");
 describe("GraphQL Api", () => {
   it("should accept a client", () => {
     const mockClient = jest.fn();
-    expect(new GraphQLApi(mockClient).client).toBe(mockClient);
+    expect(new GraphQLApi(mockClient).apolloClient).toBe(mockClient);
   });
 
   describe("interaction with client", () => {

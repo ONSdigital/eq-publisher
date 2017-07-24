@@ -447,6 +447,12 @@ builtin-modules@^1.0.0, builtin-modules@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
 
+caller-id@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/caller-id/-/caller-id-0.1.0.tgz#59bdac0893d12c3871408279231f97458364f07b"
+  dependencies:
+    stack-trace "~0.0.7"
+
 caller-path@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/caller-path/-/caller-path-0.1.0.tgz#94085ef63581ecd3daa92444a8fe94e82577751f"
@@ -851,15 +857,6 @@ end-of-stream@1.0.0:
 "eq-author-graphql-schema@https://github.com/ONSdigital/eq-author-graphql-schema.git":
   version "1.0.0"
   resolved "https://github.com/ONSdigital/eq-author-graphql-schema.git#143e40a2b5765ed3b9a48cb7d8fce3bfff7ae4db"
-
-"eq-author-mock-api@https://github.com/ONSdigital/eq-author-mock-api.git":
-  version "1.0.0"
-  resolved "https://github.com/ONSdigital/eq-author-mock-api.git#be29dba47a67f34b015e77be4cac3b1f429c0f67"
-  dependencies:
-    eq-author-graphql-schema "https://github.com/ONSdigital/eq-author-graphql-schema.git"
-    graphql "^0.10.5"
-    graphql-tools "^1.1.0"
-    lodash "^4.17.4"
 
 "errno@>=0.1.1 <0.2.0-0":
   version "0.1.4"
@@ -1521,7 +1518,7 @@ graphql-tools@^1.1.0:
   optionalDependencies:
     "@types/graphql" "^0.9.0"
 
-graphql@^0.10.0, graphql@^0.10.5:
+graphql@^0.10.0:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.10.5.tgz#c9be17ca2bdfdbd134077ffd9bbaa48b8becd298"
   dependencies:
@@ -2573,6 +2570,12 @@ minimist@^1.1.1, minimist@^1.2.0:
   dependencies:
     minimist "0.0.8"
 
+mock-require@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/mock-require/-/mock-require-2.0.2.tgz#1eaa71aad23013773d127dc7e91a3fbb4837d60d"
+  dependencies:
+    caller-id "^0.1.0"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -3409,6 +3412,10 @@ sshpk@^1.7.0:
     ecc-jsbn "~0.1.1"
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
+
+stack-trace@~0.0.7:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
 
 staged-git-files@0.0.4:
   version "0.0.4"
