@@ -15,7 +15,7 @@ describe("mock network interface", () => {
     `;
 
     const request = {
-      query: query,
+      query,
       variables: {}
     };
 
