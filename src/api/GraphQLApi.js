@@ -1,6 +1,5 @@
 const { getQuestionnaire } = require("./queries");
 const fetch = require("node-fetch");
-const gql = require("graphql-tag");
 
 global.fetch = fetch;
 
@@ -11,7 +10,7 @@ class GraphQLApi {
 
   getAuthorData(questionnaireId) {
     return this.apolloClient.query({
-      query: gql(getQuestionnaire),
+      query: getQuestionnaire,
       variables: { questionnaireId: questionnaireId },
       fetchPolicy: "network-only"
     });
