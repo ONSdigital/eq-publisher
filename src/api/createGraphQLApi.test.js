@@ -54,7 +54,7 @@ describe("createGraphQLApi", () => {
     const networkInterface = createNetworkInterface(jest.fn(), mocks);
     const api = createGraphQLApi(createApolloClient(networkInterface));
 
-    api.getAuthorData(1).then(result => {
+    return api.getAuthorData(1).then(result => {
       const questionnaire = result.data.questionnaire;
       expect(questionnaire.id).toBe(999);
       expect(questionnaire.title).toBe("Mocked value");
