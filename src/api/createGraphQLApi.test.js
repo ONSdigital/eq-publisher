@@ -1,7 +1,8 @@
 const {
   createGraphQLApi,
   createNetworkInterface,
-  createApolloClient
+  createApolloClient,
+  getGraphQLApi
 } = require("./createGraphQLApi");
 const MockNetworkInterface = require("./MockNetworkInterface");
 const { ApolloClient } = require("apollo-client");
@@ -57,6 +58,15 @@ describe("createGraphQLApi", () => {
       const questionnaire = result.data.questionnaire;
       expect(questionnaire.id).toBe(999);
       expect(questionnaire.title).toBe("Mocked value");
+    });
+  });
+
+  describe("getGraphQLApi", () => {
+    it("should configure the API with sensible defaults", () => {
+      const result = getGraphQLApi();
+
+      expect(result.apolloClient).toBeTruthy();
+      expect(result.apolloClient.networkInterface).toBeTruthy();
     });
   });
 });
