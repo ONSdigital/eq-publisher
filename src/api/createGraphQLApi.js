@@ -1,6 +1,6 @@
 const MockNetworkInterface = require("./MockNetworkInterface");
 const schema = require("eq-author-graphql-schema/schema");
-const { ApolloClient } = require("apollo-client");
+const { ApolloClient, createNetworkInterface } = require("apollo-client");
 
 const GraphQLApi = require("./GraphQLApi");
 
@@ -16,4 +16,12 @@ exports.createApolloClient = networkInterface => {
 
 exports.createGraphQLApi = client => {
   return new GraphQLApi(client);
+};
+
+exports.getGraphQLApi = () => {
+  return exports.createGraphQLApi(
+    exports.createApolloClient(
+      exports.createNetworkInterface(createNetworkInterface)
+    )
+  );
 };

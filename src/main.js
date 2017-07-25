@@ -3,7 +3,7 @@
 const express = require("express");
 const app = express();
 
-const getGraphQLApi = require("./api/createGraphQLApi");
+const { getGraphQLApi } = require("./api/createGraphQLApi");
 const Convert = require("./process/Convert");
 const SchemaValidator = require("./validation/SchemaValidator");
 const EQ_JSON_SCHEMA = require("../data/schema_v1.json");
