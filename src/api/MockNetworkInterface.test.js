@@ -20,6 +20,8 @@ describe("mock network interface", () => {
     };
 
     api.query(request).then(result => {
+      // If request query was passed to the mockServer implementation successfully then we should have
+      // two questionnaires returned by default.
       expect(result.data.questionnaires).toHaveLength(2);
     });
   });
