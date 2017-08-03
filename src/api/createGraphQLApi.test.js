@@ -4,7 +4,7 @@ const {
   createApolloClient,
   getGraphQLApi
 } = require("./createGraphQLApi");
-const MockNetworkInterface = require("./MockNetworkInterface");
+const { MockNetworkInterface } = require("eq-author-mock-api");
 const { ApolloClient } = require("apollo-client");
 
 describe("createGraphQLApi", () => {

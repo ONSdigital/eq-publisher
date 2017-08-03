@@ -852,6 +852,20 @@ eq-author-graphql-schema@ONSdigital/eq-author-graphql-schema#28934dd:
   version "1.0.0"
   resolved "https://codeload.github.com/ONSdigital/eq-author-graphql-schema/tar.gz/28934dd"
 
+"eq-author-graphql-schema@https://github.com/ONSdigital/eq-author-graphql-schema.git":
+  version "1.0.0"
+  resolved "https://github.com/ONSdigital/eq-author-graphql-schema.git#28934ddf4b14df2fdf87f6ec509ee2911583d354"
+
+eq-author-mock-api@ONSdigital/eq-author-mock-api:
+  version "1.0.0"
+  resolved "https://codeload.github.com/ONSdigital/eq-author-mock-api/tar.gz/dc775047e8d19ba7558c13f9644a1ac67a44eaeb"
+  dependencies:
+    eq-author-graphql-schema "https://github.com/ONSdigital/eq-author-graphql-schema.git"
+    graphql "^0.10.5"
+    graphql-tag "^2.4.2"
+    graphql-tools "^1.1.0"
+    lodash "^4.17.4"
+
 "errno@>=0.1.1 <0.2.0-0":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/errno/-/errno-0.1.4.tgz#b896e23a9e5e8ba33871fc996abd3635fc9a1c7d"
@@ -1502,6 +1516,10 @@ graphql-tag@^2.0.0, graphql-tag@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.4.0.tgz#0fe137348d4db2efaf29b52ba4c1cbf84ac138cb"
 
+graphql-tag@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.4.2.tgz#6a63297d8522d03a2b72d26f1b239aab343840cd"
+
 graphql-tools@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-1.1.0.tgz#8d86ea6997b0dea3089b62dc655e47146a663ebb"
@@ -1512,7 +1530,7 @@ graphql-tools@^1.1.0:
   optionalDependencies:
     "@types/graphql" "^0.9.0"
 
-graphql@^0.10.0:
+graphql@^0.10.0, graphql@^0.10.5:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.10.5.tgz#c9be17ca2bdfdbd134077ffd9bbaa48b8becd298"
   dependencies:

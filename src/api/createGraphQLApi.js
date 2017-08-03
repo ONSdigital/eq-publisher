@@ -1,4 +1,4 @@
-const MockNetworkInterface = require("./MockNetworkInterface");
+const { MockNetworkInterface } = require("eq-author-mock-api");
 const schema = require("eq-author-graphql-schema");
 const { ApolloClient, createNetworkInterface } = require("apollo-client");
 
