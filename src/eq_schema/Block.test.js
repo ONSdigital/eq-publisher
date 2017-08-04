@@ -34,4 +34,31 @@ describe("Block", () => {
       ]
     });
   });
+
+  describe("conversion of page types", () => {
+    const authorJson = {
+      id: 1,
+      title: "Question 1",
+      description: "This is quesstion 1",
+      guidance: "",
+      pageType: "QuestionPage",
+      type: "General",
+      mandatory: false,
+      answers: []
+    };
+
+    it("should convert QuestonPage to Questionnaire", () => {
+      const block = new Block(authorJson);
+
+      expect(block.type).toEqual("Questionnaire");
+    });
+
+    it("should convert InterstitialPage to Interstitial", () => {
+      authorJson.pageType = "InterstitialPage";
+
+      const block = new Block(authorJson);
+
+      expect(block.type).toEqual("Interstitial");
+    });
+  });
 });

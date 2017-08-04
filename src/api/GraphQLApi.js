@@ -1,52 +1,16 @@
-const gql = require("graphql-tag");
+const { getQuestionnaire } = require("./queries");
 const fetch = require("node-fetch");
 
 global.fetch = fetch;
 
 class GraphQLApi {
-  constructor(client) {
-    this.client = client;
+  constructor(apolloClient) {
+    this.apolloClient = apolloClient;
   }
 
   getAuthorData(questionnaireId) {
-    return this.client.query({
-      query: gql`
-        query GetQuestionnaire($questionnaireId: Int!) {
-          questionnaire(id: $questionnaireId) {
-            id
-            title
-            description
-            theme
-            legalBasis
-            navigation
-            sections {
-              id
-              title
-              description
-              pages {
-                ... on QuestionPage {
-                  id
-                  title
-                  description
-                  guidance
-                  pageType
-                  type
-                  mandatory
-                  answers {
-                    id
-                    description
-                    guidance
-                    qCode
-                    label
-                    type
-                    mandatory
-                  }
-                }
-              }
-            }
-          }
-        }
-      `,
+    return this.apolloClient.query({
+      query: getQuestionnaire,
       variables: { questionnaireId: questionnaireId },
       fetchPolicy: "network-only"
     });

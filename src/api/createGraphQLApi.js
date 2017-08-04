@@ -1,21 +1,27 @@
-const ApolloClient = require("apollo-client").ApolloClient;
-const createNetworkInterface = require("apollo-client").createNetworkInterface;
+const { MockNetworkInterface } = require("eq-author-mock-api");
+const schema = require("eq-author-graphql-schema");
+const { ApolloClient, createNetworkInterface } = require("apollo-client");
 
 const GraphQLApi = require("./GraphQLApi");
-const MockGraphQLApi = require("./MockGraphQLApi");
 
-module.exports = () => {
-  let result = MockGraphQLApi;
+exports.createNetworkInterface = (fn, mocks = {}) => {
+  return process.env.GRAPHQL_API_URL
+    ? fn({ uri: process.env.GRAPHQL_API_URL })
+    : new MockNetworkInterface(schema, mocks);
+};
 
-  if (process.env.GRAPHQL_API_URL) {
-    const client = new ApolloClient({
-      networkInterface: createNetworkInterface({
-        uri: process.env.GRAPHQL_API_URL
-      })
-    });
+exports.createApolloClient = networkInterface => {
+  return new ApolloClient({ networkInterface });
+};
 
-    result = new GraphQLApi(client);
-  }
+exports.createGraphQLApi = client => {
+  return new GraphQLApi(client);
+};
 
-  return result;
+exports.getGraphQLApi = () => {
+  return exports.createGraphQLApi(
+    exports.createApolloClient(
+      exports.createNetworkInterface(createNetworkInterface)
+    )
+  );
 };

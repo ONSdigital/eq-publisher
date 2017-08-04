@@ -1,4 +1,12 @@
-const getAuthorData = require("../api/MockGraphQLApi").getAuthorData;
+const {
+  createGraphQLApi,
+  createApolloClient,
+  createNetworkInterface
+} = require("../api/createGraphQLApi");
+
+const graphQLApi = createGraphQLApi(
+  createApolloClient(createNetworkInterface(jest.fn()))
+);
 
 const Convert = require("./Convert");
 
@@ -24,7 +32,7 @@ describe("Convert", () => {
 
       mockSchemaValidator.validate.mockReturnValue({ valid: true });
 
-      const result = await getAuthorData(1);
+      const result = await graphQLApi.getAuthorData(2);
       const convert = new Convert(mockSchemaValidator);
       convert.convert(result.data);
 
@@ -40,7 +48,7 @@ describe("Convert", () => {
 
       const convert = new Convert(mockSchemaValidator);
 
-      const result = await getAuthorData(1);
+      const result = await graphQLApi.getAuthorData(1);
 
       expect(() => convert.convert(result.data)).toThrow();
     });
