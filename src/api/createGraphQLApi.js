@@ -1,8 +1,29 @@
 const { MockNetworkInterface } = require("eq-author-mock-api");
 const schema = require("eq-author-graphql-schema");
-const { ApolloClient, createNetworkInterface } = require("apollo-client");
+const {
+  ApolloClient,
+  createNetworkInterface,
+  IntrospectionFragmentMatcher
+} = require("apollo-client");
 
 const GraphQLApi = require("./GraphQLApi");
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData: {
+    __schema: {
+      types: [
+        {
+          kind: "INTERFACE",
+          name: "Answer",
+          possibleTypes: [
+            { name: "BasicAnswer" },
+            { name: "MultipleChoiceAnswer" }
+          ]
+        }
+      ]
+    }
+  }
+});
 
 exports.createNetworkInterface = (fn, mocks = {}) => {
   return process.env.GRAPHQL_API_URL
@@ -11,7 +32,10 @@ exports.createNetworkInterface = (fn, mocks = {}) => {
 };
 
 exports.createApolloClient = networkInterface => {
-  return new ApolloClient({ networkInterface });
+  return new ApolloClient({
+    networkInterface,
+    fragmentMatcher
+  });
 };
 
 exports.createGraphQLApi = client => {
