@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 class Answer {
   constructor(answer) {
     this.id = "answer-" + answer.id.toString();
@@ -6,15 +7,13 @@ class Answer {
     this.label = answer.label;
 
     if (answer.hasOwnProperty("options")) {
-      this.options = answer.options.map(
-        ({ label, value, qCode, childAnswerId }) => {
-          return {
-            label,
-            value,
-            child_answer_id: childAnswerId || ""
-          };
-        }
-      );
+      this.options = answer.options.map(({ label, value, childAnswerId }) => {
+        return {
+          label,
+          value,
+          child_answer_id: childAnswerId || ""
+        };
+      });
     }
   }
 }

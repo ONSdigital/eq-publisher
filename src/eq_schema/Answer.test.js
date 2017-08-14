@@ -1,5 +1,5 @@
+/* eslint-disable camelcase */
 const Answer = require("./Answer");
-
 const { merge } = require("lodash");
 
 describe("Answer", () => {
