@@ -30,6 +30,16 @@ exports.getQuestionnaire = gql`
               label
               type
               mandatory
+              ... on MultipleChoiceAnswer {
+                options {
+                  id
+                  label
+                  description
+                  value
+                  qCode
+                  childAnswerId
+                }
+              }
             }
           }
         }
