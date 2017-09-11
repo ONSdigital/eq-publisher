@@ -9,7 +9,6 @@ describe("Block", () => {
       guidance: "",
       pageType: "Question",
       type: "General",
-      mandatory: false,
       answers: []
     };
 
@@ -43,7 +42,6 @@ describe("Block", () => {
       guidance: "",
       pageType: "QuestionPage",
       type: "General",
-      mandatory: false,
       answers: []
     };
 

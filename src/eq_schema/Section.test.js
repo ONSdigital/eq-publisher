@@ -9,7 +9,6 @@ describe("Section", () => {
       guidance: "",
       pageType: "Question",
       type: "General",
-      mandatory: false,
       answers: []
     };
 

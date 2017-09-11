@@ -21,7 +21,6 @@ exports.getQuestionnaire = gql`
             guidance
             pageType
             type
-            mandatory
             answers {
               id
               description

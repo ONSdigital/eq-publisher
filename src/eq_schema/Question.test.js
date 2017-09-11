@@ -8,7 +8,6 @@ describe("Question", () => {
       description: "question description",
       guidance: "question guidance",
       type: "General",
-      mandatory: false,
       answers: []
     };
 
