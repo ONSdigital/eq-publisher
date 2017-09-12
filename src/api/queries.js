@@ -20,7 +20,6 @@ exports.getQuestionnaire = gql`
             description
             guidance
             pageType
-            type
             answers {
               id
               description
