@@ -1,4 +1,4 @@
-const Section = require("./Section");
+const Question = require("./Question");
 
 const get = require("lodash").get;
 
@@ -8,15 +8,11 @@ class Block {
     this.title = page.title;
     this.description = page.description;
     this.type = this.convertPageType(page.pageType);
-    this.sections = this.buildSections(page);
+    this.questions = this.buildQuestions(page);
   }
 
-  buildSections(page) {
-    const result = [];
-
-    result.push(new Section(page));
-
-    return result;
+  buildQuestions(page) {
+    return [new Question(page)];
   }
 
   convertPageType(type) {

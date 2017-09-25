@@ -1,12 +1,14 @@
 /* eslint-disable camelcase */
 const SchemaValidator = require("./SchemaValidator");
-const eqJsonSchema = require("../../data/schema_v1.json");
-const quarterlyBusinessSurvey = require("../../data/2_0001.json");
+const EQ_RUNNER_MAIN_SCHEMA = require("../../data/schema_v1.json");
+const QBS_SURVEY = require("../../data/2_0001.json");
+const EQ_RUNNER_UNITS_SCHEMA = require("../../data/units.json");
+const EQ_RUNNER_CURRENCY_SCHEMA = require("../../data/currencies.json");
 
 describe("Schema validator", () => {
   it("should accept JSON schema in its constructor", () => {
     const schemaValidator = new SchemaValidator("{}");
-    expect(schemaValidator.jsonSchema).toEqual("{}");
+    expect(schemaValidator.mainSchema).toEqual("{}");
   });
 
   it("should validate json against the schema", () => {
@@ -65,28 +67,41 @@ describe("Schema validator", () => {
   });
 
   it("should be able to load the JSON schema from eq-runner", () => {
-    expect(eqJsonSchema).toBeDefined();
-    expect(eqJsonSchema.$schema).toBe(
+    expect(EQ_RUNNER_MAIN_SCHEMA).toBeDefined();
+    expect(EQ_RUNNER_MAIN_SCHEMA.$schema).toBe(
       "http://json-schema.org/draft-04/schema#"
     );
   });
 
-  it("should pass validation against schema for existing questionnaire", () => {
-    const schemaValidator = new SchemaValidator(eqJsonSchema);
-    const result = schemaValidator.validate(quarterlyBusinessSurvey);
+  describe("validate using sub schemas for units and currencies", () => {
+    let schemaValidator;
 
-    expect(result.valid).toBe(true);
-    expect(quarterlyBusinessSurvey.title).toBe("Quarterly Business Survey");
-  });
+    beforeEach(() => {
+      schemaValidator = new SchemaValidator(EQ_RUNNER_MAIN_SCHEMA, [
+        {
+          uri: "/units.json",
+          schema: EQ_RUNNER_UNITS_SCHEMA
+        },
+        {
+          uri: "/currencies.json",
+          schema: EQ_RUNNER_CURRENCY_SCHEMA
+        }
+      ]);
+    });
 
-  it("should fail validation against EQ schema if something is wrong with questionnaire", () => {
-    const schemaValidator = new SchemaValidator(eqJsonSchema);
-    quarterlyBusinessSurvey.mime_type = 42; // According to schema this should be a string!!!
+    it("should pass validation against schema for existing questionnaire", () => {
+      const result = schemaValidator.validate(QBS_SURVEY);
+      expect(result.valid).toBe(true);
+    });
 
-    const result = schemaValidator.validate(quarterlyBusinessSurvey);
+    it("should fail validation against EQ schema if something is wrong with questionnaire", () => {
+      QBS_SURVEY.mime_type = 42; // According to schema this should be a string!!!
 
-    expect(result.valid).toBe(false);
-    expect(result.errors).toHaveLength(1);
-    expect(result.errors[0].message).toBe("is not of a type(s) string");
+      const result = schemaValidator.validate(QBS_SURVEY);
+
+      expect(result.valid).toBe(false);
+      expect(result.errors).toHaveLength(1);
+      expect(result.errors[0].message).toBe("is not of a type(s) string");
+    });
   });
 });

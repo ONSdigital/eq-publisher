@@ -18,7 +18,7 @@
   "dependencies": {
     "apollo-client": "^1.4.2",
     "commonjs-utils": "^0.1.1",
-    "eq-author-graphql-schema": "ONSdigital/eq-author-graphql-schema#16132f5",
+    "eq-author-graphql-schema": "ONSdigital/eq-author-graphql-schema#b34dc52",
     "eq-author-mock-api": "ONSdigital/eq-author-mock-api",
     "eslint-config-eq-author": "^1.0.2",
     "express": "^4.15.3",

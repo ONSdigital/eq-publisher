@@ -1,6 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
+  "eq_id": {
+    "type": "string",
+    "description": "Used in combination with the form_type to uniquely identify a questionnaire.",
+    "required": "false"
+  },
+  "form_type": {
+    "type": "string",
+    "description": "Used in combination with the eq_id to uniquely identify a questionnaire.",
+    "required": "false"
+  },
   "definitions": {
     "id": {
       "type": "string",
@@ -12,7 +22,47 @@
       "description": "A question code used by downstream systems to identify answers",
       "pattern": "^[0-9a-z]+$"
     },
-    "skip_condition": {
+    "guidance_content": {
+      "description": "Allows customisation of guidance text",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "anyOf": [
+          {
+            "required": [
+              "title"
+            ]
+          },
+          {
+            "required": [
+              "description"
+            ]
+          },
+          {
+            "required": [
+              "list"
+            ]
+          }
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "skip_conditions": {
       "description": "Allows an element to be skipped when a condition has been met. By adding more than one `when` element it will evaluate as an or rule.",
       "type": "array",
       "minItems": 1,
@@ -58,11 +108,12 @@
         "required": [
           "condition"
         ],
-        "oneOf": [{
-          "required": [
-            "id"
-          ]
-        },
+        "oneOf": [
+          {
+            "required": [
+              "id"
+            ]
+          },
           {
             "required": [
               "meta"
@@ -74,28 +125,46 @@
     "messages": {
       "type": "object",
       "properties": {
-        "NOT_INTEGER": {
+        "MANDATORY_TEXTFIELD": {
           "type": "string"
         },
-        "NOT_STRING": {
+        "MANDATORY_NUMBER": {
           "type": "string"
         },
-        "MANDATORY": {
+        "MANDATORY_TEXTAREA": {
+          "type": "string"
+        },
+        "MANDATORY_RADIO": {
+          "type": "string"
+        },
+        "MANDATORY_CHECKBOX": {
+          "type": "string"
+        },
+        "MANDATORY_DATE": {
+          "type": "string"
+        },
+        "NUMBER_TOO_SMALL": {
+          "type": "string"
+        },
+        "NUMBER_TOO_LARGE": {
+          "type": "string"
+        },
+        "INVALID_NUMBER": {
+          "type": "string"
+        },
+        "INVALID_INTEGER": {
+          "type": "string"
+        },
+        "INVALID_DECIMAL": {
+          "type": "string"
+        },
+        "MAX_LENGTH_EXCEEDED": {
           "type": "string"
         },
         "INVALID_DATE": {
           "type": "string"
         },
-        "NEGATIVE_INTEGER": {
-          "type": "string"
-        },
-        "INTEGER_TOO_LARGE": {
-          "type": "string"
-        },
-        "INVALID_DATE_RANGE_TO_BEFORE_FROM": {
-          "type": "string"
-        },
-        "INVALID_DATE_RANGE_TO_FROM_SAME": {
+        "INVALID_DATE_RANGE": {
           "type": "string"
         }
       },
@@ -103,14 +172,6 @@
     },
     "routing_rules": {
       "type": "array",
-      "navigation_label_answer_ids": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "minItems": 1,
-        "uniqueItems": true
-      },
       "items": {
         "type": "object",
         "properties": {
@@ -120,10 +181,25 @@
               "id": {
                 "type": "string"
               },
+              "group": {
+                "type": "string"
+              },
               "when": {
                 "$ref": "#/definitions/when"
               }
             },
+            "oneOf": [
+              {
+                "required": [
+                  "id"
+                ]
+              },
+              {
+                "required": [
+                  "group"
+                ]
+              }
+            ],
             "required": [
               "id"
             ]
@@ -150,11 +226,13 @@
             ]
           }
         },
-        "oneOf": [{
-          "required": [
-            "goto"
-          ]
-        },
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "goto"
+            ]
+          },
           {
             "required": [
               "repeat"
@@ -214,7 +292,35 @@
       ]
     },
     "navigation": {
-      "type": "boolean"
+      "type": "object",
+      "properties": {
+        "visible": {
+          "type": "boolean"
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "title": "string",
+            "title_from_answers": "array",
+            "group_order": "array",
+            "required": [
+              "group_order"
+            ],
+            "oneOf": [
+              {
+                "required": [
+                  "title"
+                ]
+              },
+              {
+                "required": [
+                  "title_from_answers"
+                ]
+              }
+            ]
+          }
+        }
+      }
     },
     "messages": {
       "$ref": "#/definitions/messages"
@@ -244,8 +350,8 @@
           "hide_in_navigation": {
             "type": "boolean"
           },
-          "skip_condition": {
-            "$ref": "#/definitions/skip_condition"
+          "skip_conditions": {
+            "$ref": "#/definitions/skip_conditions"
           },
           "routing_rules": {
             "ref": "#/definitions/routing_rules"
@@ -258,7 +364,16 @@
                 "id": {
                   "$ref": "#/definitions/id"
                 },
+                "section_number": {
+                  "type": "string"
+                },
                 "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "number": {
                   "type": "string"
                 },
                 "type": {
@@ -270,25 +385,46 @@
                     "Confirmation"
                   ]
                 },
-                "description": {
-                  "type": "string"
-                },
-                "information_to_provide": {
+                "primary_content": {
                   "type": "array",
                   "items": {
-                    "type": "string"
-                  },
-                  "uniqueItems": true
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "$ref": "#/definitions/id"
+                      },
+                      "content": {
+                        "$ref": "#/definitions/guidance_content"
+                      }
+                    }
+                  }
                 },
-                "basis_for_completion": {
+                "preview_content": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "$ref": "#/definitions/id"
+                    },
+                    "content": {
+                      "$ref": "#/definitions/guidance_content"
+                    }
+                  }
+                },
+                "secondary_content": {
                   "type": "array",
                   "items": {
-                    "type": "string"
-                  },
-                  "uniqueItems": true,
-                  "minItems": 1
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "$ref": "#/definitions/id"
+                      },
+                      "content": {
+                        "$ref": "#/definitions/guidance_content"
+                      }
+                    }
+                  }
                 },
-                "sections": {
+                "questions": {
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -305,7 +441,26 @@
                       "description": {
                         "type": "string"
                       },
-                      "questions": {
+                      "guidance": {
+                        "type": "object",
+                        "properties": {
+                          "content": {
+                            "$ref": "#/definitions/guidance_content"
+                          }
+                        }
+                      },
+                      "skip_conditions": {
+                        "$ref": "#/definitions/skip_conditions"
+                      },
+                      "type": {
+                        "enum": [
+                          "General",
+                          "DateRange",
+                          "RepeatingAnswer",
+                          "Relationship"
+                        ]
+                      },
+                      "answers": {
                         "type": "array",
                         "items": {
                           "type": "object",
@@ -313,154 +468,155 @@
                             "id": {
                               "$ref": "#/definitions/id"
                             },
-                            "title": {
+                            "parent_answer_id": {
                               "type": "string"
                             },
-                            "number": {
+                            "q_code": {
+                              "$ref": "#/definitions/q_code"
+                            },
+                            "label": {
                               "type": "string"
+                            },
+                            "guidance": {
+                              "type": "object",
+                              "properties": {
+                                "show_guidance": {
+                                  "type": "string"
+                                },
+                                "hide_guidance": {
+                                  "type": "string"
+                                },
+                                "content": {
+                                  "$ref": "#/definitions/guidance_content"
+                                }
+                              }
                             },
                             "description": {
                               "type": "string"
                             },
-                            "guidance": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "title": {
-                                    "type": "string"
-                                  },
-                                  "description": {
-                                    "type": "string"
-                                  },
-                                  "list": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "string"
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            "skip_condition": {
-                              "description": "Allows a question to be skipped when a condition has been met.",
-                              "type": "object",
-                              "properties": {
-                                "when": {
-                                  "$ref": "#/definitions/when"
-                                }
-                              },
-                              "additionalProperties": false,
-                              "required": [
-                                "when"
-                              ]
-                            },
                             "type": {
                               "enum": [
-                                "General",
-                                "DateRange",
-                                "RepeatingAnswer",
-                                "Relationship"
+                                "Checkbox",
+                                "Currency",
+                                "Date",
+                                "MonthYearDate",
+                                "Percentage",
+                                "Number",
+                                "Radio",
+                                "TextArea",
+                                "TextField",
+                                "Relationship",
+                                "Unit"
                               ]
                             },
-                            "answers": {
+                            "options": {
                               "type": "array",
                               "items": {
                                 "type": "object",
                                 "properties": {
-                                  "id": {
-                                    "$ref": "#/definitions/id"
+                                  "label": {
+                                    "type": "string"
                                   },
-                                  "parent_answer_id": {
+                                  "value": {
                                     "type": "string"
                                   },
                                   "q_code": {
                                     "$ref": "#/definitions/q_code"
                                   },
-                                  "label": {
+                                  "child_answer_id": {
                                     "type": "string"
-                                  },
-                                  "guidance": {
-                                    "type": "string"
-                                  },
-                                  "description": {
-                                    "type": "string"
-                                  },
-                                  "type": {
-                                    "enum": [
-                                      "Checkbox",
-                                      "Currency",
-                                      "Date",
-                                      "MonthYearDate",
-                                      "Integer",
-                                      "Percentage",
-                                      "PositiveInteger",
-                                      "Radio",
-                                      "TextArea",
-                                      "TextField",
-                                      "Relationship"
-                                    ]
-                                  },
-                                  "options": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "label": {
-                                          "type": "string"
-                                        },
-                                        "value": {
-                                          "type": "string"
-                                        },
-                                        "q_code": {
-                                          "$ref": "#/definitions/q_code"
-                                        },
-                                        "child_answer_id": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "required": [
-                                        "label",
-                                        "value"
-                                      ]
-                                    }
-                                  },
-                                  "mandatory": {
-                                    "type": "boolean"
-                                  },
-                                  "alias": {
-                                    "type": "string"
-                                  },
-                                  "repeats": {
-                                    "type": "boolean"
-                                  },
-                                  "validation": {
-                                    "type": "object",
-                                    "properties": {
-                                      "messages": {
-                                        "$ref": "#/definitions/messages"
-                                      }
-                                    }
-                                  },
-                                  "calculated": {
-                                    "type": "boolean"
                                   }
                                 },
-                                "additionalProperties": false,
                                 "required": [
-                                  "id",
-                                  "type",
-                                  "mandatory"
+                                  "label",
+                                  "value"
                                 ]
                               }
+                            },
+                            "mandatory": {
+                              "type": "boolean"
+                            },
+                            "max_length": {
+                              "type": "integer"
+                            },
+                            "decimal_places": {
+                              "type": "integer"
+                            },
+                            "alias": {
+                              "type": "string"
+                            },
+                            "repeats": {
+                              "type": "boolean"
+                            },
+                            "max_value": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "integer"
+                                },
+                                "answer_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "oneOf": [
+                                {
+                                  "required": [
+                                    "value"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "answer_id"
+                                  ]
+                                }
+                              ]
+                            },
+                            "min_value": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "integer"
+                                },
+                                "answer_id": {
+                                  "type": "string"
+                                }
+                              },
+                              "oneOf": [
+                                {
+                                  "required": [
+                                    "value"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "answer_id"
+                                  ]
+                                }
+                              ]
+                            },
+                            "unit": {
+                              "$ref": "units.json#/unit"
+                            },
+                            "currency": {
+                              "$ref": "currencies.json#/currency"
+                            },
+                            "validation": {
+                              "type": "object",
+                              "properties": {
+                                "messages": {
+                                  "$ref": "#/definitions/messages"
+                                }
+                              }
+                            },
+                            "calculated": {
+                              "type": "boolean"
                             }
                           },
                           "additionalProperties": false,
                           "required": [
                             "id",
-                            "title",
                             "type",
-                            "answers"
+                            "mandatory"
                           ]
                         }
                       }
@@ -468,15 +624,17 @@
                     "additionalProperties": false,
                     "required": [
                       "id",
-                      "questions"
+                      "title",
+                      "type",
+                      "answers"
                     ]
                   }
                 },
                 "routing_rules": {
                   "ref": "#/definitions/routing_rules"
                 },
-                "skip_condition": {
-                  "$ref": "#/definitions/skip_condition"
+                "skip_conditions": {
+                  "$ref": "#/definitions/skip_conditions"
                 }
               },
               "additionalProperties": false,

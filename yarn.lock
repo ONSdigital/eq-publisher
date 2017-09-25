@@ -841,19 +841,19 @@ end-of-stream@^1.0.0:
   dependencies:
     once "^1.4.0"
 
-eq-author-graphql-schema@ONSdigital/eq-author-graphql-schema#16132f5:
+eq-author-graphql-schema@ONSDigital/eq-author-graphql-schema#16132f5:
   version "1.0.0"
-  resolved "https://codeload.github.com/ONSdigital/eq-author-graphql-schema/tar.gz/16132f5"
+  resolved "https://codeload.github.com/ONSDigital/eq-author-graphql-schema/tar.gz/16132f5"
 
-"eq-author-graphql-schema@https://github.com/ONSdigital/eq-author-graphql-schema.git":
+eq-author-graphql-schema@ONSdigital/eq-author-graphql-schema#b34dc52:
   version "1.0.0"
-  resolved "https://github.com/ONSdigital/eq-author-graphql-schema.git#766717f60e1efb38ee54d4643ef1d17828d3c5e6"
+  resolved "https://codeload.github.com/ONSdigital/eq-author-graphql-schema/tar.gz/b34dc52"
 
 eq-author-mock-api@ONSdigital/eq-author-mock-api:
   version "1.0.0"
-  resolved "https://codeload.github.com/ONSdigital/eq-author-mock-api/tar.gz/dc775047e8d19ba7558c13f9644a1ac67a44eaeb"
+  resolved "https://codeload.github.com/ONSdigital/eq-author-mock-api/tar.gz/4342f6a13f02d804be4577a0304592786c3e43b7"
   dependencies:
-    eq-author-graphql-schema "https://github.com/ONSdigital/eq-author-graphql-schema.git"
+    eq-author-graphql-schema ONSDigital/eq-author-graphql-schema#16132f5
     graphql "^0.10.5"
     graphql-tag "^2.4.2"
     graphql-tools "^1.1.0"
@@ -2567,17 +2567,13 @@ minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@0.0.8:
+minimist@0.0.8, minimist@~0.0.1:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
 minimist@^1.1.1, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
-
-minimist@~0.0.1:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
 "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.5.1"

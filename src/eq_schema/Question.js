@@ -4,7 +4,7 @@ class Question {
   constructor(question) {
     this.id = "question-" + question.id.toString();
     this.title = question.title;
-    this.type = question.type;
+    this.type = "General";
     this.answers = this.buildAnswers(question.answers);
   }
 

@@ -18,17 +18,12 @@ describe("Block", () => {
       id: "block-1",
       title: "Question 1",
       description: "This is quesstion 1",
-      sections: [
+      questions: [
         {
-          id: "section-1",
-          questions: [
-            {
-              id: "question-1",
-              title: "Question 1",
-              type: "General",
-              answers: []
-            }
-          ]
+          id: "question-1",
+          title: "Question 1",
+          type: "General",
+          answers: []
         }
       ]
     });
