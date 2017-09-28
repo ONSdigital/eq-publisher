@@ -27,7 +27,7 @@ const converter = new Convert(schemaValidator);
 
 const GraphQLApi = getGraphQLApi();
 
-app.get("/graphql/:questionnaireId(\\d+)", async (req, res, next) => {
+app.get("/graphql/:questionnaireId", async (req, res, next) => {
   try {
     const result = await GraphQLApi.getAuthorData(req.params.questionnaireId);
 
@@ -45,7 +45,7 @@ app.get("/graphql/:questionnaireId(\\d+)", async (req, res, next) => {
   }
 });
 
-app.get("/publish/:questionnaireId(\\d+)", async (req, res, next) => {
+app.get("/publish/:questionnaireId", async (req, res, next) => {
   try {
     const result = await GraphQLApi.getAuthorData(req.params.questionnaireId);
 

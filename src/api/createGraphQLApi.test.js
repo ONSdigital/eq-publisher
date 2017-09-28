@@ -47,7 +47,7 @@ describe("createGraphQLApi", () => {
 
   it("should allow passing in mocks to the mock Api", () => {
     const mocks = {
-      Int: () => 999,
+      ID: () => "999",
       String: () => "Mocked value"
     };
 
@@ -56,7 +56,7 @@ describe("createGraphQLApi", () => {
 
     return api.getAuthorData(1).then(result => {
       const questionnaire = result.data.questionnaire;
-      expect(questionnaire.id).toBe(999);
+      expect(questionnaire.id).toBe("999");
       expect(questionnaire.title).toBe("Mocked value");
     });
   });

@@ -11,7 +11,7 @@ class GraphQLApi {
   getAuthorData(questionnaireId) {
     return this.apolloClient.query({
       query: getQuestionnaire,
-      variables: { questionnaireId: questionnaireId },
+      variables: { questionnaireId: questionnaireId.toString(10) },
       fetchPolicy: "network-only"
     });
   }

@@ -1,7 +1,7 @@
 const gql = require("graphql-tag");
 
 exports.getQuestionnaire = gql`
-  query GetQuestionnaire($questionnaireId: Int!) {
+  query GetQuestionnaire($questionnaireId: ID!) {
     questionnaire(id: $questionnaireId) {
       id
       title

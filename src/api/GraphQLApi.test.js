@@ -19,17 +19,17 @@ describe("GraphQL Api", () => {
     });
 
     it("should call query on the client", () => {
-      api.getAuthorData(1);
+      api.getAuthorData("1");
 
       expect(mockClient.query).toHaveBeenCalled();
     });
 
     it("should pass questionnaire Id into query", () => {
-      api.getAuthorData(13);
+      api.getAuthorData("13");
 
       expect(mockClient.query).toBeCalledWith(
         expect.objectContaining({
-          variables: { questionnaireId: 13 }
+          variables: { questionnaireId: "13" }
         })
       );
     });
