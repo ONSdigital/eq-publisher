@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 const express = require("express");
 const app = express();
 
@@ -64,5 +62,5 @@ app.get("/publish/:questionnaireId", async (req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Listening on port", PORT);
+  console.log("Listening on port", PORT); // eslint-disable-line
 });

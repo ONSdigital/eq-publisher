@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "apollo-client": "^1.4.2",
+    "cheerio": "^1.0.0-rc.2",
     "commonjs-utils": "^0.1.1",
     "eq-author-graphql-schema": "ONSdigital/eq-author-graphql-schema#e5caa74",
     "eq-author-mock-api": "ONSdigital/eq-author-mock-api",
