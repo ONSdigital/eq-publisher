@@ -17,7 +17,7 @@ describe("Group", () => {
       options
     );
 
-  it("should should build valid runner Group from Author section", () => {
+  it("should build valid runner Group from Author section", () => {
     const group = new Group(createGroupJSON());
 
     expect(group).toMatchObject({
