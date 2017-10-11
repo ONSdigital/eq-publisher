@@ -25,9 +25,13 @@ describe("Questionnaire", () => {
       questionnaire
     );
 
-  it("should should build valid runner meta info", () => {
-    const questionnaire = new Questionnaire(createQuestionnaireJSON());
+  let questionnaire;
 
+  beforeEach(() => {
+    questionnaire = new Questionnaire(createQuestionnaireJSON());
+  });
+
+  it("should build valid runner meta info", () => {
     expect(questionnaire).toMatchObject({
       mime_type: "application/json/ons/eq",
       schema_version: "0.0.1",
@@ -46,5 +50,12 @@ describe("Questionnaire", () => {
     const finalPage = last(finalGroup.blocks);
 
     expect(finalPage).toBeInstanceOf(Summary);
+  });
+
+  it("should include form_type and eq_id", () => {
+    expect(questionnaire).toMatchObject({
+      eq_id: "1",
+      form_type: "1"
+    });
   });
 });
