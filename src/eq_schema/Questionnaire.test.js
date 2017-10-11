@@ -54,9 +54,10 @@ describe("Questionnaire", () => {
   });
 
   it("should include form_type and eq_id", () => {
+    const questionnaireId = authorJson.id;
     expect(questionnaire).toMatchObject({
-      eq_id: "1",
-      form_type: "1"
+      eq_id: questionnaireId,
+      form_type: questionnaireId
     });
   });
 });
