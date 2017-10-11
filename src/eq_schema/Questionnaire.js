@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 const Group = require("./Group");
+const Summary = require("./Summary");
+const { last } = require("lodash");
 
 class Questionnaire {
   constructor(authorJson) {
@@ -14,7 +16,9 @@ class Questionnaire {
   }
 
   buildGroups(sections) {
-    return sections.map(section => new Group(section));
+    const groups = sections.map(section => new Group(section));
+    last(groups).blocks.push(new Summary());
+    return groups;
   }
 }
 

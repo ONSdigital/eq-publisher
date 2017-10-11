@@ -1,9 +1,6 @@
 const ValidationError = require("./ValidationError");
 
-const includes = require("lodash").includes;
-
 describe("validation error", () => {
-
   it("should accept message", () => {
     const validationError = new ValidationError("message", null);
     expect(validationError.message).toEqual("message");
@@ -11,10 +8,12 @@ describe("validation error", () => {
 
   it("should accept a validation object", () => {
     const mockValidationObject = {
-      validationErrors: [{
-        error: "some error",
-        description: "some description"
-      }]
+      validationErrors: [
+        {
+          error: "some error",
+          description: "some description"
+        }
+      ]
     };
 
     const validationError = new ValidationError(null, mockValidationObject);
@@ -23,20 +22,22 @@ describe("validation error", () => {
   });
 
   it("should override toString", () => {
-
     const mockValidationObject = {
-      validationErrors: [{
-        error: "some error",
-        description: "some description"
-      }]
+      validationErrors: [
+        {
+          error: "some error",
+          description: "some description"
+        }
+      ]
     };
 
-    const validationError = new ValidationError("Error message", mockValidationObject);
+    const validationError = new ValidationError(
+      "Error message",
+      mockValidationObject
+    );
     const errorMessage = validationError.toString();
 
-    expect(includes(errorMessage, "Error message")).toBe(true);
-    expect(includes(errorMessage, JSON.stringify(mockValidationObject))).toBe(true);
-
+    expect(errorMessage).toContain("Error message");
+    expect(errorMessage).toContain(JSON.stringify(mockValidationObject));
   });
-
 });
