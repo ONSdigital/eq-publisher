@@ -1,10 +1,11 @@
 {
   "name": "eq-publisher",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/main.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/main.js",
+    "start": "nodemon",
+    "start:dev": "nodemon --inspect",
     "test": "jest",
     "lint": "eslint .",
     "precommit": "lint-staged"
