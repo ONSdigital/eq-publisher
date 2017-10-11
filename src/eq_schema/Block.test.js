@@ -2,7 +2,7 @@ const Block = require("./Block");
 const Question = require("./Question");
 
 describe("Block", () => {
-  const createBlockJSON = options =>
+  const createBlockJSON = block =>
     Object.assign(
       {
         id: 1,
@@ -12,15 +12,15 @@ describe("Block", () => {
         type: "General",
         answers: []
       },
-      options
+      block
     );
 
   it("should build valid runner Block from Author page", () => {
-    const block = new Block(createBlockJSON());
+    const block = new Block("section title", createBlockJSON());
 
     expect(block).toMatchObject({
       id: "block-1",
-      title: "Question 1",
+      title: "section title",
       description: "This is question 1",
       questions: [expect.any(Question)]
     });
@@ -28,15 +28,15 @@ describe("Block", () => {
 
   it("should handle HTML values", () => {
     const block = new Block(
+      "<p>section <em>title</em>",
       createBlockJSON({
-        title: "<p>Question <em>1</em></p>",
         description: "<p>This is <em><strong>question</strong> 1</em></p>"
       })
     );
 
     expect(block).toMatchObject({
       id: "block-1",
-      title: "Question <em>1</em>",
+      title: "section <em>title</em>",
       description: "This is <em><strong>question</strong> 1</em>",
       questions: [expect.any(Question)]
     });
@@ -44,13 +44,17 @@ describe("Block", () => {
 
   describe("conversion of page types", () => {
     it("should convert QuestionPage to Questionnaire", () => {
-      const block = new Block(createBlockJSON({ pageType: "QuestionPage" }));
+      const block = new Block(
+        "section title",
+        createBlockJSON({ pageType: "QuestionPage" })
+      );
 
       expect(block.type).toEqual("Questionnaire");
     });
 
     it("should convert InterstitialPage to Interstitial", () => {
       const block = new Block(
+        "section title",
         createBlockJSON({ pageType: "InterstitialPage" })
       );
 

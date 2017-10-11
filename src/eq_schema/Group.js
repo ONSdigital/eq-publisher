@@ -5,11 +5,11 @@ class Group {
   constructor(section) {
     this.id = `group-${section.id}`;
     this.title = getInnerHTML(section.title);
-    this.blocks = this.buildBlocks(section.pages);
+    this.blocks = this.buildBlocks(this.title, section.pages);
   }
 
-  buildBlocks(pages) {
-    return pages.map(page => new Block(page));
+  buildBlocks(title, pages) {
+    return pages.map(page => new Block(title, page));
   }
 }
 

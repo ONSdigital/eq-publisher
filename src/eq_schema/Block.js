@@ -3,9 +3,9 @@ const { get } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
 
 class Block {
-  constructor(page) {
+  constructor(title, page) {
     this.id = "block-" + page.id.toString();
-    this.title = getInnerHTML(page.title);
+    this.title = getInnerHTML(title);
     this.description = getInnerHTML(page.description);
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page);
