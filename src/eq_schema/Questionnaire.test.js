@@ -8,12 +8,13 @@ describe("Questionnaire", () => {
   const createQuestionnaireJSON = questionnaire =>
     Object.assign(
       {
-        id: 1,
+        id: "1",
         title: "Quarterly Business Survey",
         description: "Quarterly Business Survey",
         theme: "default",
         legalBasis: "StatisticsOfTradeAct",
         navigation: false,
+        surveyId: "0112",
         sections: [
           {
             id: "1",
@@ -36,7 +37,7 @@ describe("Questionnaire", () => {
       mime_type: "application/json/ons/eq",
       schema_version: "0.0.1",
       data_version: "0.0.1",
-      survey_id: "1",
+      survey_id: "0112",
       title: "Quarterly Business Survey",
       theme: "default",
       groups: [expect.any(Group)],
