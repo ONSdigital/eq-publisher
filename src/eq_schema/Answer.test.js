@@ -26,6 +26,11 @@ describe("Answer", () => {
     });
   });
 
+  it("should set currency to GBP for currency types", () => {
+    const answer = new Answer(createAnswerJSON({ type: "Currency" }));
+    expect(answer.currency).toBe("GBP");
+  });
+
   describe("converting options", () => {
     it("should not add options for basic answer types", () => {
       const answer = new Answer(createAnswerJSON());

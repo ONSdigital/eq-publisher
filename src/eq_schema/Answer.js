@@ -7,6 +7,10 @@ class Answer {
     this.type = answer.type;
     this.label = answer.label;
 
+    if (answer.type === "Currency") {
+      this.currency = "GBP";
+    }
+
     if (answer.hasOwnProperty("options")) {
       this.options = answer.options.map(this.buildOption);
     }
