@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+const morgan = require("morgan");
+
+app.use(morgan("tiny"));
+
 const { getGraphQLApi } = require("./api/createGraphQLApi");
 const Convert = require("./process/Convert");
 const SchemaValidator = require("./validation/SchemaValidator");
@@ -61,6 +65,6 @@ app.get("/publish/:questionnaireId", async (req, res, next) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("Listening on port", PORT); // eslint-disable-line
 });
