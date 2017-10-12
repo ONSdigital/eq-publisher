@@ -245,13 +245,11 @@
   "properties": {
     "eq_id": {
       "type": "string",
-      "description": "Used in combination with the form_type to uniquely identify a questionnaire.",
-      "required": "false"
+      "description": "Used in combination with the form_type to uniquely identify a questionnaire."
     },
     "form_type": {
       "type": "string",
-      "description": "Used in combination with the eq_id to uniquely identify a questionnaire.",
-      "required": "false"
+      "description": "Used in combination with the eq_id to uniquely identify a questionnaire."
     },
     "mime_type": {
       "type": "string"
