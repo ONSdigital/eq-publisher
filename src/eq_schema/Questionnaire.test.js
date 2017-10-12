@@ -54,7 +54,7 @@ describe("Questionnaire", () => {
   });
 
   it("should include form_type and eq_id", () => {
-    const questionnaireId = authorJson.id;
+    const questionnaireId = createQuestionnaireJSON().id;
     expect(questionnaire).toMatchObject({
       eq_id: questionnaireId,
       form_type: questionnaireId
