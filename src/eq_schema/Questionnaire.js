@@ -16,12 +16,27 @@ class Questionnaire {
     this.groups = this.buildGroups(authorJson.sections);
     this.theme = authorJson.theme;
     this.legal_basis = authorJson.legalBasis;
+    this.navigation = this.buildNavigation(
+      authorJson.navigation,
+      authorJson.sections
+    );
   }
 
   buildGroups(sections) {
     const groups = sections.map(section => new Group(section));
     last(groups).blocks.push(new Summary());
     return groups;
+  }
+
+  buildNavigation(visible, sections) {
+    return {
+      visible,
+      sections: sections.map(section => {
+        return {
+          title: section.title
+        };
+      })
+    };
   }
 }
 

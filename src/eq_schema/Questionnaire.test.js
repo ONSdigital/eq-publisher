@@ -60,4 +60,38 @@ describe("Questionnaire", () => {
       form_type: questionnaireId
     });
   });
+
+  it("should build navigation", () => {
+    const questionnaire = new Questionnaire(
+      createQuestionnaireJSON({
+        navigation: true,
+        sections: [
+          {
+            id: "2",
+            title: "Section number 2",
+            pages: []
+          },
+          {
+            id: "3",
+            title: "Section number 3",
+            pages: []
+          }
+        ]
+      })
+    );
+
+    expect(questionnaire).toMatchObject({
+      navigation: {
+        visible: true,
+        sections: [
+          {
+            title: "Section number 2"
+          },
+          {
+            title: "Section number 3"
+          }
+        ]
+      }
+    });
+  });
 });
