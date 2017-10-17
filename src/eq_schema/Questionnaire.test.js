@@ -85,10 +85,12 @@ describe("Questionnaire", () => {
         visible: true,
         sections: [
           {
-            title: "Section number 2"
+            title: "Section number 2",
+            group_order: ["group-2"]
           },
           {
-            title: "Section number 3"
+            title: "Section number 3",
+            group_order: ["group-3"]
           }
         ]
       }
@@ -102,12 +104,12 @@ describe("Questionnaire", () => {
         sections: [
           {
             id: "2",
-            title: "<p>Section number 2</p>",
+            title: "<p>Section <em>number</em> 2</p>",
             pages: []
           },
           {
             id: "3",
-            title: "<p>Section number 3</p>",
+            title: "<p>Section <em>number</em> 3</p>",
             pages: []
           }
         ]
@@ -123,40 +125,6 @@ describe("Questionnaire", () => {
           },
           {
             title: "Section number 3"
-          }
-        ]
-      }
-    });
-  });
-
-  it("should add group Id to the group order array", () => {
-    const questionnaire = new Questionnaire(
-      createQuestionnaireJSON({
-        navigation: true,
-        sections: [
-          {
-            id: "2",
-            title: "<p>Section number 2</p>",
-            pages: []
-          },
-          {
-            id: "3",
-            title: "<p>Section number 3</p>",
-            pages: []
-          }
-        ]
-      })
-    );
-
-    expect(questionnaire).toMatchObject({
-      navigation: {
-        visible: true,
-        sections: [
-          {
-            group_order: ["group-2"]
-          },
-          {
-            group_order: ["group-3"]
           }
         ]
       }

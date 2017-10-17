@@ -2,7 +2,7 @@
 const Group = require("./Group");
 const Summary = require("./Summary");
 const { last } = require("lodash");
-const { getInnerHTML } = require("../utils/HTMLUtils");
+const { getText } = require("../utils/HTMLUtils");
 
 class Questionnaire {
   constructor(authorJson) {
@@ -34,7 +34,7 @@ class Questionnaire {
       visible,
       sections: sections.map(section => {
         return {
-          title: getInnerHTML(section.title),
+          title: getText(section.title),
           group_order: [`group-${section.id}`]
         };
       })
