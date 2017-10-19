@@ -4,6 +4,8 @@ const isPlainText = elem => typeof elem === "string" && !elem.startsWith("<");
 
 const getInnerHTML = elem => (isPlainText(elem) ? elem : cheerio(elem).html());
 
+const getText = elem => (isPlainText(elem) ? elem : cheerio(elem).text());
+
 const description = elem => ({ description: getInnerHTML(elem) });
 
 const title = elem => ({ title: getInnerHTML(elem) });
@@ -38,5 +40,6 @@ const parseGuidance = html => {
 
 module.exports = {
   getInnerHTML,
+  getText,
   parseGuidance
 };

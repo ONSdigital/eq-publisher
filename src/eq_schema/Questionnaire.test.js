@@ -60,4 +60,74 @@ describe("Questionnaire", () => {
       form_type: questionnaireId
     });
   });
+
+  it("should build navigation", () => {
+    const questionnaire = new Questionnaire(
+      createQuestionnaireJSON({
+        navigation: true,
+        sections: [
+          {
+            id: "2",
+            title: "Section number 2",
+            pages: []
+          },
+          {
+            id: "3",
+            title: "Section number 3",
+            pages: []
+          }
+        ]
+      })
+    );
+
+    expect(questionnaire).toMatchObject({
+      navigation: {
+        visible: true,
+        sections: [
+          {
+            title: "Section number 2",
+            group_order: ["group-2"]
+          },
+          {
+            title: "Section number 3",
+            group_order: ["group-3"]
+          }
+        ]
+      }
+    });
+  });
+
+  it("should strip out HTML from navigation sections", () => {
+    const questionnaire = new Questionnaire(
+      createQuestionnaireJSON({
+        navigation: true,
+        sections: [
+          {
+            id: "2",
+            title: "<p>Section <em>number</em> 2</p>",
+            pages: []
+          },
+          {
+            id: "3",
+            title: "<p>Section <em>number</em> 3</p>",
+            pages: []
+          }
+        ]
+      })
+    );
+
+    expect(questionnaire).toMatchObject({
+      navigation: {
+        visible: true,
+        sections: [
+          {
+            title: "Section number 2"
+          },
+          {
+            title: "Section number 3"
+          }
+        ]
+      }
+    });
+  });
 });

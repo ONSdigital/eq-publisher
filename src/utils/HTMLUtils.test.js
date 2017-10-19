@@ -1,4 +1,4 @@
-const { getInnerHTML, parseGuidance } = require("./HTMLUtils");
+const { getInnerHTML, getText, parseGuidance } = require("./HTMLUtils");
 
 describe("HTMLUtils", () => {
   describe("getInnerHTML", () => {
@@ -8,6 +8,16 @@ describe("HTMLUtils", () => {
 
     it("should return plain-text untouched", () => {
       expect(getInnerHTML("foo bar")).toBe("foo bar");
+    });
+  });
+
+  describe("getText", () => {
+    it("should return the input if plain text passed in", () => {
+      expect(getText("Lorem ipsum")).toEqual("Lorem ipsum");
+    });
+
+    it("should return the plain text if HTML is passed in", () => {
+      expect(getText("<p>Lorem <em>ipsum</em></p>")).toEqual("Lorem ipsum");
     });
   });
 
