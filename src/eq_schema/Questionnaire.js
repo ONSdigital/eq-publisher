@@ -5,10 +5,13 @@ const { last } = require("lodash");
 
 class Questionnaire {
   constructor(authorJson) {
+    const questionnaireId = authorJson.id;
+    this.eq_id = questionnaireId;
+    this.form_type = questionnaireId;
     this.mime_type = "application/json/ons/eq";
     this.schema_version = "0.0.1";
     this.data_version = "0.0.1";
-    this.survey_id = authorJson.id.toString();
+    this.survey_id = authorJson.surveyId;
     this.title = authorJson.title;
     this.groups = this.buildGroups(authorJson.sections);
     this.theme = authorJson.theme;

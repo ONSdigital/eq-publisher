@@ -9,6 +9,7 @@ exports.getQuestionnaire = gql`
       theme
       legalBasis
       navigation
+      surveyId
       sections {
         id
         title
