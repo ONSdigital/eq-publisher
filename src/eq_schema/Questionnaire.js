@@ -11,7 +11,7 @@ class Questionnaire {
     this.form_type = questionnaireId;
     this.mime_type = "application/json/ons/eq";
     this.schema_version = "0.0.1";
-    this.data_version = "0.0.1";
+    this.data_version = "0.0.2";
     this.survey_id = authorJson.surveyId;
     this.title = authorJson.title;
     this.groups = this.buildGroups(authorJson.sections);
