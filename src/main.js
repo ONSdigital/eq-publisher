@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 
-const morgan = require("morgan");
+const pino = require("express-pino-logger")();
 
-app.use(morgan("tiny"));
+app.use(pino);
 
 const { getGraphQLApi } = require("./api/createGraphQLApi");
 const Convert = require("./process/Convert");
@@ -39,6 +39,7 @@ app.get("/graphql/:questionnaireId", async (req, res, next) => {
 
     res.json(result);
   } catch (err) {
+    req.log.error(err);
     res.json({
       result: "error",
       message: err.message,
@@ -57,6 +58,7 @@ app.get("/publish/:questionnaireId", async (req, res, next) => {
 
     res.json(converter.convert(result.data));
   } catch (err) {
+    req.log.error(err);
     res.json({
       result: "error",
       message: err.message,
