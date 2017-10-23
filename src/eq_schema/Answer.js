@@ -6,6 +6,7 @@ class Answer {
     this.mandatory = answer.mandatory;
     this.type = answer.type;
     this.label = answer.label;
+    this.description = answer.description;
 
     if (answer.type === "Currency") {
       this.currency = "GBP";

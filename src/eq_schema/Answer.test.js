@@ -6,7 +6,7 @@ describe("Answer", () => {
     Object.assign(
       {
         id: 1,
-        description: null,
+        description: "This is a description",
         guidance: null,
         qCode: "51",
         label: "Number of male employees working more than 30 hours per week",
@@ -22,7 +22,8 @@ describe("Answer", () => {
     expect(answer).toMatchObject({
       id: "answer-1",
       type: "PositiveInteger",
-      mandatory: false
+      mandatory: false,
+      description: "This is a description"
     });
   });
 
