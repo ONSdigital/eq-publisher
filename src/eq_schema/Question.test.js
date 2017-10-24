@@ -56,4 +56,43 @@ describe("Question", () => {
       });
     });
   });
+
+  describe("DateRange", () => {
+    it("should convert Author DateRange to Runner-compatible format", () => {
+      const answers = [{ type: "DateRange", id: "1" }];
+      const question = new Question(createQuestionJSON({ answers }));
+
+      expect(question).toMatchObject({
+        type: "DateRange",
+        answers: [
+          {
+            label: "Period from",
+            type: "Date",
+            id: "answer-1-from",
+            mandatory: true
+          },
+          {
+            label: "Period to",
+            type: "Date",
+            id: "answer-1-to",
+            mandatory: true
+          }
+        ]
+      });
+    });
+
+    it("discards any other answers if DateRange used", () => {
+      const answers = [
+        { type: "DateRange", id: "1" },
+        { type: "TextField", id: "2" }
+      ];
+      const question = new Question(createQuestionJSON({ answers }));
+
+      expect(question.answers).not.toContainEqual(
+        expect.objectContaining({
+          type: "TextField"
+        })
+      );
+    });
+  });
 });
