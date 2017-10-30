@@ -34,7 +34,7 @@ describe("Convert", () => {
 
       const result = await graphQLApi.getAuthorData(2);
       const convert = new Convert(mockSchemaValidator);
-      convert.convert(result.data);
+      convert.convert(result.data.questionnaire);
 
       expect(mockSchemaValidator.validate).toBeCalled();
     });
@@ -50,7 +50,7 @@ describe("Convert", () => {
 
       const result = await graphQLApi.getAuthorData(1);
 
-      expect(() => convert.convert(result.data)).toThrow();
+      expect(() => convert.convert(result.data.questionnaire)).toThrow();
     });
   });
 });

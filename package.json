@@ -24,12 +24,12 @@
     "eq-author-mock-api": "ONSdigital/eq-author-mock-api",
     "eslint-config-eq-author": "^1.0.2",
     "express": "^4.15.3",
+    "express-pino-logger": "^2.0.0",
     "graphql-tag": "^2.4.0",
     "graphql-tools": "^1.1.0",
     "json-schema": "^0.2.3",
     "jsonschema": "^1.1.1",
     "lodash": "^4.17.4",
-    "morgan": "^1.9.0",
     "node-fetch": "^1.7.1",
     "nodemon": "^1.11.0",
     "uuid": "^3.0.1"
@@ -49,6 +49,9 @@
   },
   "jest": {
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
   }
 }

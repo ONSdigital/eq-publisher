@@ -10,7 +10,7 @@ class Convert {
   }
 
   convert(authorJson) {
-    const output = new Questionnaire(authorJson.questionnaire);
+    const output = new Questionnaire(authorJson);
     const validation = this.schemaValidator.validate(output);
 
     if (!validation.valid) {
