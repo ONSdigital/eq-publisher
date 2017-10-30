@@ -15,7 +15,9 @@ const GraphQLApi = getGraphQLApi();
 const app = express();
 app.use(pino());
 
-app.get("/graphql/:questionnaireId", fetchData(GraphQLApi), respondWithData);
+if (process.env.NODE_ENV === "development") {
+  app.get("/graphql/:questionnaireId", fetchData(GraphQLApi), respondWithData);
+}
 
 app.get(
   "/publish/:questionnaireId",
