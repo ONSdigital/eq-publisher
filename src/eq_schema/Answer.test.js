@@ -21,6 +21,7 @@ describe("Answer", () => {
 
     expect(answer).toMatchObject({
       id: "answer-1",
+      alias: "answer-1",
       type: "PositiveInteger",
       mandatory: false,
       description: "This is a description"
