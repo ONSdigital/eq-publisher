@@ -518,6 +518,9 @@
                                   "value": {
                                     "type": "string"
                                   },
+                                  "description": {
+                                    "type": "string"
+                                  },
                                   "q_code": {
                                     "$ref": "#/definitions/q_code"
                                   },
