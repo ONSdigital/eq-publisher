@@ -130,4 +130,11 @@ describe("Questionnaire", () => {
       }
     });
   });
+
+  it("should use the questionnaire Id in the absence of surveyId", () => {
+    const questionnaireJson = createQuestionnaireJSON();
+    delete questionnaireJson.surveyId;
+    questionnaire = new Questionnaire(questionnaireJson);
+    expect(questionnaire.survey_id).toEqual(questionnaireJson.id);
+  });
 });
