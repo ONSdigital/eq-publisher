@@ -1,32 +1,38 @@
 /* eslint-disable camelcase */
 const Group = require("./Group");
-const Summary = require("./Summary");
+const Summary = require("./block-types/Summary");
+const Confirmation = require("./block-types/Confirmation");
 const { last } = require("lodash");
 const { getText } = require("../utils/HTMLUtils");
 
 class Questionnaire {
-  constructor(authorJson) {
-    const questionnaireId = authorJson.id;
+  constructor(questionnaireJson) {
+    const questionnaireId = questionnaireJson.id;
     this.eq_id = questionnaireId;
     this.form_type = questionnaireId;
     this.mime_type = "application/json/ons/eq";
     this.schema_version = "0.0.1";
     this.data_version = "0.0.2";
-    this.survey_id = authorJson.surveyId || questionnaireId;
-    this.title = authorJson.title;
-    this.groups = this.buildGroups(authorJson.sections);
-    this.theme = authorJson.theme;
-    this.legal_basis = authorJson.legalBasis;
+    this.survey_id = questionnaireJson.surveyId || questionnaireId;
+    this.title = questionnaireJson.title;
+    this.groups = this.buildGroups(questionnaireJson.sections);
+    this.theme = questionnaireJson.theme;
+    this.legal_basis = questionnaireJson.legalBasis;
     this.navigation = this.buildNavigation(
-      authorJson.navigation,
-      authorJson.sections
+      questionnaireJson.navigation,
+      questionnaireJson.sections
     );
+
+    this.buildSummaryOrConfirmation(questionnaireJson.summary);
   }
 
   buildGroups(sections) {
-    const groups = sections.map(section => new Group(section));
-    last(groups).blocks.push(new Summary());
-    return groups;
+    return sections.map(section => new Group(section));
+  }
+
+  buildSummaryOrConfirmation(summary) {
+    const finalPage = summary ? new Summary() : new Confirmation();
+    last(this.groups).blocks.push(finalPage);
   }
 
   buildNavigation(visible, sections) {

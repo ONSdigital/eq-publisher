@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const Questionnaire = require("./Questionnaire");
-const Summary = require("./Summary");
+const Summary = require("./block-types/Summary");
 const Group = require("./Group");
 const { last } = require("lodash");
 
@@ -15,6 +15,7 @@ describe("Questionnaire", () => {
         legalBasis: "StatisticsOfTradeAct",
         navigation: false,
         surveyId: "0112",
+        summary: true,
         sections: [
           {
             id: "1",
@@ -136,5 +137,21 @@ describe("Questionnaire", () => {
     delete questionnaireJson.surveyId;
     questionnaire = new Questionnaire(questionnaireJson);
     expect(questionnaire.survey_id).toEqual(questionnaireJson.id);
+  });
+
+  it("should add a summary page if toggled on", () => {
+    const questionnaire = new Questionnaire(
+      createQuestionnaireJSON({ summary: true })
+    );
+    expect(last(last(questionnaire.groups).blocks).type).toEqual("Summary");
+  });
+
+  it("should add a confirmation page if summary is toggled off", () => {
+    const questionnaire = new Questionnaire(
+      createQuestionnaireJSON({ summary: false })
+    );
+    expect(last(last(questionnaire.groups).blocks).type).toEqual(
+      "Confirmation"
+    );
   });
 });
