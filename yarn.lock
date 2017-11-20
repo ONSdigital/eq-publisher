@@ -919,9 +919,9 @@ entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
-eq-author-graphql-schema@ONSdigital/eq-author-graphql-schema#a3c5b69:
-  version "0.1.1"
-  resolved "https://codeload.github.com/ONSdigital/eq-author-graphql-schema/tar.gz/a3c5b6982d2ec4c57f1ea6311bae7f8e35f12c8e"
+eq-author-graphql-schema@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/eq-author-graphql-schema/-/eq-author-graphql-schema-0.3.0.tgz#6821c3785275c29a7e358abde42305c5dda26930"
 
 eq-author-mock-api@ONSdigital/eq-author-mock-api:
   version "1.0.0"

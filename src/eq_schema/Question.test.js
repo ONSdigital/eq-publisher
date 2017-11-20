@@ -95,4 +95,33 @@ describe("Question", () => {
       );
     });
   });
+
+  describe("piping", () => {
+    const createPipe = (
+      { id = "123", type = "TextField", text = "foo" } = {}
+    ) =>
+      `<span data-pipe="answers" data-id="${id}" data-type="${type}">${text}</span>`;
+
+    it("should handle piped values in title", () => {
+      const question = new Question(
+        createQuestionJSON({
+          title: createPipe()
+        })
+      );
+
+      expect(question.title).toEqual("{{answers.answer-123}}");
+    });
+
+    it("should handle piped values in guidance", () => {
+      const question = new Question(
+        createQuestionJSON({
+          guidance: `<h2>${createPipe()}</h2>`
+        })
+      );
+
+      expect(question.guidance.content[0]).toEqual({
+        title: "{{answers.answer-123}}"
+      });
+    });
+  });
 });

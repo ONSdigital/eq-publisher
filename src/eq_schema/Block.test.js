@@ -61,4 +61,20 @@ describe("Block", () => {
       expect(block.type).toEqual("Interstitial");
     });
   });
+
+  describe("piping", () => {
+    const createPipe = (
+      { id = "123", type = "TextField", text = "foo" } = {}
+    ) =>
+      `<span data-pipe="answers" data-id="${id}" data-type="${type}">${text}</span>`;
+
+    it("should handle piped values in description", () => {
+      const block = new Block(
+        "section title",
+        createBlockJSON({ description: `<p>${createPipe()}</p>` })
+      );
+
+      expect(block.description).toEqual("{{answers.answer-123}}");
+    });
+  });
 });

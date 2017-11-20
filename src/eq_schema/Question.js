@@ -1,14 +1,18 @@
 const Answer = require("./Answer");
 const { getInnerHTML, parseGuidance } = require("../utils/HTMLUtils");
-const { find } = require("lodash");
+const { find, get, flow } = require("lodash/fp");
+const convertPipes = require("../utils/convertPipes");
 
-const findDateRange = question => find(question.answers, { type: "DateRange" });
+const findDateRange = flow(get("answers"), find({ type: "DateRange" }));
+
+const processTitle = flow(convertPipes, getInnerHTML);
+const processGuidance = flow(convertPipes, parseGuidance);
 
 class Question {
   constructor(question) {
-    this.id = "question-" + question.id.toString();
-    this.title = getInnerHTML(question.title);
-    this.guidance = parseGuidance(question.guidance);
+    this.id = "question-" + question.id;
+    this.title = processTitle(question.title);
+    this.guidance = processGuidance(question.guidance);
 
     const dateRange = findDateRange(question);
 

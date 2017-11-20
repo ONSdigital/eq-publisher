@@ -1,12 +1,18 @@
 const Question = require("./Question");
 const { get } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
+const convertPipes = require("../utils/convertPipes");
+
+const pageTypeMappings = {
+  QuestionPage: "Questionnaire",
+  InterstitialPage: "Interstitial"
+};
 
 class Block {
   constructor(title, page) {
     this.id = "block-" + page.id.toString();
     this.title = getInnerHTML(title);
-    this.description = getInnerHTML(page.description);
+    this.description = getInnerHTML(convertPipes(page.description));
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page);
   }
@@ -16,12 +22,7 @@ class Block {
   }
 
   convertPageType(type) {
-    const mappings = {
-      QuestionPage: "Questionnaire",
-      InterstitialPage: "Interstitial"
-    };
-
-    return get(mappings, type, type);
+    return get(pageTypeMappings, type, type);
   }
 }
 
