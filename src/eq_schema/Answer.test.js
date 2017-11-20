@@ -47,12 +47,14 @@ describe("Answer", () => {
             {
               id: 1,
               label: "Option one",
-              childAnswerId: "foo"
+              childAnswerId: "foo",
+              description: "A short description"
             },
             {
               id: 2,
               label: "Option two",
-              childAnswerId: "bar"
+              childAnswerId: "bar",
+              description: "Another description"
             }
           ]
         })
@@ -62,12 +64,14 @@ describe("Answer", () => {
         {
           label: "Option one",
           value: "Option one",
-          child_answer_id: "foo"
+          child_answer_id: "foo",
+          description: "A short description"
         },
         {
           label: "Option two",
           value: "Option two",
-          child_answer_id: "bar"
+          child_answer_id: "bar",
+          description: "Another description"
         }
       ]);
     });

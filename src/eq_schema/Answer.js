@@ -17,10 +17,11 @@ class Answer {
     }
   }
 
-  buildOption({ label, childAnswerId }) {
+  buildOption({ label, childAnswerId, description }) {
     const option = {
       label,
-      value: label
+      value: label,
+      description
     };
 
     if (childAnswerId) {
