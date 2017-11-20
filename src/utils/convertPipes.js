@@ -23,6 +23,10 @@ const parseHTML = (html = "") => {
 };
 
 const convertPipes = html => {
+  if (!html) {
+    return html;
+  }
+
   const $ = parseHTML(html);
 
   $.find("[data-pipe]").each((i, elem) => {
