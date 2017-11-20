@@ -8,6 +8,14 @@ describe("convertPipes", () => {
     expect(convertPipes("")).toEqual("");
   });
 
+  it("should handle null values", () => {
+    expect(convertPipes(null)).toBeNull();
+  });
+
+  it("should handle undefined values", () => {
+    expect(convertPipes()).toBeUndefined();
+  });
+
   it("should handle empty html tags", () => {
     expect(convertPipes("<p></p>")).toEqual("<p></p>");
   });
