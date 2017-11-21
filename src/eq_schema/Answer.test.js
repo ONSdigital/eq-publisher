@@ -103,4 +103,39 @@ describe("Answer", () => {
       expect(answer.options).toEqual([]);
     });
   });
+
+  it("should omit option description if null value provided", () => {
+    const answer = new Answer(
+      createAnswerJSON({
+        type: "Radio",
+        options: [
+          {
+            id: 1,
+            label: "Option one",
+            childAnswerId: "foo",
+            description: null
+          },
+          {
+            id: 2,
+            label: "Option two",
+            childAnswerId: "bar",
+            description: null
+          }
+        ]
+      })
+    );
+
+    expect(answer.options).toEqual([
+      {
+        label: "Option one",
+        value: "Option one",
+        child_answer_id: "foo"
+      },
+      {
+        label: "Option two",
+        value: "Option two",
+        child_answer_id: "bar"
+      }
+    ]);
+  });
 });

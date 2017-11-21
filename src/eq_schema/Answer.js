@@ -20,9 +20,12 @@ class Answer {
   buildOption({ label, childAnswerId, description }) {
     const option = {
       label,
-      value: label,
-      description
+      value: label
     };
+
+    if (description) {
+      option.description = description;
+    }
 
     if (childAnswerId) {
       option.child_answer_id = childAnswerId;
