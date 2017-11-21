@@ -10,6 +10,7 @@ exports.getQuestionnaire = gql`
       legalBasis
       navigation
       surveyId
+      summary
       sections {
         id
         title
