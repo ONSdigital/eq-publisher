@@ -123,5 +123,15 @@ describe("Question", () => {
         title: "{{answers.answer-123}}"
       });
     });
+
+    it("should handle piped values in description", () => {
+      const question = new Question(
+        createQuestionJSON({
+          description: `<h2>${createPipe()}</h2>`
+        })
+      );
+
+      expect(question.description).toEqual("{{answers.answer-123}}");
+    });
   });
 });
