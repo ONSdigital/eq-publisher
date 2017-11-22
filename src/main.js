@@ -29,8 +29,7 @@ app.get(
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 9000;
-const HOSTNAME = process.env.HOSTNAME || "0.0.0.0";
 
-app.listen(PORT, HOSTNAME, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("Listening on port", PORT); // eslint-disable-line
 });
