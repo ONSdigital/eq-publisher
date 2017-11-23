@@ -5,14 +5,15 @@ const convertPipes = require("../utils/convertPipes");
 
 const findDateRange = flow(get("answers"), find({ type: "DateRange" }));
 
-const processTitle = flow(convertPipes, getInnerHTML);
+const processPipedText = flow(convertPipes, getInnerHTML);
 const processGuidance = flow(convertPipes, parseGuidance);
 
 class Question {
   constructor(question) {
     this.id = "question-" + question.id;
-    this.title = processTitle(question.title);
+    this.title = processPipedText(question.title);
     this.guidance = processGuidance(question.guidance);
+    this.description = processPipedText(question.description);
 
     const dateRange = findDateRange(question);
 

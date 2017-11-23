@@ -7,7 +7,6 @@ describe("Block", () => {
       {
         id: 1,
         title: "Question 1",
-        description: "This is question 1",
         pageType: "Question",
         type: "General",
         answers: []
@@ -16,12 +15,16 @@ describe("Block", () => {
     );
 
   it("should build valid runner Block from Author page", () => {
-    const block = new Block("section title", createBlockJSON());
+    const block = new Block(
+      "section title",
+      "section description",
+      createBlockJSON()
+    );
 
     expect(block).toMatchObject({
       id: "block-1",
       title: "section title",
-      description: "This is question 1",
+      description: "section description",
       questions: [expect.any(Question)]
     });
   });
@@ -29,15 +32,14 @@ describe("Block", () => {
   it("should handle HTML values", () => {
     const block = new Block(
       "<p>section <em>title</em>",
-      createBlockJSON({
-        description: "<p>This is <em><strong>question</strong> 1</em></p>"
-      })
+      "<p>section <strong>description</strong></p>",
+      createBlockJSON()
     );
 
     expect(block).toMatchObject({
       id: "block-1",
       title: "section <em>title</em>",
-      description: "This is <em><strong>question</strong> 1</em>",
+      description: "section <strong>description</strong>",
       questions: [expect.any(Question)]
     });
   });
@@ -46,6 +48,7 @@ describe("Block", () => {
     it("should convert QuestionPage to Questionnaire", () => {
       const block = new Block(
         "section title",
+        "section description",
         createBlockJSON({ pageType: "QuestionPage" })
       );
 
@@ -55,26 +58,11 @@ describe("Block", () => {
     it("should convert InterstitialPage to Interstitial", () => {
       const block = new Block(
         "section title",
+        "section description",
         createBlockJSON({ pageType: "InterstitialPage" })
       );
 
       expect(block.type).toEqual("Interstitial");
-    });
-  });
-
-  describe("piping", () => {
-    const createPipe = (
-      { id = "123", type = "TextField", text = "foo" } = {}
-    ) =>
-      `<span data-pipe="answers" data-id="${id}" data-type="${type}">${text}</span>`;
-
-    it("should handle piped values in description", () => {
-      const block = new Block(
-        "section title",
-        createBlockJSON({ description: `<p>${createPipe()}</p>` })
-      );
-
-      expect(block.description).toEqual("{{answers.answer-123}}");
     });
   });
 });

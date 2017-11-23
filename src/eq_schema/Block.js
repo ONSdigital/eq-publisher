@@ -1,7 +1,6 @@
 const Question = require("./Question");
 const { get } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
-const convertPipes = require("../utils/convertPipes");
 
 const pageTypeMappings = {
   QuestionPage: "Questionnaire",
@@ -9,10 +8,10 @@ const pageTypeMappings = {
 };
 
 class Block {
-  constructor(title, page) {
+  constructor(title, description, page) {
     this.id = "block-" + page.id.toString();
     this.title = getInnerHTML(title);
-    this.description = getInnerHTML(convertPipes(page.description));
+    this.description = getInnerHTML(description);
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page);
   }
