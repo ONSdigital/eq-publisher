@@ -7,9 +7,9 @@ const filterMap = {
 };
 
 const convertElementToPipe = $elem => {
-  const { pipe, id, type } = $elem.data();
+  const { piped, id, type } = $elem.data();
   const filter = filterMap[type];
-  let inner = `${pipe}.answer-${id}`;
+  let inner = `${piped}.answer_${id}`;
 
   if (filter) {
     inner += `|${filter}`;
@@ -29,7 +29,7 @@ const convertPipes = html => {
 
   const $ = parseHTML(html);
 
-  $.find("[data-pipe]").each((i, elem) => {
+  $.find("[data-piped]").each((i, elem) => {
     const $elem = cheerio(elem);
     $elem.replaceWith(convertElementToPipe($elem));
   });

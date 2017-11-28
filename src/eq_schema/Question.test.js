@@ -100,7 +100,7 @@ describe("Question", () => {
     const createPipe = (
       { id = "123", type = "TextField", text = "foo" } = {}
     ) =>
-      `<span data-pipe="answers" data-id="${id}" data-type="${type}">${text}</span>`;
+      `<span data-piped="answers" data-id="${id}" data-type="${type}">${text}</span>`;
 
     it("should handle piped values in title", () => {
       const question = new Question(
@@ -109,7 +109,7 @@ describe("Question", () => {
         })
       );
 
-      expect(question.title).toEqual("{{answers.answer-123}}");
+      expect(question.title).toEqual("{{answers.answer_123}}");
     });
 
     it("should handle piped values in guidance", () => {
@@ -120,7 +120,7 @@ describe("Question", () => {
       );
 
       expect(question.guidance.content[0]).toEqual({
-        title: "{{answers.answer-123}}"
+        title: "{{answers.answer_123}}"
       });
     });
 
@@ -131,7 +131,7 @@ describe("Question", () => {
         })
       );
 
-      expect(question.description).toEqual("{{answers.answer-123}}");
+      expect(question.description).toEqual("{{answers.answer_123}}");
     });
   });
 });

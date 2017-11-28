@@ -2,7 +2,8 @@
 
 class Answer {
   constructor(answer) {
-    this.id = this.alias = "answer-" + answer.id;
+    this.id = `answer-${answer.id}`;
+    this.alias = `answer_${answer.id}`;
     this.mandatory = answer.mandatory;
     this.type = answer.type;
     this.label = answer.label;
