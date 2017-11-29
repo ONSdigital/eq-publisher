@@ -1,4 +1,4 @@
-FROM node:7
+FROM node:8
 MAINTAINER eq.team@ons.gov.uk
 
 EXPOSE 9000
