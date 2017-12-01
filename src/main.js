@@ -4,6 +4,7 @@ const errorHandler = require("./middleware/errorHandler");
 const fetchData = require("./middleware/fetchData");
 const schemaConverter = require("./middleware/schemaConverter");
 const respondWithData = require("./middleware/respondWithData");
+const status = require("./middleware/status");
 
 const Convert = require("./process/Convert");
 const createSchemaValidator = require("./validation/createSchemaValidator");
@@ -25,6 +26,8 @@ app.get(
   schemaConverter(converter),
   respondWithData
 );
+
+app.get("/status", status);
 
 app.use(errorHandler);
 
