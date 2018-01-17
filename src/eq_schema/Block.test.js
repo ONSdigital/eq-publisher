@@ -52,7 +52,7 @@ describe("Block", () => {
         createBlockJSON({ pageType: "QuestionPage" })
       );
 
-      expect(block.type).toEqual("Questionnaire");
+      expect(block.type).toEqual("Question");
     });
 
     it("should convert InterstitialPage to Interstitial", () => {

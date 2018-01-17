@@ -376,7 +376,7 @@
                 },
                 "type": {
                   "enum": [
-                    "Questionnaire",
+                    "Question",
                     "Interstitial",
                     "Introduction",
                     "Summary",

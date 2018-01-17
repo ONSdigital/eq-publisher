@@ -121,7 +121,7 @@
           "type": "General"
         }],
         "title": "Quarterly Business Survey",
-        "type": "Questionnaire"
+        "type": "Question"
       },
       {
         "type": "Summary",
