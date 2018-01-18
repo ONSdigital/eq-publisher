@@ -3,7 +3,7 @@ const { get } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
 
 const pageTypeMappings = {
-  QuestionPage: "Questionnaire",
+  QuestionPage: "Question",
   InterstitialPage: "Interstitial"
 };
 
