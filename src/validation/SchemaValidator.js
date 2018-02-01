@@ -1,16 +1,34 @@
-const Validator = require("jsonschema").Validator;
+const request = require("request-promise");
+const ValidationError = require("./ValidationError");
+const { isEmpty } = require("lodash");
+
+const EQ_SCHEMA_VALIDATOR_URL = "http://localhost:32770/validate";
 
 class SchemaValidator {
-  constructor(mainSchema, childSchemas = []) {
-    this.mainSchema = mainSchema;
-    this.validator = new Validator();
-    childSchemas.forEach(s => {
-      this.validator.addSchema(s.schema, s.uri);
-    });
-  }
+  async validate(json) {
+    if (!json || json === undefined) {
+      throw new ValidationError("Invalid JSON schema");
+    }
 
-  validate(json) {
-    return this.validator.validate(json, this.mainSchema);
+    const result = {
+      valid: true
+    };
+
+    try {
+      const res = await request.post(EQ_SCHEMA_VALIDATOR_URL, {
+        body: json,
+        json: true
+      });
+
+      if (!isEmpty(res)) {
+        result.valid = false;
+        result.errors = res.errors;
+      }
+
+      return result;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 

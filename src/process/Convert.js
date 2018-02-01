@@ -9,14 +9,14 @@ class Convert {
     this.schemaValidator = schemaValidator;
   }
 
-  convert(authorJson) {
+  async convert(authorJson) {
     const output = new Questionnaire(authorJson);
-    const validation = this.schemaValidator.validate(output);
 
-    if (!validation.valid) {
+    const result = await this.schemaValidator.validate(output);
+    if (!result.valid) {
       throw new ValidationError(
         "Converted author schema is not valid EQ schema.",
-        validation
+        result.errors
       );
     }
 
