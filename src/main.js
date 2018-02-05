@@ -5,6 +5,7 @@ const fetchData = require("./middleware/fetchData");
 const schemaConverter = require("./middleware/schemaConverter");
 const respondWithData = require("./middleware/respondWithData");
 const status = require("./middleware/status");
+const noContent = require("./middleware/nocontent");
 
 const Convert = require("./process/Convert");
 const createSchemaValidator = require("./validation/createSchemaValidator");
@@ -28,6 +29,7 @@ app.get(
 );
 
 app.get("/status", status);
+app.get("/favicon.ico", noContent);
 
 app.use(errorHandler);
 
