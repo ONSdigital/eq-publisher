@@ -10,7 +10,7 @@ class SchemaValidator {
     if (isNil(json)) {
       throw new ValidationError("Invalid JSON schema");
     }
-    return await this.validationApi.validate(json);
+    return this.validationApi.validate(json);
   }
 }
 

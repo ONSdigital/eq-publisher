@@ -23,6 +23,19 @@ To run the application:
 yarn start
 ```
 
+## <a name="compose"></a>Running with Docker Compose
+
+For convenience, a `docker-compose.yml` configuration is supplied with this project.
+The compose file orchestrates the Publisher application and the EQ schema validation service.
+A benefit of this approach is that there is no need to run the schema validation service manually.
+Using Docker Compose the application can be run using the following command:
+
+```bash
+docker-compose up --build
+```
+
+**Note that the `--build` flag is only required on first run.**
+
 ## Testing
 
 To run all tests:
@@ -34,9 +47,10 @@ yarn test
 
 The following environment variables can be configured.
 
-| Name | Description |
-| ---- | ----------- |
-| `GRAPHQL_API_URL` | The URL of the GraphQL API server (not required with the Mock API implementation) |
+| Name | Description | Required |
+| --- | --- | --- |
+| `EQ_SCHEMA_VALIDATOR_URL` | The URL of the schema validation service. See [Running with Docker Compose](#compose). | Yes |
+| `EQ_AUTHOR_API_URL` | The URL of the GraphQL API server. If not supplied, mock API will be used. | No |
 
 ## Routes
 
