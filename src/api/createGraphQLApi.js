@@ -26,8 +26,8 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 });
 
 exports.createNetworkInterface = (fn, mocks = {}) => {
-  return process.env.GRAPHQL_API_URL
-    ? fn({ uri: process.env.GRAPHQL_API_URL })
+  return process.env.EQ_AUTHOR_API_URL
+    ? fn({ uri: process.env.EQ_AUTHOR_API_URL })
     : new MockNetworkInterface(schema, mocks);
 };
 
