@@ -11,19 +11,8 @@ Each step applies a series of transforms to manipulate the resulting JSON.
 
 ![process.jpg](docs/images/process.png)
 
-## Installation
 
-To install dependencies, simply run:
-```
-yarn install
-```
-
-To run the application:
-```
-yarn start
-```
-
-## <a name="compose"></a>Running with Docker Compose
+## Running with Docker Compose
 
 For convenience, a `docker-compose.yml` configuration is supplied with this project.
 The compose file orchestrates the Publisher application and the EQ schema validation service.
@@ -35,6 +24,25 @@ docker-compose up --build
 ```
 
 **Note that the `--build` flag is only required on first run.**
+
+
+## Running the service manually
+
+### Installation
+
+To install dependencies, simply run:
+```
+yarn install
+```
+
+### Starting the application
+
+To run the application:
+```
+yarn start
+```
+
+**Note that some [configuration](#configuration) may be necessary to run the service in isolation**
 
 ## Testing
 
@@ -49,7 +57,7 @@ The following environment variables can be configured.
 
 | Name | Description | Required |
 | --- | --- | --- |
-| `EQ_SCHEMA_VALIDATOR_URL` | The URL of the schema validation service. See [Running with Docker Compose](#compose). | Yes |
+| `EQ_SCHEMA_VALIDATOR_URL` | The URL of the schema validation service. See [Running with Docker Compose](#running-with-docker-compose). | Yes |
 | `EQ_AUTHOR_API_URL` | The URL of the GraphQL API server. If not supplied, mock API will be used. | No |
 
 ## Routes

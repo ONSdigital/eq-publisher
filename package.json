@@ -32,10 +32,9 @@
     "lodash": "^4.17.4",
     "node-fetch": "^1.7.1",
     "nodemon": "^1.11.0",
-    "request": "latest",
     "request-promise": "^4.2.2",
     "uuid": "^3.0.1",
-    "pino": "latest"
+    "pino": "^4.10.4"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

@@ -7,7 +7,7 @@ const schemaConverter = require("./middleware/schemaConverter");
 const respondWithData = require("./middleware/respondWithData");
 const status = require("./middleware/status");
 const noContent = require("./middleware/nocontent");
-const isNil = require("lodash").isNil;
+const { isNil } = require("lodash");
 
 const Convert = require("./process/Convert");
 const SchemaValidator = require("./validation/SchemaValidator");
