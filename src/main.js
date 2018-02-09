@@ -1,5 +1,4 @@
 const express = require("express");
-const logger = require("pino")();
 const pino = require("express-pino-logger");
 const errorHandler = require("./middleware/errorHandler");
 const fetchData = require("./middleware/fetchData");
@@ -19,9 +18,7 @@ if (isNil(process.env.EQ_SCHEMA_VALIDATOR_URL)) {
 }
 
 if (isNil(process.env.EQ_AUTHOR_API_URL)) {
-  logger.warn(
-    "EQ_AUTHOR_API_URL not specified. Using mock API implementation."
-  );
+  throw Error("EQ_AUTHOR_API_URL not specified");
 }
 
 const converter = new Convert(

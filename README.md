@@ -58,7 +58,7 @@ The following environment variables can be configured.
 | Name | Description | Required |
 | --- | --- | --- |
 | `EQ_SCHEMA_VALIDATOR_URL` | The URL of the schema validation service. See [Running with Docker Compose](#running-with-docker-compose). | Yes |
-| `EQ_AUTHOR_API_URL` | The URL of the GraphQL API server. If not supplied, mock API will be used. | No |
+| `EQ_AUTHOR_API_URL` | The URL of the GraphQL API server. If not supplied, mock API will be used. | Yes |
 
 ## Routes
 
