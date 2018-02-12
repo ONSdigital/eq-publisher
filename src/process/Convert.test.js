@@ -8,49 +8,48 @@ const graphQLApi = createGraphQLApi(
   createApolloClient(createNetworkInterface(jest.fn()))
 );
 
+const ValidationError = require("../validation/ValidationError");
 const Convert = require("./Convert");
 
 describe("Convert", () => {
+  let convert;
+  let mockSchemaValidator;
+
+  beforeEach(() => {
+    mockSchemaValidator = {
+      validate: jest.fn()
+    };
+    convert = new Convert(mockSchemaValidator);
+  });
+
   describe("constructor", () => {
     it("expects a schema validator", () => {
       expect(() => new Convert()).toThrow();
     });
 
     it("should set schema validator as property", () => {
-      const mockSchemaValidator = jest.fn();
-      const convert = new Convert(mockSchemaValidator);
-
       expect(convert.schemaValidator).toBe(mockSchemaValidator);
     });
   });
 
   describe("behaviour", () => {
-    it("should validate result against schema", async () => {
-      const mockSchemaValidator = {
-        validate: jest.fn()
-      };
+    let result;
 
+    beforeEach(async () => {
       mockSchemaValidator.validate.mockReturnValue({ valid: true });
-
-      const result = await graphQLApi.getAuthorData(2);
-      const convert = new Convert(mockSchemaValidator);
-      convert.convert(result.data.questionnaire);
-
-      expect(mockSchemaValidator.validate).toBeCalled();
+      result = await graphQLApi.getAuthorData(1);
     });
 
-    it("should error if resulting json is invalid", async () => {
-      const mockSchemaValidator = {
-        validate: jest.fn()
-      };
+    it("should pass converted json to the schema validator", async () => {
+      const converted = await convert.convert(result.data.questionnaire);
+      expect(mockSchemaValidator.validate).toHaveBeenCalledWith(converted);
+    });
 
+    it("should error if resulting json is invalid", () => {
       mockSchemaValidator.validate.mockReturnValue({ valid: false });
-
-      const convert = new Convert(mockSchemaValidator);
-
-      const result = await graphQLApi.getAuthorData(1);
-
-      expect(() => convert.convert(result.data.questionnaire)).toThrow();
+      return expect(convert.convert(result.data.questionnaire)).rejects.toEqual(
+        expect.any(ValidationError)
+      );
     });
   });
 });

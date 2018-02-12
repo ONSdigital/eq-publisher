@@ -23,7 +23,7 @@ describe("createGraphQLApi", () => {
 
     it("should create a real network interface when supplied with a URL", () => {
       const endpoint = "http://localhost:4000/mockGraphQLApi";
-      process.env.GRAPHQL_API_URL = endpoint;
+      process.env.EQ_AUTHOR_API_URL = endpoint;
 
       const mockCreateNetworkInterface = jest.fn();
 
@@ -33,7 +33,7 @@ describe("createGraphQLApi", () => {
         uri: endpoint
       });
 
-      delete process.env.GRAPHQL_API_URL;
+      delete process.env.EQ_AUTHOR_API_URL;
     });
   });
 

@@ -1,16 +1,16 @@
-const Validator = require("jsonschema").Validator;
+const ValidationError = require("./ValidationError");
+const { isNil } = require("lodash");
 
 class SchemaValidator {
-  constructor(mainSchema, childSchemas = []) {
-    this.mainSchema = mainSchema;
-    this.validator = new Validator();
-    childSchemas.forEach(s => {
-      this.validator.addSchema(s.schema, s.uri);
-    });
+  constructor(validationApi) {
+    this.validationApi = validationApi;
   }
 
-  validate(json) {
-    return this.validator.validate(json, this.mainSchema);
+  async validate(json) {
+    if (isNil(json)) {
+      throw new ValidationError("Invalid JSON schema");
+    }
+    return this.validationApi.validate(json);
   }
 }
 

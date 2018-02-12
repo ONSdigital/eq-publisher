@@ -5,12 +5,26 @@ const fetchData = require("./middleware/fetchData");
 const schemaConverter = require("./middleware/schemaConverter");
 const respondWithData = require("./middleware/respondWithData");
 const status = require("./middleware/status");
+const noContent = require("./middleware/nocontent");
+const { isNil } = require("lodash");
 
 const Convert = require("./process/Convert");
-const createSchemaValidator = require("./validation/createSchemaValidator");
+const SchemaValidator = require("./validation/SchemaValidator");
+const ValidationApi = require("./validation/ValidationApi");
 const { getGraphQLApi } = require("./api/createGraphQLApi");
 
-const converter = new Convert(createSchemaValidator());
+if (isNil(process.env.EQ_SCHEMA_VALIDATOR_URL)) {
+  throw Error("EQ_SCHEMA_VALIDATOR_URL not specified");
+}
+
+if (isNil(process.env.EQ_AUTHOR_API_URL)) {
+  throw Error("EQ_AUTHOR_API_URL not specified");
+}
+
+const converter = new Convert(
+  new SchemaValidator(new ValidationApi(process.env.EQ_SCHEMA_VALIDATOR_URL))
+);
+
 const GraphQLApi = getGraphQLApi();
 
 const app = express();
@@ -28,6 +42,7 @@ app.get(
 );
 
 app.get("/status", status);
+app.get("/favicon.ico", noContent);
 
 app.use(errorHandler);
 
