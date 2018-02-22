@@ -72,3 +72,28 @@ Since the API is still under active development, there are only two routes at pr
 | ------------- | ------------- |
 | [/graphql/:questionaireId](http://localhost:9000/graphql/1)  | Demonstrates the JSON that is output by the Author API.  |
 | [/publish/:questionaireId](http://localhost:9000/publish/1)  | Demonstrates the published EQ JSON.  |
+
+
+## Debugging
+
+If you have started the app with `docker-compose` then you can attach a debugger. If you use vscode, this is the `launch.json` configuration you must use:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to Container",
+      "type": "node",
+      "request": "attach",
+      "port": 5858,
+      "address": "localhost",
+      "restart": true,
+      "sourceMaps": false,
+      "localRoot": "${workspaceRoot}",
+      "remoteRoot": "/app",
+      "protocol": "inspector"
+    }
+  ]
+}
+```
