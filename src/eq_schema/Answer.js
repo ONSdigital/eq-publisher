@@ -29,7 +29,7 @@ class Answer {
     }
 
     if (childAnswerId) {
-      option.child_answer_id = childAnswerId;
+      option.child_answer_id = childAnswerId.toString();
     }
 
     return option;

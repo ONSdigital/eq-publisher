@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const Questionnaire = require("./Questionnaire");
 const Summary = require("./block-types/Summary");
-const Group = require("./Group");
+const Section = require("./Section");
 const { last } = require("lodash");
 
 describe("Questionnaire", () => {
@@ -41,14 +41,15 @@ describe("Questionnaire", () => {
       survey_id: "0112",
       title: "Quarterly Business Survey",
       theme: "default",
-      groups: [expect.any(Group)],
+      sections: [expect.any(Section)],
       legal_basis: "StatisticsOfTradeAct"
     });
   });
 
   it("should add a Summary to end of Questionnaire", () => {
     const questionnaire = new Questionnaire(createQuestionnaireJSON());
-    const finalGroup = last(questionnaire.groups);
+    const finalSection = last(questionnaire.sections);
+    const finalGroup = last(finalSection.groups);
     const finalPage = last(finalGroup.blocks);
 
     expect(finalPage).toBeInstanceOf(Summary);
@@ -83,25 +84,15 @@ describe("Questionnaire", () => {
 
     expect(questionnaire).toMatchObject({
       navigation: {
-        visible: true,
-        sections: [
-          {
-            title: "Section number 2",
-            group_order: ["group-2"]
-          },
-          {
-            title: "Section number 3",
-            group_order: ["group-3"]
-          }
-        ]
-      }
+        visible: true
+      },
+      sections: [{ id: "section-2" }, { id: "section-3" }]
     });
   });
 
   it("should strip out HTML from navigation sections", () => {
     const questionnaire = new Questionnaire(
       createQuestionnaireJSON({
-        navigation: true,
         sections: [
           {
             id: "2",
@@ -118,17 +109,16 @@ describe("Questionnaire", () => {
     );
 
     expect(questionnaire).toMatchObject({
-      navigation: {
-        visible: true,
-        sections: [
-          {
-            title: "Section number 2"
-          },
-          {
-            title: "Section number 3"
-          }
-        ]
-      }
+      sections: [
+        {
+          id: "section-2",
+          title: "Section number 2"
+        },
+        {
+          id: "section-3",
+          title: "Section number 3"
+        }
+      ]
     });
   });
 
@@ -143,15 +133,17 @@ describe("Questionnaire", () => {
     const questionnaire = new Questionnaire(
       createQuestionnaireJSON({ summary: true })
     );
-    expect(last(last(questionnaire.groups).blocks).type).toEqual("Summary");
+    const lastSection = last(questionnaire.sections);
+    const lastGroup = last(lastSection.groups);
+    expect(last(lastGroup.blocks).type).toEqual("Summary");
   });
 
   it("should add a confirmation page if summary is toggled off", () => {
     const questionnaire = new Questionnaire(
       createQuestionnaireJSON({ summary: false })
     );
-    expect(last(last(questionnaire.groups).blocks).type).toEqual(
-      "Confirmation"
-    );
+    const lastSection = last(questionnaire.sections);
+    const lastGroup = last(lastSection.groups);
+    expect(last(lastGroup.blocks).type).toEqual("Confirmation");
   });
 });
