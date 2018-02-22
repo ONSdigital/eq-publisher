@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon",
-    "start:dev": "nodemon --inspect",
+    "start:dev": "nodemon --inspect=0.0.0.0:5858",
     "test": "jest",
     "lint": "eslint .",
     "precommit": "lint-staged"
