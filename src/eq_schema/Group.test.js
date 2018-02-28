@@ -18,7 +18,13 @@ describe("Group", () => {
     );
 
   it("should build valid runner Group from Author section", () => {
-    const group = new Group(createGroupJSON());
+    let groupJSON = createGroupJSON();
+    const group = new Group(
+      groupJSON.id,
+      groupJSON.title,
+      groupJSON.description,
+      groupJSON.pages
+    );
 
     expect(group).toMatchObject({
       id: "group-1",
@@ -28,8 +34,12 @@ describe("Group", () => {
   });
 
   it("should handle HTML values", () => {
+    let groupJSON = createGroupJSON({ title: "<p>Section <em>1</em></p>" });
     const group = new Group(
-      createGroupJSON({ title: "<p>Section <em>1</em></p>" })
+      groupJSON.id,
+      groupJSON.title,
+      groupJSON.description,
+      groupJSON.pages
     );
 
     expect(group).toMatchObject({
