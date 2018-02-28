@@ -10,17 +10,19 @@ class Convert {
   }
 
   async convert(authorJson) {
-    const output = new Questionnaire(authorJson);
+    const convertedQuestionnaire = new Questionnaire(authorJson);
 
-    const result = await this.schemaValidator.validate(output);
+    const result = await this.schemaValidator.validate(convertedQuestionnaire);
+
     if (!result.valid) {
       throw new ValidationError(
         "Converted author schema is not valid EQ schema.",
+        convertedQuestionnaire,
         result.errors
       );
     }
 
-    return output;
+    return convertedQuestionnaire;
   }
 }
 
