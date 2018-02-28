@@ -86,7 +86,7 @@ If you have started the app with `docker-compose` then you can attach a debugger
       "name": "Attach to Container",
       "type": "node",
       "request": "attach",
-      "port": 5858,
+      "port": 5859,
       "address": "localhost",
       "restart": true,
       "sourceMaps": false,
