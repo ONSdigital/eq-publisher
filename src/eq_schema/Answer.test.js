@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+const { last } = require("lodash/fp");
 const Answer = require("./Answer");
 
 describe("Answer", () => {
@@ -47,13 +48,11 @@ describe("Answer", () => {
             {
               id: 1,
               label: "Option one",
-              childAnswerId: "foo",
               description: "A short description"
             },
             {
               id: 2,
               label: "Option two",
-              childAnswerId: "bar",
               description: "Another description"
             }
           ]
@@ -64,13 +63,11 @@ describe("Answer", () => {
         {
           label: "Option one",
           value: "Option one",
-          child_answer_id: "foo",
           description: "A short description"
         },
         {
           label: "Option two",
           value: "Option two",
-          child_answer_id: "bar",
           description: "Another description"
         }
       ]);
@@ -112,13 +109,11 @@ describe("Answer", () => {
           {
             id: 1,
             label: "Option one",
-            childAnswerId: "foo",
             description: null
           },
           {
             id: 2,
             label: "Option two",
-            childAnswerId: "bar",
             description: null
           }
         ]
@@ -128,14 +123,39 @@ describe("Answer", () => {
     expect(answer.options).toEqual([
       {
         label: "Option one",
-        value: "Option one",
-        child_answer_id: "foo"
+        value: "Option one"
       },
       {
         label: "Option two",
-        value: "Option two",
-        child_answer_id: "bar"
+        value: "Option two"
       }
     ]);
+  });
+
+  it('should generate an "other" option if answer has otherAnswer', () => {
+    const otherAnswer = createAnswerJSON({ id: 3, type: "TextField" });
+    const answer = new Answer(
+      createAnswerJSON({
+        type: "Checkbox",
+        options: [
+          {
+            id: 1,
+            label: "One"
+          },
+          {
+            id: 2,
+            label: "Two"
+          }
+        ],
+        otherAnswer
+      })
+    );
+
+    expect(answer.options).toHaveLength(3);
+    expect(last(answer.options)).toMatchObject({
+      label: "Other",
+      value: "Other",
+      child_answer_id: "3"
+    });
   });
 });
