@@ -17,120 +17,120 @@ describe("Answer", () => {
       answer
     );
 
-  // it("should generate  a valid eQ answer from an author answer", () => {
-  //   const answer = new Answer(createAnswerJSON({ type: "PositiveInteger" }));
+  it("should generate  a valid eQ answer from an author answer", () => {
+    const answer = new Answer(createAnswerJSON({ type: "PositiveInteger" }));
 
-  //   expect(answer).toMatchObject({
-  //     id: "answer-1",
-  //     alias: "answer_1",
-  //     type: "PositiveInteger",
-  //     mandatory: false,
-  //     description: "This is a description"
-  //   });
-  // });
+    expect(answer).toMatchObject({
+      id: "answer-1",
+      alias: "answer_1",
+      type: "PositiveInteger",
+      mandatory: false,
+      description: "This is a description"
+    });
+  });
 
-  // it("should set currency to GBP for currency types", () => {
-  //   const answer = new Answer(createAnswerJSON({ type: "Currency" }));
-  //   expect(answer.currency).toBe("GBP");
-  // });
+  it("should set currency to GBP for currency types", () => {
+    const answer = new Answer(createAnswerJSON({ type: "Currency" }));
+    expect(answer.currency).toBe("GBP");
+  });
 
-  // describe("converting options", () => {
-  //   it("should not add options for basic answer types", () => {
-  //     const answer = new Answer(createAnswerJSON());
-  //     expect(answer.options).toBeUndefined();
-  //   });
+  describe("converting options", () => {
+    it("should not add options for basic answer types", () => {
+      const answer = new Answer(createAnswerJSON());
+      expect(answer.options).toBeUndefined();
+    });
 
-  //   it("should add options for multiple choice answers", () => {
-  //     const answer = new Answer(
-  //       createAnswerJSON({
-  //         type: "Radio",
-  //         options: [
-  //           {
-  //             id: 1,
-  //             label: "Option one",
-  //             description: "A short description"
-  //           },
-  //           {
-  //             id: 2,
-  //             label: "Option two",
-  //             description: "Another description"
-  //           }
-  //         ]
-  //       })
-  //     );
+    it("should add options for multiple choice answers", () => {
+      const answer = new Answer(
+        createAnswerJSON({
+          type: "Radio",
+          options: [
+            {
+              id: 1,
+              label: "Option one",
+              description: "A short description"
+            },
+            {
+              id: 2,
+              label: "Option two",
+              description: "Another description"
+            }
+          ]
+        })
+      );
 
-  //     expect(answer.options).toEqual([
-  //       {
-  //         label: "Option one",
-  //         value: "Option one",
-  //         description: "A short description"
-  //       },
-  //       {
-  //         label: "Option two",
-  //         value: "Option two",
-  //         description: "Another description"
-  //       }
-  //     ]);
-  //   });
+      expect(answer.options).toEqual([
+        {
+          label: "Option one",
+          value: "Option one",
+          description: "A short description"
+        },
+        {
+          label: "Option two",
+          value: "Option two",
+          description: "Another description"
+        }
+      ]);
+    });
 
-  //   it("should omit child_answer_id if not supplied", () => {
-  //     const answer = new Answer(
-  //       createAnswerJSON({
-  //         type: "Radio",
-  //         options: [
-  //           {
-  //             id: 1,
-  //             label: "Option one"
-  //           },
-  //           {
-  //             id: 2,
-  //             label: "Option two"
-  //           }
-  //         ]
-  //       })
-  //     );
+    it("should omit child_answer_id if not supplied", () => {
+      const answer = new Answer(
+        createAnswerJSON({
+          type: "Radio",
+          options: [
+            {
+              id: 1,
+              label: "Option one"
+            },
+            {
+              id: 2,
+              label: "Option two"
+            }
+          ]
+        })
+      );
 
-  //     answer.options.forEach(option => {
-  //       expect(option.hasOwnProperty("child_answer_id")).toBe(false);
-  //     });
-  //   });
+      answer.options.forEach(option => {
+        expect(option.hasOwnProperty("child_answer_id")).toBe(false);
+      });
+    });
 
-  //   it("should add options even if empty array", () => {
-  //     const answer = new Answer(createAnswerJSON({ options: [] }));
-  //     expect(answer.options).toEqual([]);
-  //   });
-  // });
+    it("should add options even if empty array", () => {
+      const answer = new Answer(createAnswerJSON({ options: [] }));
+      expect(answer.options).toEqual([]);
+    });
+  });
 
-  // it("should omit option description if null value provided", () => {
-  //   const answer = new Answer(
-  //     createAnswerJSON({
-  //       type: "Radio",
-  //       options: [
-  //         {
-  //           id: 1,
-  //           label: "Option one",
-  //           description: null
-  //         },
-  //         {
-  //           id: 2,
-  //           label: "Option two",
-  //           description: null
-  //         }
-  //       ]
-  //     })
-  //   );
+  it("should omit option description if null value provided", () => {
+    const answer = new Answer(
+      createAnswerJSON({
+        type: "Radio",
+        options: [
+          {
+            id: 1,
+            label: "Option one",
+            description: null
+          },
+          {
+            id: 2,
+            label: "Option two",
+            description: null
+          }
+        ]
+      })
+    );
 
-  //   expect(answer.options).toEqual([
-  //     {
-  //       label: "Option one",
-  //       value: "Option one"
-  //     },
-  //     {
-  //       label: "Option two",
-  //       value: "Option two"
-  //     }
-  //   ]);
-  // });
+    expect(answer.options).toEqual([
+      {
+        label: "Option one",
+        value: "Option one"
+      },
+      {
+        label: "Option two",
+        value: "Option two"
+      }
+    ]);
+  });
 
   it('should generate an "other" option if answer has otherAnswer', () => {
     const otherAnswer = createAnswerJSON({ id: 3, type: "TextField" });

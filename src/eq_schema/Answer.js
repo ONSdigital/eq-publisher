@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+const { isNil } = require("lodash/fp");
 
 class Answer {
   constructor(answer) {
@@ -17,7 +18,7 @@ class Answer {
       this.options = answer.options.map(this.buildOption);
     }
 
-    if (this.options && answer.hasOwnProperty("otherAnswer")) {
+    if (this.options && !isNil(answer.otherAnswer)) {
       this.options.push(
         this.buildOption({
           label: "Other",
