@@ -27,15 +27,21 @@ const converter = new Convert(
 
 const GraphQLApi = getGraphQLApi();
 
+const logger = pino();
 const app = express();
-app.use(pino());
 
 if (process.env.NODE_ENV === "development") {
-  app.get("/graphql/:questionnaireId", fetchData(GraphQLApi), respondWithData);
+  app.get(
+    "/graphql/:questionnaireId",
+    logger,
+    fetchData(GraphQLApi),
+    respondWithData
+  );
 }
 
 app.get(
   "/publish/:questionnaireId",
+  logger,
   fetchData(GraphQLApi),
   schemaConverter(converter),
   respondWithData
