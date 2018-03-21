@@ -16,9 +16,18 @@ class Answer {
     if (answer.hasOwnProperty("options")) {
       this.options = answer.options.map(this.buildOption);
     }
+
+    if (this.options && answer.hasOwnProperty("otherAnswer")) {
+      this.options.push(
+        this.buildOption({
+          label: "Other",
+          otherAnswerId: answer.otherAnswer.id
+        })
+      );
+    }
   }
 
-  buildOption({ label, childAnswerId, description }) {
+  buildOption({ label, description, otherAnswerId }) {
     const option = {
       label,
       value: label
@@ -28,8 +37,8 @@ class Answer {
       option.description = description;
     }
 
-    if (childAnswerId) {
-      option.child_answer_id = childAnswerId.toString();
+    if (otherAnswerId) {
+      option.child_answer_id = otherAnswerId.toString();
     }
 
     return option;

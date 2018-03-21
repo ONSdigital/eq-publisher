@@ -1,6 +1,16 @@
 const gql = require("graphql-tag");
 
 exports.getQuestionnaire = gql`
+  fragment answerFragment on Answer {
+    id
+    type
+    label
+    description
+    guidance
+    mandatory
+    qCode
+  }
+
   query GetQuestionnaire($questionnaireId: ID!) {
     questionnaire(id: $questionnaireId) {
       id
@@ -23,13 +33,7 @@ exports.getQuestionnaire = gql`
             guidance
             pageType
             answers {
-              id
-              description
-              guidance
-              qCode
-              label
-              type
-              mandatory
+              ...answerFragment
               ... on MultipleChoiceAnswer {
                 options {
                   id
@@ -37,7 +41,9 @@ exports.getQuestionnaire = gql`
                   description
                   value
                   qCode
-                  childAnswerId
+                }
+                otherAnswer {
+                  ...answerFragment
                 }
               }
             }
