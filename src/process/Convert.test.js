@@ -1,15 +1,29 @@
-const {
-  createGraphQLApi,
-  createApolloClient,
-  createNetworkInterface
-} = require("../api/createGraphQLApi");
-
-const graphQLApi = createGraphQLApi(
-  createApolloClient(createNetworkInterface(jest.fn()))
-);
-
 const ValidationError = require("../validation/ValidationError");
 const Convert = require("./Convert");
+
+const result = {
+  data: {
+    questionnaire: {
+      id: 1,
+      sections: [
+        {
+          id: 1,
+          pages: [
+            {
+              id: 1,
+              answers: [
+                {
+                  id: 1,
+                  type: "TextField"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+};
 
 describe("Convert", () => {
   let convert;
@@ -33,11 +47,8 @@ describe("Convert", () => {
   });
 
   describe("behaviour", () => {
-    let result;
-
     beforeEach(async () => {
       mockSchemaValidator.validate.mockReturnValue({ valid: true });
-      result = await graphQLApi.getAuthorData(1);
     });
 
     it("should pass converted json to the schema validator", async () => {

@@ -17,16 +17,13 @@
     ]
   },
   "dependencies": {
-    "apollo-client": "^2.2.7",
+    "apollo-fetch": "^0.7.0",
     "cheerio": "^1.0.0-rc.2",
     "commonjs-utils": "^0.1.1",
-    "eq-author-graphql-schema": "^0.7.0",
-    "eq-author-mock-api": "ONSdigital/eq-author-mock-api",
     "eslint-config-eq-author": "^1.0.2",
     "express": "^4.15.3",
     "express-pino-logger": "^3.0.1",
-    "graphql-tag": "^2.4.0",
-    "graphql-tools": "^2.23.1",
+    "graphql": "^0.13.2",
     "json-schema": "^0.2.3",
     "jsonschema": "^1.1.1",
     "lodash": "^4.17.4",

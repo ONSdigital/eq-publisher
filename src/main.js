@@ -11,7 +11,8 @@ const { isNil } = require("lodash");
 const Convert = require("./process/Convert");
 const SchemaValidator = require("./validation/SchemaValidator");
 const ValidationApi = require("./validation/ValidationApi");
-const { getGraphQLApi } = require("./api/createGraphQLApi");
+const GraphQLApi = require("./api/GraphQLApi");
+const { createApolloFetch } = require("apollo-fetch");
 
 if (isNil(process.env.EQ_SCHEMA_VALIDATOR_URL)) {
   throw Error("EQ_SCHEMA_VALIDATOR_URL not specified");
@@ -21,28 +22,26 @@ if (isNil(process.env.EQ_AUTHOR_API_URL)) {
   throw Error("EQ_AUTHOR_API_URL not specified");
 }
 
+const uri = process.env.EQ_AUTHOR_API_URL;
+const apolloFetch = createApolloFetch({ uri });
+
+const api = new GraphQLApi(apolloFetch);
+
 const converter = new Convert(
   new SchemaValidator(new ValidationApi(process.env.EQ_SCHEMA_VALIDATOR_URL))
 );
-
-const GraphQLApi = getGraphQLApi();
 
 const logger = pino();
 const app = express();
 
 if (process.env.NODE_ENV === "development") {
-  app.get(
-    "/graphql/:questionnaireId",
-    logger,
-    fetchData(GraphQLApi),
-    respondWithData
-  );
+  app.get("/graphql/:questionnaireId", logger, fetchData(api), respondWithData);
 }
 
 app.get(
   "/publish/:questionnaireId",
   logger,
-  fetchData(GraphQLApi),
+  fetchData(api),
   schemaConverter(converter),
   respondWithData
 );

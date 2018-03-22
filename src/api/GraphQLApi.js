@@ -1,18 +1,15 @@
 const { getQuestionnaire } = require("./queries");
-const fetch = require("node-fetch");
-
-global.fetch = fetch;
+const { parseInt } = require("lodash");
 
 class GraphQLApi {
-  constructor(apolloClient) {
-    this.apolloClient = apolloClient;
+  constructor(apolloFetch) {
+    this.apolloFetch = apolloFetch;
   }
 
   getAuthorData(questionnaireId) {
-    return this.apolloClient.query({
+    return this.apolloFetch({
       query: getQuestionnaire,
-      variables: { questionnaireId: questionnaireId.toString(10) },
-      fetchPolicy: "network-only"
+      variables: { questionnaireId: parseInt(questionnaireId) }
     });
   }
 }
