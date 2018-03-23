@@ -1,5 +1,4 @@
 const { getQuestionnaire } = require("./queries");
-const { parseInt } = require("lodash");
 
 class GraphQLApi {
   constructor(apolloFetch) {
@@ -9,7 +8,7 @@ class GraphQLApi {
   getAuthorData(questionnaireId) {
     return this.apolloFetch({
       query: getQuestionnaire,
-      variables: { questionnaireId: parseInt(questionnaireId) }
+      variables: { questionnaireId: questionnaireId.toString() }
     });
   }
 }
