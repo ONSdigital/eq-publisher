@@ -17,30 +17,26 @@
     ]
   },
   "dependencies": {
-    "apollo-client": "^1.4.2",
+    "apollo-fetch": "^0.7.0",
     "cheerio": "^1.0.0-rc.2",
     "commonjs-utils": "^0.1.1",
-    "eq-author-graphql-schema": "^0.7.0",
-    "eq-author-mock-api": "ONSdigital/eq-author-mock-api",
     "eslint-config-eq-author": "^1.0.2",
     "express": "^4.15.3",
-    "express-pino-logger": "^2.0.0",
-    "graphql-tag": "^2.4.0",
-    "graphql-tools": "^1.1.0",
+    "express-pino-logger": "^3.0.1",
+    "graphql": "^0.13.2",
     "json-schema": "^0.2.3",
     "jsonschema": "^1.1.1",
     "lodash": "^4.17.4",
-    "node-fetch": "^1.7.1",
     "nodemon": "^1.11.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
+    "eslint": "^4.19.0",
     "husky": "^0.14.3",
-    "jest": "^20.0.4",
-    "lint-staged": "^4.0.2",
+    "jest": "^22.4.3",
+    "lint-staged": "^7.0.0",
     "prettier": "^1.5.3"
   },
   "moduleRoots": [

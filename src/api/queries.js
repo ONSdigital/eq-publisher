@@ -1,6 +1,4 @@
-const gql = require("graphql-tag");
-
-exports.getQuestionnaire = gql`
+exports.getQuestionnaire = `
   fragment answerFragment on Answer {
     id
     type

@@ -1,35 +1,31 @@
+const { getQuestionnaire } = require("./queries");
+
 const GraphQLApi = require("./GraphQLApi");
 
 describe("GraphQL Api", () => {
   it("should accept a client", () => {
-    const mockClient = jest.fn();
-    expect(new GraphQLApi(mockClient).apolloClient).toBe(mockClient);
+    const mockApolloFetch = jest.fn();
+    expect(new GraphQLApi(mockApolloFetch).apolloFetch).toBe(mockApolloFetch);
   });
 
   describe("interaction with client", () => {
-    let mockClient;
+    let mockApolloFetch;
     let api;
 
     beforeEach(() => {
-      mockClient = {
-        query: jest.fn()
-      };
-
-      api = new GraphQLApi(mockClient);
+      mockApolloFetch = jest.fn();
+      api = new GraphQLApi(mockApolloFetch);
     });
 
-    it("should call query on the client", () => {
+    it("should call apolloFetch with the getQuestionnaires query", () => {
       api.getAuthorData("1");
 
-      expect(mockClient.query).toHaveBeenCalled();
-    });
-
-    it("should pass questionnaire Id into query", () => {
-      api.getAuthorData("13");
-
-      expect(mockClient.query).toBeCalledWith(
+      expect(mockApolloFetch).toHaveBeenCalledWith(
         expect.objectContaining({
-          variables: { questionnaireId: "13" }
+          query: getQuestionnaire,
+          variables: {
+            questionnaireId: "1"
+          }
         })
       );
     });

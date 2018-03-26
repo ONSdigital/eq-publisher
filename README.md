@@ -1,4 +1,6 @@
 # eq-publisher
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/ONSdigital/eq-publisher.svg)](https://greenkeeper.io/)
 An API for publishing [eq-author](http://github.com/ONSDigital/eq-author) questionnaires.
 
 ## Oveview
