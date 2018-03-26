@@ -24,7 +24,7 @@ describe("GraphQL Api", () => {
         expect.objectContaining({
           query: getQuestionnaire,
           variables: {
-            questionnaireId: 1
+            questionnaireId: "1"
           }
         })
       );
