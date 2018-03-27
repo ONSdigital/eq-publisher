@@ -12,14 +12,20 @@ class ValidationApi {
       valid: true
     };
 
-    const res = await this.http.post(this.validationApiUrl, {
-      body: json,
-      json: true
-    });
+    try {
+      const res = await this.http.post(this.validationApiUrl, {
+        body: json,
+        json: true
+      });
 
-    if (!isEmpty(res)) {
+      // TODO: remove after ONSdigital/eq-schema-validator/pull/42 is merged
+      if (!isEmpty(res)) {
+        result.valid = false;
+        result.errors = res.errors;
+      }
+    } catch ({ response }) {
       result.valid = false;
-      result.errors = res.errors;
+      result.errors = response.body.errors;
     }
 
     return result;

@@ -32,17 +32,38 @@ describe("ValidationApi", () => {
       });
     });
 
-    it("should return invalid response", () => {
+    describe("error handling", () => {
       const errors = {
-        errors: { message: "Error message", detail: "Error details" }
+        message: "Error message",
+        detail: "Error details"
       };
-      mockRequest.post = jest.fn(() => Promise.resolve(errors));
-      expect(validationApi.validate({ test: "json" })).resolves.toMatchObject({
-        valid: false,
-        errors: {
-          message: "Error message",
-          detail: "Error details"
-        }
+
+      it("should return invalid response", () => {
+        mockRequest.post = jest.fn(() => Promise.resolve({ errors }));
+
+        expect(
+          validationApi.validate({ test: "json" })
+        ).resolves.toMatchObject({
+          valid: false,
+          errors
+        });
+      });
+
+      it("should handle non-200 reponses", () => {
+        mockRequest.post = jest.fn(() =>
+          Promise.reject({
+            response: {
+              body: { errors }
+            }
+          })
+        );
+
+        expect(
+          validationApi.validate({ test: "json" })
+        ).resolves.toMatchObject({
+          valid: false,
+          errors
+        });
       });
     });
   });
