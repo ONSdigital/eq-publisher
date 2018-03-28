@@ -1,5 +1,5 @@
 const request = require("request-promise");
-const { isEmpty } = require("lodash");
+const { get } = require("lodash/fp");
 
 class ValidationApi {
   constructor(validationApiUrl, http = request) {
@@ -7,28 +7,19 @@ class ValidationApi {
     this.http = http;
   }
 
-  async validate(json) {
-    const result = {
-      valid: true
-    };
-
-    try {
-      const res = await this.http.post(this.validationApiUrl, {
+  validate(json) {
+    return this.http
+      .post(this.validationApiUrl, {
         body: json,
         json: true
-      });
-
-      // TODO: remove after ONSdigital/eq-schema-validator/pull/42 is merged
-      if (!isEmpty(res)) {
-        result.valid = false;
-        result.errors = res.errors;
-      }
-    } catch ({ response }) {
-      result.valid = false;
-      result.errors = response.body.errors;
-    }
-
-    return result;
+      })
+      .then(() => ({
+        valid: true
+      }))
+      .catch(e => ({
+        valid: false,
+        errors: get(e, "response.body.errors")
+      }));
   }
 }
 

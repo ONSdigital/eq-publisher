@@ -13,7 +13,7 @@ describe("ValidationApi", () => {
 
     beforeEach(() => {
       mockRequest = {
-        post: jest.fn()
+        post: jest.fn(() => Promise.resolve())
       };
 
       validationApi = new ValidationApi(url, mockRequest);
@@ -43,17 +43,6 @@ describe("ValidationApi", () => {
         detail: "Error details"
       };
 
-      it("should return invalid response", () => {
-        mockRequest.post.mockImplementation(() => Promise.resolve({ errors }));
-
-        expect(
-          validationApi.validate({ test: "json" })
-        ).resolves.toMatchObject({
-          valid: false,
-          errors
-        });
-      });
-
       it("should handle non-200 reponses", () => {
         mockRequest.post.mockImplementation(() =>
           Promise.reject({
@@ -63,12 +52,10 @@ describe("ValidationApi", () => {
           })
         );
 
-        expect(
-          validationApi.validate({ test: "json" })
-        ).resolves.toMatchObject({
-          valid: false,
-          errors
-        });
+        const result = validationApi.validate({ test: "json" });
+        const expected = { valid: false, errors };
+
+        expect(result).resolves.toMatchObject(expected);
       });
     });
   });
