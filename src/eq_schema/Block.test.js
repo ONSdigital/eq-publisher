@@ -9,7 +9,8 @@ describe("Block", () => {
         title: "Question 1",
         pageType: "Question",
         type: "General",
-        answers: []
+        answers: [],
+        RoutingRuleSet: {}
       },
       block
     );
