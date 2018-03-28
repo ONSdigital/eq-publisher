@@ -12,13 +12,17 @@ describe("ValidationApi", () => {
     let mockRequest;
 
     beforeEach(() => {
-      mockRequest = jest.genMockFromModule("request-promise");
+      mockRequest = {
+        post: jest.fn()
+      };
+
       validationApi = new ValidationApi(url, mockRequest);
     });
 
     it("should pass the json to validation Api", () => {
       const json = { test: "json" };
       validationApi.validate(json);
+
       expect(mockRequest.post).toHaveBeenCalledWith(url, {
         body: json,
         json: true
@@ -26,23 +30,45 @@ describe("ValidationApi", () => {
     });
 
     it("should return valid response", () => {
-      mockRequest.post = jest.fn(() => Promise.resolve({}));
+      mockRequest.post.mockImplementation(() => Promise.resolve({}));
+
       expect(validationApi.validate({ test: "json" })).resolves.toEqual({
         valid: true
       });
     });
 
-    it("should return invalid response", () => {
+    describe("error handling", () => {
       const errors = {
-        errors: { message: "Error message", detail: "Error details" }
+        message: "Error message",
+        detail: "Error details"
       };
-      mockRequest.post = jest.fn(() => Promise.resolve(errors));
-      expect(validationApi.validate({ test: "json" })).resolves.toMatchObject({
-        valid: false,
-        errors: {
-          message: "Error message",
-          detail: "Error details"
-        }
+
+      it("should return invalid response", () => {
+        mockRequest.post.mockImplementation(() => Promise.resolve({ errors }));
+
+        expect(
+          validationApi.validate({ test: "json" })
+        ).resolves.toMatchObject({
+          valid: false,
+          errors
+        });
+      });
+
+      it("should handle non-200 reponses", () => {
+        mockRequest.post.mockImplementation(() =>
+          Promise.reject({
+            response: {
+              body: { errors }
+            }
+          })
+        );
+
+        expect(
+          validationApi.validate({ test: "json" })
+        ).resolves.toMatchObject({
+          valid: false,
+          errors
+        });
       });
     });
   });
