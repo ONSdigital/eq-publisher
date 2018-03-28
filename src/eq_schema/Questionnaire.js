@@ -14,7 +14,10 @@ class Questionnaire {
     this.data_version = "0.0.2";
     this.survey_id = questionnaireJson.surveyId || questionnaireId;
     this.title = questionnaireJson.title;
-    this.sections = this.buildSections(questionnaireJson.sections);
+    this.sections = this.buildSections(
+      questionnaireJson.sections,
+      questionnaireJson
+    );
     this.theme = questionnaireJson.theme;
     this.legal_basis = questionnaireJson.legalBasis;
     this.navigation = { visible: questionnaireJson.navigation };
@@ -23,13 +26,13 @@ class Questionnaire {
     this.buildSummaryOrConfirmation(questionnaireJson.summary);
   }
 
-  buildSections(sections) {
-    return sections.map(section => new Section(section));
+  buildSections(sections, ctx) {
+    return sections.map(section => new Section(section, ctx));
   }
 
   buildSummaryOrConfirmation(summary) {
     const finalPage = summary ? new Summary() : new Confirmation();
-    last(last(this.sections).groups).blocks.push(finalPage);
+    last(this.sections).groups.push(finalPage);
   }
 
   buildMetadata() {

@@ -50,9 +50,8 @@ describe("Questionnaire", () => {
     const questionnaire = new Questionnaire(createQuestionnaireJSON());
     const finalSection = last(questionnaire.sections);
     const finalGroup = last(finalSection.groups);
-    const finalPage = last(finalGroup.blocks);
 
-    expect(finalPage).toBeInstanceOf(Summary);
+    expect(finalGroup).toBeInstanceOf(Summary);
   });
 
   it("should include form_type and eq_id", () => {
@@ -135,7 +134,7 @@ describe("Questionnaire", () => {
     );
     const lastSection = last(questionnaire.sections);
     const lastGroup = last(lastSection.groups);
-    expect(last(lastGroup.blocks).type).toEqual("Summary");
+    expect(lastGroup).toBeInstanceOf(Summary);
   });
 
   it("should add a confirmation page if summary is toggled off", () => {

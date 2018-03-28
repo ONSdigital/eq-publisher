@@ -14,7 +14,27 @@ exports.getQuestionnaire = `
     label
     description
     value
-    qCode  
+    qCode
+  }
+
+  fragment destinationFragment on RoutingDestination {
+    ... on LogicalDestination {
+      __typename
+      logicalDestination
+    }
+    ... on AbsoluteDestination {    
+      __typename
+      absoluteDestination {
+        ... on QuestionPage {
+          id
+          __typename
+        }
+        ... on Section {
+          id
+          __typename
+        }
+      }
+    }
   }
 
   query GetQuestionnaire($questionnaireId: ID!) {
@@ -38,6 +58,38 @@ exports.getQuestionnaire = `
             description
             guidance
             pageType
+            routingRuleSet {
+              id
+              else {
+                ...destinationFragment
+              }
+              routingRules {
+                id
+                operation
+                goto {
+                  ...destinationFragment
+                }
+                conditions {
+                  id
+                  comparator
+                  answer {
+                    id
+                    type
+                    ... on MultipleChoiceAnswer {
+                      options {
+                        id
+                        label
+                      }
+                    }
+                  }
+                  routingValue {
+                    ... on IDValue {
+                      value
+                    }
+                  }
+                }
+              }
+            }
             answers {
               ...answerFragment
               ... on BasicAnswer {
@@ -51,7 +103,7 @@ exports.getQuestionnaire = `
                   option {
                     ...optionFragment
                   }
-                  answer{
+                  answer {
                     ...answerFragment
                   }
                 }
