@@ -54,7 +54,10 @@ describe("ValidationApi", () => {
 
         const result = validationApi.validate({ test: "json" });
         const expected = { valid: false, errors };
+<<<<<<< HEAD
 
+=======
+>>>>>>> wip routing
         return expect(result).resolves.toMatchObject(expected);
       });
     });

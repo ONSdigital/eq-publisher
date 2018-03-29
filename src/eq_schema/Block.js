@@ -1,6 +1,6 @@
 const Question = require("./Question");
 const RoutingRule = require("./RoutingRule");
-const { get, flatMap } = require("lodash");
+const { get, flatMap, isNil } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
 
 const pageTypeMappings = {
@@ -15,9 +15,11 @@ class Block {
     this.description = getInnerHTML(description);
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page);
-    this.routing_rules = this.buildRoutingRules(
-      page.RoutingRuleSet.routingRules
-    );
+    if (!isNil(page.RoutingRuleSet)) {
+      this.routing_rules = this.buildRoutingRules(
+        page.RoutingRuleSet.routingRules
+      );
+    }
   }
 
   buildQuestions(page) {
