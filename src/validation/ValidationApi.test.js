@@ -55,7 +55,7 @@ describe("ValidationApi", () => {
         const result = validationApi.validate({ test: "json" });
         const expected = { valid: false, errors };
 
-        expect(result).resolves.toMatchObject(expected);
+        return expect(result).resolves.toMatchObject(expected);
       });
     });
   });

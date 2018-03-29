@@ -1,6 +1,8 @@
 const request = require("request-promise");
 const { get } = require("lodash/fp");
 
+const getValidationErrors = get("response.body.errors");
+
 class ValidationApi {
   constructor(validationApiUrl, http = request) {
     this.validationApiUrl = validationApiUrl;
@@ -18,7 +20,7 @@ class ValidationApi {
       }))
       .catch(e => ({
         valid: false,
-        errors: get(e, "response.body.errors")
+        errors: getValidationErrors(e)
       }));
   }
 }
