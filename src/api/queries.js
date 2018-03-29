@@ -38,6 +38,32 @@ exports.getQuestionnaire = `
             description
             guidance
             pageType
+            routingRuleSet {
+              id
+              routingRules {
+                id
+                operation
+                conditions {
+                  id
+                  comparator
+                  answer {
+                    ...on MultipleChoiceAnswer{
+                      options {
+                        id
+                        value
+                      }
+                    }
+                  }
+                  routingValue {
+                    ...on IDArrayValue {
+                      value
+                    }  
+                  }
+                }
+                goto
+              }
+              else
+            }
             answers {
               ...answerFragment
               ... on BasicAnswer {

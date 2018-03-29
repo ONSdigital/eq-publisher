@@ -1,8 +1,13 @@
+const { isNil, filter, flatMap, flatMapDeep, pick } = require("lodash");
+const util = require("util");
+
 class RoutingRule {
   constructor(rule) {
     this.goto = {};
     this.goto.block = this.getGotoBlock(rule.goto);
-    this.goto.when = this.getConditions(rule.conditions);
+    if (!isNil(rule.conditions)) {
+      this.goto.when = this.getConditions(rule.conditions);
+    }
   }
 
   getGotoBlock(destination) {
@@ -10,11 +15,29 @@ class RoutingRule {
   }
 
   getConditions(conditions) {
-    return conditions.map(condition => ({
-      id: `answer-` + condition.answer.id,
-      condition: condition.comparator,
-      value: condition.answer.options.value
-    }));
+    const idArray = flatMap(conditions, condition => {
+      return condition.routingValue;
+    });
+
+    let valueArray = flatMapDeep(idArray, id => {
+      return conditions.map(condition => {
+        return filter(condition.answer.options, { id });
+      });
+    });
+
+    valueArray = valueArray.map(answerValue => {
+      return pick(answerValue, "value");
+    });
+
+    return flatMap(conditions, condition => {
+      return valueArray.map(answerValue => {
+        return {
+          id: `answer-` + condition.answer.id,
+          condition: condition.comparator,
+          value: answerValue.value
+        };
+      });
+    });
   }
 }
 
