@@ -32,6 +32,9 @@ exports.getQuestionnaire = `
             pageType
             answers {
               ...answerFragment
+              ... on BasicAnswer {
+                secondaryLabel
+              }
               ... on MultipleChoiceAnswer {
                 options {
                   id

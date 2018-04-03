@@ -30,16 +30,16 @@ class Question {
     return answers.map(answer => new Answer(answer));
   }
 
-  buildDateRangeAnswers({ id }) {
+  buildDateRangeAnswers({ id, label, secondaryLabel }) {
     return [
       new Answer({
-        label: "Period from",
+        label,
         type: "Date",
         id: `${id}-from`,
         mandatory: true
       }),
       new Answer({
-        label: "Period to",
+        label: secondaryLabel,
         type: "Date",
         id: `${id}-to`,
         mandatory: true

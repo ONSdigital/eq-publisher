@@ -59,7 +59,14 @@ describe("Question", () => {
 
   describe("DateRange", () => {
     it("should convert Author DateRange to Runner-compatible format", () => {
-      const answers = [{ type: "DateRange", id: "1" }];
+      const answers = [
+        {
+          type: "DateRange",
+          id: "1",
+          label: "Period from",
+          secondaryLabel: "Period to"
+        }
+      ];
       const question = new Question(createQuestionJSON({ answers }));
 
       expect(question).toMatchObject({
