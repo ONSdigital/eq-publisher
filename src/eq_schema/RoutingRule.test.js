@@ -1,7 +1,5 @@
 const Block = require("./Block");
-const RoutingRule = require("./RoutingRule");
 const Question = require("./Question");
-const util = require("util");
 
 describe("Rule", () => {
   let testOperation;
@@ -64,6 +62,7 @@ describe("Rule", () => {
       title: "section title",
       description: "section description",
       questions: [expect.any(Question)],
+      // eslint-disable-next-line camelcase
       routing_rules: [
         {
           goto: {
@@ -91,6 +90,7 @@ describe("Rule", () => {
       title: "section title",
       description: "section description",
       questions: [expect.any(Question)],
+      // eslint-disable-next-line camelcase
       routing_rules: [
         {
           goto: {

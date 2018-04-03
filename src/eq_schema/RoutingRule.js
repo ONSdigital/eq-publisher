@@ -1,5 +1,4 @@
 const { isNil, filter, flatMap, flatMapDeep, pick } = require("lodash");
-const util = require("util");
 
 class RoutingRule {
   constructor(rule) {

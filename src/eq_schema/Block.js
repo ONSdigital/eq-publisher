@@ -2,7 +2,6 @@ const Question = require("./Question");
 const RoutingRule = require("./RoutingRule");
 const { get, flatMap, isNil } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
-const util = require("util");
 
 const pageTypeMappings = {
   QuestionPage: "Question",
@@ -17,6 +16,7 @@ class Block {
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page);
     if (!isNil(page.RoutingRuleSet)) {
+      // eslint-disable-next-line camelcase
       this.routing_rules = this.buildRoutingRules(
         page.RoutingRuleSet.routingRules,
         page.RoutingRuleSet
