@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-const { last } = require("lodash/fp");
 const Answer = require("./Answer");
+const Question = require("./Question");
 
 describe("Answer", () => {
   const createAnswerJSON = answer =>
@@ -131,10 +131,13 @@ describe("Answer", () => {
     ]);
   });
 
-  it('should generate an "other" option if answer has otherAnswer', () => {
-    const otherAnswer = createAnswerJSON({ id: 3, type: "TextField" });
-    const answer = new Answer(
-      createAnswerJSON({
+  describe('creating checkbox/radio answers with "other"', () => {
+    let checkboxWithOther;
+    let question;
+
+    beforeEach(() => {
+      checkboxWithOther = createAnswerJSON({
+        id: 1,
         type: "Checkbox",
         options: [
           {
@@ -146,15 +149,60 @@ describe("Answer", () => {
             label: "Two"
           }
         ],
-        otherAnswer
-      })
-    );
+        other: {
+          option: {
+            id: 3,
+            label: "Other",
+            description: "Hello"
+          },
+          answer: {
+            id: 4,
+            description: "This is a description",
+            guidance: "Here's your guidance",
+            mandatory: false,
+            qCode: "20",
+            label: "This is not a label",
+            type: "TextField"
+          }
+        }
+      });
 
-    expect(answer.options).toHaveLength(3);
-    expect(last(answer.options)).toMatchObject({
-      label: "Other",
-      value: "Other",
-      child_answer_id: "3"
+      question = new Question(
+        createAnswerJSON({
+          answers: [checkboxWithOther]
+        })
+      );
+    });
+
+    it('should generate a second answer for the "other" text field', () => {
+      expect(question.answers).toHaveLength(2);
+      expect(question.answers[0]).toEqual(
+        expect.objectContaining({
+          type: "Checkbox"
+        })
+      );
+      expect(question.answers[1]).toEqual(
+        expect.objectContaining({
+          parent_answer_id: "answer-1",
+          description: "This is a description",
+          mandatory: false,
+          id: "answer-4",
+          label: "This is not a label",
+          type: "TextField"
+        })
+      );
+    });
+
+    it("should create an additional option for the checkbox answer", () => {
+      const { label, description } = checkboxWithOther.other.option;
+      expect(question.answers[0].options).toHaveLength(3);
+      expect(question.answers[0].options[2]).toEqual(
+        expect.objectContaining({
+          label,
+          description,
+          child_answer_id: `answer-${checkboxWithOther.other.answer.id}`
+        })
+      );
     });
   });
 });

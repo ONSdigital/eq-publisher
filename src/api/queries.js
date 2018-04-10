@@ -9,6 +9,14 @@ exports.getQuestionnaire = `
     qCode
   }
 
+  fragment optionFragment on Option {
+    id
+    label
+    description
+    value
+    qCode  
+  }
+
   query GetQuestionnaire($questionnaireId: ID!) {
     questionnaire(id: $questionnaireId) {
       id
@@ -37,14 +45,15 @@ exports.getQuestionnaire = `
               }
               ... on MultipleChoiceAnswer {
                 options {
-                  id
-                  label
-                  description
-                  value
-                  qCode
+                  ...optionFragment
                 }
-                otherAnswer {
-                  ...answerFragment
+                other {
+                  option {
+                    ...optionFragment
+                  }
+                  answer{
+                    ...answerFragment
+                  }
                 }
               }
             }

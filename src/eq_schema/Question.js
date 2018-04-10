@@ -1,6 +1,6 @@
 const Answer = require("./Answer");
 const { getInnerHTML, parseGuidance } = require("../utils/HTMLUtils");
-const { find, get, flow } = require("lodash/fp");
+const { find, get, flow, flatten } = require("lodash/fp");
 const convertPipes = require("../utils/convertPipes");
 
 const findDateRange = flow(get("answers"), find({ type: "DateRange" }));
@@ -27,7 +27,18 @@ class Question {
   }
 
   buildAnswers(answers) {
-    return answers.map(answer => new Answer(answer));
+    const answerArray = flatten(
+      answers.map(answer => {
+        if (answer.hasOwnProperty("other")) {
+          return [
+            answer,
+            Answer.buildChildAnswer(answer.other.answer, answer.id)
+          ];
+        }
+        return answer;
+      })
+    );
+    return answerArray.map(answer => new Answer(answer));
   }
 
   buildDateRangeAnswers({ id, label, secondaryLabel }) {

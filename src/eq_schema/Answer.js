@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 const { isNil } = require("lodash/fp");
+const { merge } = require("lodash");
 
 class Answer {
   constructor(answer) {
@@ -9,6 +10,10 @@ class Answer {
     this.label = answer.label;
     this.description = answer.description;
 
+    if (!isNil(answer.parentAnswerId)) {
+      this.parent_answer_id = `answer-${answer.parentAnswerId}`;
+    }
+
     if (answer.type === "Currency") {
       this.currency = "GBP";
     }
@@ -17,17 +22,26 @@ class Answer {
       this.options = answer.options.map(this.buildOption);
     }
 
-    if (this.options && !isNil(answer.otherAnswer)) {
-      this.options.push(
-        this.buildOption({
-          label: "Other",
-          otherAnswerId: answer.otherAnswer.id
-        })
-      );
+    if (answer.hasOwnProperty("other")) {
+      this.options = this.options.concat(this.buildOtherOption(answer.other));
     }
   }
 
-  buildOption({ label, description, otherAnswerId }) {
+  static buildChildAnswer(
+    { id, mandatory, type, label, description },
+    parentAnswerId
+  ) {
+    return {
+      id,
+      mandatory,
+      type,
+      label,
+      description,
+      parentAnswerId
+    };
+  }
+
+  buildOption({ label, description }) {
     const option = {
       label,
       value: label
@@ -36,12 +50,13 @@ class Answer {
     if (description) {
       option.description = description;
     }
-
-    if (otherAnswerId) {
-      option.child_answer_id = otherAnswerId.toString();
-    }
-
     return option;
+  }
+
+  buildOtherOption(other) {
+    return merge({}, this.buildOption(other.option), {
+      child_answer_id: `answer-${other.answer.id}`
+    });
   }
 }
 
