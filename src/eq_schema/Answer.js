@@ -4,7 +4,6 @@ const { isNil } = require("lodash/fp");
 class Answer {
   constructor(answer) {
     this.id = `answer-${answer.id}`;
-    this.alias = `answer_${answer.id}`;
     this.mandatory = answer.mandatory;
     this.type = answer.type;
     this.label = answer.label;
