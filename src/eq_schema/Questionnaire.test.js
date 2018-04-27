@@ -86,7 +86,7 @@ describe("Questionnaire", () => {
       navigation: {
         visible: true
       },
-      sections: [{ id: "section-2" }, { id: "section-3" }]
+      sections: [{ id: "section2" }, { id: "section3" }]
     });
   });
 
@@ -111,11 +111,11 @@ describe("Questionnaire", () => {
     expect(questionnaire).toMatchObject({
       sections: [
         {
-          id: "section-2",
+          id: "section2",
           title: "Section number 2"
         },
         {
-          id: "section-3",
+          id: "section3",
           title: "Section number 3"
         }
       ]

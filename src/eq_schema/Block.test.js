@@ -22,7 +22,7 @@ describe("Block", () => {
     );
 
     expect(block).toMatchObject({
-      id: "block-1",
+      id: "block1",
       title: "section title",
       description: "section description",
       questions: [expect.any(Question)]
@@ -37,7 +37,7 @@ describe("Block", () => {
     );
 
     expect(block).toMatchObject({
-      id: "block-1",
+      id: "block1",
       title: "section <em>title</em>",
       description: "section <strong>description</strong>",
       questions: [expect.any(Question)]

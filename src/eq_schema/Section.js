@@ -3,7 +3,7 @@ const { getText } = require("../utils/HTMLUtils");
 
 class Section {
   constructor(section) {
-    this.id = `section-${section.id}`;
+    this.id = `section${section.id}`;
     this.title = getText(section.title);
     this.groups = this.buildGroups(section.id, this.title, section);
   }

@@ -3,7 +3,7 @@ const { getInnerHTML } = require("../utils/HTMLUtils");
 
 class Group {
   constructor(id, title, description, pages) {
-    this.id = `group-${id}`;
+    this.id = `group${id}`;
     this.title = getInnerHTML(title);
     this.blocks = this.buildBlocks(this.title, description, pages);
   }

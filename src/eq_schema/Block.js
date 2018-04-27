@@ -9,7 +9,7 @@ const pageTypeMappings = {
 
 class Block {
   constructor(title, description, page) {
-    this.id = "block-" + page.id.toString();
+    this.id = `block${page.id}`;
     this.title = getInnerHTML(title);
     this.description = getInnerHTML(description);
     this.type = this.convertPageType(page.pageType);

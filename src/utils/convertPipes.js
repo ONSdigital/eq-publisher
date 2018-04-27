@@ -9,7 +9,7 @@ const filterMap = {
 const convertElementToPipe = $elem => {
   const { piped, id, type } = $elem.data();
   const filter = filterMap[type];
-  let inner = `${piped}.answer_${id}`;
+  let inner = `${piped}.answer${id}`;
 
   if (filter) {
     inner += `|${filter}`;
