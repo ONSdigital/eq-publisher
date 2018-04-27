@@ -12,7 +12,10 @@ const fetchData = API => async (req, res, next) => {
   const questionnaire = get(result, "data.questionnaire");
 
   if (!questionnaire) {
-    return res.sendStatus(404);
+    return res.status(404).send({
+      params: req.params,
+      error: result.errors
+    });
   }
 
   res.locals.questionnaire = questionnaire;
