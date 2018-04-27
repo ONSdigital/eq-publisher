@@ -6,7 +6,8 @@ describe("fetchData", () => {
   beforeEach(() => {
     res = {
       locals: {},
-      sendStatus: jest.fn()
+      send: jest.fn(() => res),
+      status: jest.fn(() => res)
     };
 
     req = {
@@ -42,10 +43,19 @@ describe("fetchData", () => {
   });
 
   it("should respond with 404 if no questionnaire returned", async () => {
-    API.getAuthorData.mockImplementation(() => null);
+    API.getAuthorData.mockImplementation(() => ({
+      errors: {}
+    }));
+
     await fetcher(req, res, next);
 
-    expect(res.sendStatus).toHaveBeenCalledWith(404);
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.send).toHaveBeenCalledWith(
+      expect.objectContaining({
+        params: expect.any(Object),
+        error: expect.any(Object)
+      })
+    );
   });
 
   it("should assign questionnaire for next middleware", async () => {
