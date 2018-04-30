@@ -18,11 +18,11 @@ class Answer {
       this.currency = "GBP";
     }
 
-    if (answer.hasOwnProperty("options")) {
+    if (!isNil(answer.options)) {
       this.options = answer.options.map(this.buildOption);
     }
 
-    if (answer.hasOwnProperty("other")) {
+    if (!isNil(answer.other)) {
       this.options = this.options.concat(this.buildOtherOption(answer.other));
     }
   }
