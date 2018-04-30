@@ -101,6 +101,64 @@ describe("Question", () => {
         })
       );
     });
+
+    it("should create other answer if exists", () => {
+      const answers = [
+        {
+          type: "Checkbox",
+          id: "1",
+          options: [
+            {
+              id: "1",
+              label: "Option 1"
+            }
+          ],
+          other: {
+            option: {
+              id: "2",
+              label: "Other option"
+            },
+            answer: {
+              id: "2",
+              type: "TextField"
+            }
+          }
+        }
+      ];
+      const question = new Question(createQuestionJSON({ answers }));
+
+      expect(question.answers).toEqual([
+        expect.objectContaining({
+          type: "Checkbox"
+        }),
+        expect.objectContaining({
+          type: "TextField"
+        })
+      ]);
+    });
+
+    it("should not create other answer if other property is nil", () => {
+      const answers = [
+        {
+          type: "Checkbox",
+          id: "1",
+          options: [
+            {
+              id: "1",
+              label: "Option 1"
+            }
+          ],
+          other: null
+        }
+      ];
+      const question = new Question(createQuestionJSON({ answers }));
+
+      expect(question.answers).toEqual([
+        expect.objectContaining({
+          type: "Checkbox"
+        })
+      ]);
+    });
   });
 
   describe("piping", () => {

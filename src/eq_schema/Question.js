@@ -7,6 +7,7 @@ const findDateRange = flow(get("answers"), find({ type: "DateRange" }));
 
 const processPipedText = flow(convertPipes, getInnerHTML);
 const processGuidance = flow(convertPipes, parseGuidance);
+const { isNil } = require("lodash");
 
 class Question {
   constructor(question) {
@@ -29,7 +30,7 @@ class Question {
   buildAnswers(answers) {
     const answerArray = flatten(
       answers.map(answer => {
-        if (answer.hasOwnProperty("other")) {
+        if (!isNil(answer.other)) {
           return [
             answer,
             Answer.buildChildAnswer(answer.other.answer, answer.id)
