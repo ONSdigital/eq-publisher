@@ -17,7 +17,7 @@ describe("fetchData", () => {
     };
 
     API = {
-      getAuthorData: jest.fn()
+      getAuthorData: jest.fn(() => Promise.resolve({}))
     };
 
     next = jest.fn();
@@ -25,27 +25,25 @@ describe("fetchData", () => {
     fetcher = fetchData(API);
   });
 
-  it("should request data from API", () => {
-    fetcher(req, res, next);
+  it("should request data from API", async () => {
+    await fetcher(req, res, next);
 
     expect(API.getAuthorData).toHaveBeenCalledWith(req.params.questionnaireId);
   });
 
-  it("should pass error to next middleware if API errors", () => {
+  it("should pass error to next middleware if API errors", async () => {
     const error = new Error("oops");
     API.getAuthorData.mockImplementation(() => {
       throw error;
     });
 
-    fetcher(req, res, next);
+    await fetcher(req, res, next);
 
     expect(next).toHaveBeenCalledWith(error);
   });
 
   it("should respond with 404 if no questionnaire returned", async () => {
-    API.getAuthorData.mockImplementation(() => ({
-      errors: {}
-    }));
+    API.getAuthorData.mockImplementation(() => Promise.resolve({ errors: {} }));
 
     await fetcher(req, res, next);
 
@@ -61,9 +59,11 @@ describe("fetchData", () => {
   it("should assign questionnaire for next middleware", async () => {
     const questionnaire = { id: "123" };
 
-    API.getAuthorData.mockImplementation(() => ({
-      data: { questionnaire }
-    }));
+    API.getAuthorData.mockImplementation(() =>
+      Promise.resolve({
+        data: { questionnaire }
+      })
+    );
 
     await fetcher(req, res, next);
 
