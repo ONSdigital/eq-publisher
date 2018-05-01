@@ -22,7 +22,7 @@ describe("convertPipes", () => {
 
   it("should convert relevant elements to pipe format", () => {
     const html = createPipe();
-    expect(convertPipes(html)).toEqual("{{answers.answer_123}}");
+    expect(convertPipes(html)).toEqual("{{answers.answer123}}");
   });
 
   it("should handle multiple piped values", () => {
@@ -31,7 +31,7 @@ describe("convertPipes", () => {
     const html = `${pipe1}${pipe2}`;
 
     expect(convertPipes(html)).toEqual(
-      "{{answers.answer_123}}{{answers.answer_456}}"
+      "{{answers.answer123}}{{answers.answer456}}"
     );
   });
 
@@ -41,28 +41,26 @@ describe("convertPipes", () => {
     const html = `hello ${pipe1}${pipe2} world`;
 
     expect(convertPipes(html)).toEqual(
-      "hello {{answers.answer_123}}{{answers.answer_456}} world"
+      "hello {{answers.answer123}}{{answers.answer456}} world"
     );
   });
 
   describe("formatting", () => {
     it("should format Date answers with `format_date`", () => {
       const html = createPipe({ id: "123", type: "Date" });
-      expect(convertPipes(html)).toEqual("{{answers.answer_123|format_date}}");
+      expect(convertPipes(html)).toEqual("{{answers.answer123|format_date}}");
     });
 
     it("should format Currency answers with `format_currency`", () => {
       const html = createPipe({ id: "123", type: "Currency" });
       expect(convertPipes(html)).toEqual(
-        "{{answers.answer_123|format_currency}}"
+        "{{answers.answer123|format_currency}}"
       );
     });
 
     it("should format Number answers with `format_number`", () => {
       const html = createPipe({ id: "123", type: "Number" });
-      expect(convertPipes(html)).toEqual(
-        "{{answers.answer_123|format_number}}"
-      );
+      expect(convertPipes(html)).toEqual("{{answers.answer123|format_number}}");
     });
   });
 });

@@ -11,7 +11,7 @@ const { isNil } = require("lodash");
 
 class Question {
   constructor(question) {
-    this.id = "question-" + question.id;
+    this.id = `question${question.id}`;
     this.title = processPipedText(question.title);
     this.guidance = processGuidance(question.guidance);
     this.description = processPipedText(question.description);
@@ -47,13 +47,13 @@ class Question {
       new Answer({
         label,
         type: "Date",
-        id: `${id}-from`,
+        id: `${id}from`,
         mandatory: true
       }),
       new Answer({
         label: secondaryLabel,
         type: "Date",
-        id: `${id}-to`,
+        id: `${id}to`,
         mandatory: true
       })
     ];

@@ -4,14 +4,14 @@ const { merge } = require("lodash");
 
 class Answer {
   constructor(answer) {
-    this.id = `answer-${answer.id}`;
+    this.id = `answer${answer.id}`;
     this.mandatory = answer.mandatory;
     this.type = answer.type;
     this.label = answer.label;
     this.description = answer.description;
 
     if (!isNil(answer.parentAnswerId)) {
-      this.parent_answer_id = `answer-${answer.parentAnswerId}`;
+      this.parent_answer_id = `answer${answer.parentAnswerId}`;
     }
 
     if (answer.type === "Currency") {
@@ -55,7 +55,7 @@ class Answer {
 
   buildOtherOption(other) {
     return merge({}, this.buildOption(other.option), {
-      child_answer_id: `answer-${other.answer.id}`
+      child_answer_id: `answer${other.answer.id}`
     });
   }
 }

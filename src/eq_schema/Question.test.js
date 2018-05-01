@@ -18,7 +18,7 @@ describe("Question", () => {
     const question = new Question(createQuestionJSON());
 
     expect(question).toMatchObject({
-      id: "question-1",
+      id: "question1",
       title: "question title",
       type: "General",
       answers: [expect.any(Answer)]
@@ -75,13 +75,13 @@ describe("Question", () => {
           {
             label: "Period from",
             type: "Date",
-            id: "answer-1-from",
+            id: "answer1from",
             mandatory: true
           },
           {
             label: "Period to",
             type: "Date",
-            id: "answer-1-to",
+            id: "answer1to",
             mandatory: true
           }
         ]
@@ -174,7 +174,7 @@ describe("Question", () => {
         })
       );
 
-      expect(question.title).toEqual("{{answers.answer_123}}");
+      expect(question.title).toEqual("{{answers.answer123}}");
     });
 
     it("should handle piped values in guidance", () => {
@@ -185,7 +185,7 @@ describe("Question", () => {
       );
 
       expect(question.guidance.content[0]).toEqual({
-        title: "{{answers.answer_123}}"
+        title: "{{answers.answer123}}"
       });
     });
 
@@ -196,7 +196,7 @@ describe("Question", () => {
         })
       );
 
-      expect(question.description).toEqual("{{answers.answer_123}}");
+      expect(question.description).toEqual("{{answers.answer123}}");
     });
   });
 });

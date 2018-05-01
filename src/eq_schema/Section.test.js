@@ -21,11 +21,11 @@ describe("Section", () => {
     const section = new Section(createSectionJSON());
 
     expect(section).toMatchObject({
-      id: "section-1",
+      id: "section1",
       title: "Section 1",
       groups: [
         {
-          id: "group-1",
+          id: "group1",
           title: "Section 1",
           blocks: [expect.any(Block)]
         }

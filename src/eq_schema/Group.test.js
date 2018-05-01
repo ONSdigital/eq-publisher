@@ -27,7 +27,7 @@ describe("Group", () => {
     );
 
     expect(group).toMatchObject({
-      id: "group-1",
+      id: "group1",
       title: "Section 1",
       blocks: [expect.any(Block)]
     });

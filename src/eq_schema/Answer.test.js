@@ -21,7 +21,7 @@ describe("Answer", () => {
     const answer = new Answer(createAnswerJSON({ type: "PositiveInteger" }));
 
     expect(answer).toMatchObject({
-      id: "answer-1",
+      id: "answer1",
       type: "PositiveInteger",
       mandatory: false,
       description: "This is a description"
@@ -183,10 +183,10 @@ describe("Answer", () => {
       );
       expect(question.answers[1]).toEqual(
         expect.objectContaining({
-          parent_answer_id: "answer-1",
+          parent_answer_id: "answer1",
           description: "This is a description",
           mandatory: false,
-          id: "answer-4",
+          id: "answer4",
           label: "This is not a label",
           type: "TextField"
         })
@@ -200,7 +200,7 @@ describe("Answer", () => {
         expect.objectContaining({
           label,
           description,
-          child_answer_id: `answer-${checkboxWithOther.other.answer.id}`
+          child_answer_id: `answer${checkboxWithOther.other.answer.id}`
         })
       );
     });
