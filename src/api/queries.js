@@ -39,10 +39,20 @@ exports.getQuestionnaire = `
             guidance
             pageType
             routingRuleSet {
-              id
+              id  
+              else{
+                page{
+                  id
+                }
+              }
               routingRules {
                 id
-                operation
+                operation  
+                goto{
+                  page{
+                    id
+                  }
+                }
                 conditions {
                   id
                   comparator
@@ -60,9 +70,9 @@ exports.getQuestionnaire = `
                     }  
                   }
                 }
-                goto
+              
               }
-              else
+            
             }
             answers {
               ...answerFragment

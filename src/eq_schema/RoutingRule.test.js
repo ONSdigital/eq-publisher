@@ -12,13 +12,21 @@ describe("Rule", () => {
         type: "General",
         answers: [],
         RoutingRuleSet: {
-          else: 2,
+          else: {
+            page: {
+              id: 2
+            }
+          },
           id: 1,
           routingRules: [
             {
               id: 1,
               operation: testOperation,
-              goto: 2,
+              goto: {
+                page: {
+                  id: 2
+                }
+              },
               conditions: [
                 {
                   id: 1,
@@ -58,7 +66,7 @@ describe("Rule", () => {
       createRuleJSON()
     );
     expect(block).toMatchObject({
-      id: "block-1",
+      id: "block1",
       title: "section title",
       description: "section description",
       questions: [expect.any(Question)],
@@ -66,14 +74,14 @@ describe("Rule", () => {
       routing_rules: [
         {
           goto: {
-            block: "block-2",
+            block: "block2",
             when: [
-              { id: "answer-2", condition: "Equal", value: "yes" },
-              { id: "answer-2", condition: "Equal", value: "no" }
+              { id: "answer2", condition: "Equal", value: "yes" },
+              { id: "answer2", condition: "Equal", value: "no" }
             ]
           }
         },
-        { goto: { block: "block-2" } }
+        { goto: { block: "block2" } }
       ]
     });
   });
@@ -86,7 +94,7 @@ describe("Rule", () => {
       createRuleJSON()
     );
     expect(block).toMatchObject({
-      id: "block-1",
+      id: "block1",
       title: "section title",
       description: "section description",
       questions: [expect.any(Question)],
@@ -94,17 +102,17 @@ describe("Rule", () => {
       routing_rules: [
         {
           goto: {
-            block: "block-2",
-            when: [{ id: "answer-2", condition: "Equal", value: "yes" }]
+            block: "block2",
+            when: [{ id: "answer2", condition: "Equal", value: "yes" }]
           }
         },
         {
           goto: {
-            block: "block-2",
-            when: [{ id: "answer-2", condition: "Equal", value: "no" }]
+            block: "block2",
+            when: [{ id: "answer2", condition: "Equal", value: "no" }]
           }
         },
-        { goto: { block: "block-2" } }
+        { goto: { block: "block2" } }
       ]
     });
   });

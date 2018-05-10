@@ -1,4 +1,4 @@
-const { isNil, filter, flatMap, flatMapDeep, pick } = require("lodash");
+const { isNil, filter, flatMap, flatMapDeep, pick, get } = require("lodash");
 
 class RoutingRule {
   constructor(rule) {
@@ -10,7 +10,7 @@ class RoutingRule {
   }
 
   getGotoBlock(destination) {
-    return "block-" + destination.toString();
+    return "block" + get(destination, "page.id").toString();
   }
 
   getConditions(conditions) {
@@ -31,7 +31,7 @@ class RoutingRule {
     return flatMap(conditions, condition => {
       return valueArray.map(answerValue => {
         return {
-          id: `answer-` + condition.answer.id,
+          id: `answer` + condition.answer.id,
           condition: condition.comparator,
           value: answerValue.value
         };
