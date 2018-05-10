@@ -15,7 +15,7 @@ class RoutingRule {
 
   getConditions(conditions) {
     const idArray = flatMap(conditions, condition => {
-      return condition.routingValue;
+      return condition.routingValue.value;
     });
 
     let valueArray = flatMapDeep(idArray, id => {

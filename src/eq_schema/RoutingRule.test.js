@@ -48,7 +48,9 @@ describe("Rule", () => {
                       }
                     ]
                   },
-                  routingValue: [1, 2]
+                  routingValue: {
+                    value: [1, 2]
+                  }
                 }
               ]
             }

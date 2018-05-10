@@ -35,7 +35,7 @@ class Block {
       }
 
       return flatMap(rule.conditions, (cond, i) => {
-        return cond.routingValue.map(answerValue => {
+        return cond.routingValue.value.map(answerValue => {
           return {
             id: `${rule.id}-${i}`,
             operation: "And",
@@ -44,7 +44,9 @@ class Block {
                 id: i,
                 comparator: cond.comparator,
                 answer: cond.answer,
-                routingValue: [answerValue]
+                routingValue: {
+                  value: [answerValue]
+                }
               }
             ],
             goto: rule.goto
