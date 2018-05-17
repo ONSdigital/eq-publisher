@@ -9,31 +9,32 @@ const pageTypeMappings = {
 };
 
 class Block {
-  constructor(title, description, page) {
+  constructor(title, description, page, ctx) {
     this.id = `block${page.id}`;
     this.title = getInnerHTML(title);
     this.description = getInnerHTML(description);
     this.type = this.convertPageType(page.pageType);
-    this.questions = this.buildQuestions(page);
+    this.questions = this.buildQuestions(page, ctx);
     if (!isNil(page.RoutingRuleSet)) {
       // eslint-disable-next-line camelcase
       this.routing_rules = this.buildRoutingRules(
         page.RoutingRuleSet.routingRules,
-        page.RoutingRuleSet
+        page.RoutingRuleSet,
+        page.id,
+        ctx
       );
     }
   }
 
-  buildQuestions(page) {
-    return [new Question(page)];
+  buildQuestions(page, ctx) {
+    return [new Question(page, ctx)];
   }
 
-  buildRoutingRules(routingRules, RoutingRuleSet) {
+  buildRoutingRules(routingRules, RoutingRuleSet, pageId, ctx) {
     const flattenedRules = flatMap(routingRules, rule => {
       if (rule.operation === "And") {
         return rule;
       }
-
       return flatMap(rule.conditions, (cond, i) => {
         return cond.routingValue.value.map(answerValue => {
           return {
@@ -61,8 +62,10 @@ class Block {
       };
     };
 
-    const rules = flattenedRules.map(rule => new RoutingRule(rule));
-    return rules.concat(new RoutingRule(elseRule(RoutingRuleSet)));
+    const rules = flattenedRules.map(
+      rule => new RoutingRule(rule, pageId, ctx)
+    );
+    return rules.concat(new RoutingRule(elseRule(RoutingRuleSet), pageId, ctx));
   }
 
   convertPageType(type) {

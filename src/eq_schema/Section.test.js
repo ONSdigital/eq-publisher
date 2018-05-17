@@ -1,5 +1,6 @@
 const Block = require("./Block");
 const Section = require("./Section");
+const ctx = {};
 
 describe("Section", () => {
   const createSectionJSON = options =>
@@ -18,7 +19,7 @@ describe("Section", () => {
     );
 
   it("should build valid runner Section from Author section", () => {
-    const section = new Section(createSectionJSON());
+    const section = new Section(createSectionJSON(), ctx);
 
     expect(section).toMatchObject({
       id: "section1",

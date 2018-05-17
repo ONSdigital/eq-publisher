@@ -1,16 +1,46 @@
-const { isNil, filter, flatMap, flatMapDeep, pick, get } = require("lodash");
+const {
+  isNil,
+  filter,
+  flatMap,
+  flatMapDeep,
+  flatten,
+  pick,
+  get,
+  findIndex
+} = require("lodash");
 
 class RoutingRule {
-  constructor(rule) {
+  constructor(rule, pageId, ctx) {
     this.goto = {};
-    this.goto.block = this.getGotoBlock(rule.goto);
+    if (!rule.goto) {
+      this.goto.block = this.getUndefinedGoto(pageId, ctx);
+    } else if (rule.goto.__typename === "QuestionPage") {
+      this.goto.block = this.getGotoBlock(rule.goto);
+    } else {
+      this.goto.group = this.getGotoGroup(rule.goto);
+    }
+
     if (!isNil(rule.conditions)) {
       this.goto.when = this.getConditions(rule.conditions);
     }
   }
 
   getGotoBlock(destination) {
-    return "block" + get(destination, "page.id").toString();
+    return "block" + get(destination, "id").toString();
+  }
+
+  getGotoGroup(destination) {
+    return "group" + get(destination, "id").toString();
+  }
+
+  getUndefinedGoto(pageId, ctx) {
+    const pages = flatten(
+      flatMap(ctx.sections).map(sections => sections.pages)
+    );
+    const currentPageIndex = findIndex(pages, { id: pageId });
+    const nextPage = get(pages, `[${currentPageIndex + 1}].id`, null);
+    const lastPage = get(ctx, "summary") ? "summary" : "confirmation";
+    return nextPage ? "block" + nextPage : lastPage;
   }
 
   getConditions(conditions) {

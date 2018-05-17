@@ -1,5 +1,6 @@
 const Question = require("./Question");
 const Answer = require("./Answer");
+const ctx = {};
 
 describe("Question", () => {
   const createQuestionJSON = options =>
@@ -171,7 +172,8 @@ describe("Question", () => {
       const question = new Question(
         createQuestionJSON({
           title: createPipe()
-        })
+        }),
+        ctx
       );
 
       expect(question.title).toEqual("{{answers.answer123}}");
@@ -181,7 +183,8 @@ describe("Question", () => {
       const question = new Question(
         createQuestionJSON({
           guidance: `<h2>${createPipe()}</h2>`
-        })
+        }),
+        ctx
       );
 
       expect(question.guidance.content[0]).toEqual({
@@ -193,7 +196,8 @@ describe("Question", () => {
       const question = new Question(
         createQuestionJSON({
           description: `<h2>${createPipe()}</h2>`
-        })
+        }),
+        ctx
       );
 
       expect(question.description).toEqual("{{answers.answer123}}");

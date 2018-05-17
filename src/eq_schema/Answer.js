@@ -46,7 +46,6 @@ class Answer {
       label,
       value: label
     };
-
     if (description) {
       option.description = description;
     }

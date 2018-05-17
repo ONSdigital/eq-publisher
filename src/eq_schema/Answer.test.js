@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const Answer = require("./Answer");
 const Question = require("./Question");
+const ctx = {};
 
 describe("Answer", () => {
   const createAnswerJSON = answer =>
@@ -18,7 +19,10 @@ describe("Answer", () => {
     );
 
   it("should generate  a valid eQ answer from an author answer", () => {
-    const answer = new Answer(createAnswerJSON({ type: "PositiveInteger" }));
+    const answer = new Answer(
+      createAnswerJSON({ type: "PositiveInteger" }),
+      ctx
+    );
 
     expect(answer).toMatchObject({
       id: "answer1",
@@ -29,13 +33,13 @@ describe("Answer", () => {
   });
 
   it("should set currency to GBP for currency types", () => {
-    const answer = new Answer(createAnswerJSON({ type: "Currency" }));
+    const answer = new Answer(createAnswerJSON({ type: "Currency" }), ctx);
     expect(answer.currency).toBe("GBP");
   });
 
   describe("converting options", () => {
     it("should not add options for basic answer types", () => {
-      const answer = new Answer(createAnswerJSON());
+      const answer = new Answer(createAnswerJSON(), ctx);
       expect(answer.options).toBeUndefined();
     });
 
@@ -55,7 +59,8 @@ describe("Answer", () => {
               description: "Another description"
             }
           ]
-        })
+        }),
+        ctx
       );
 
       expect(answer.options).toEqual([
@@ -86,7 +91,8 @@ describe("Answer", () => {
               label: "Option two"
             }
           ]
-        })
+        }),
+        ctx
       );
 
       answer.options.forEach(option => {
@@ -95,7 +101,7 @@ describe("Answer", () => {
     });
 
     it("should add options even if empty array", () => {
-      const answer = new Answer(createAnswerJSON({ options: [] }));
+      const answer = new Answer(createAnswerJSON({ options: [] }), ctx);
       expect(answer.options).toEqual([]);
     });
   });
@@ -116,7 +122,8 @@ describe("Answer", () => {
             description: null
           }
         ]
-      })
+      }),
+      ctx
     );
 
     expect(answer.options).toEqual([
@@ -170,7 +177,8 @@ describe("Answer", () => {
       question = new Question(
         createAnswerJSON({
           answers: [checkboxWithOther]
-        })
+        }),
+        ctx
       );
     });
 
