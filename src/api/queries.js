@@ -41,16 +41,28 @@ exports.getQuestionnaire = `
             routingRuleSet {
               id  
               else{
-                page{
+                ... on Section {
                   id
+                }
+                ... on Page {
+                  id
+                  section {
+                    id
+                  }
                 }
               }
               routingRules {
                 id
                 operation  
                 goto{
-                  page{
+                  ... on Section {
                     id
+                  }
+                  ... on Page {
+                    id
+                    section {
+                      id
+                    }
                   }
                 }
                 conditions {
