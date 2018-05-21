@@ -146,4 +146,17 @@ describe("Questionnaire", () => {
     const lastGroup = last(lastSection.groups);
     expect(last(lastGroup.blocks).type).toEqual("Confirmation");
   });
+
+  it("should build the default metadata", () => {
+    expect(questionnaire).toMatchObject({
+      metadata: {
+        user_id: {
+          validator: "string"
+        },
+        period_id: {
+          validator: "string"
+        }
+      }
+    });
+  });
 });
