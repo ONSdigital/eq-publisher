@@ -18,6 +18,7 @@ class Questionnaire {
     this.theme = questionnaireJson.theme;
     this.legal_basis = questionnaireJson.legalBasis;
     this.navigation = { visible: questionnaireJson.navigation };
+    this.metadata = this.buildMetadata();
 
     this.buildSummaryOrConfirmation(questionnaireJson.summary);
   }
@@ -29,6 +30,17 @@ class Questionnaire {
   buildSummaryOrConfirmation(summary) {
     const finalPage = summary ? new Summary() : new Confirmation();
     last(last(this.sections).groups).blocks.push(finalPage);
+  }
+
+  buildMetadata() {
+    return {
+      user_id: {
+        validator: "string"
+      },
+      period_id: {
+        validator: "string"
+      }
+    };
   }
 }
 
