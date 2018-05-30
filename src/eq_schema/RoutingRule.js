@@ -1,4 +1,12 @@
+const mapFields = require("../utils/mapFields");
+const mapping = {
+  Equal: "equals",
+  NotEqual: "not equals"
+};
+const toRunner = mapFields(mapping);
+
 const {
+  invert,
   isNil,
   filter,
   flatMap,
@@ -55,15 +63,15 @@ class RoutingRule {
     });
 
     valueArray = valueArray.map(answerValue => {
-      return pick(answerValue, "value");
+      return pick(answerValue, "label");
     });
 
-    return flatMap(conditions, condition => {
+    return flatMapDeep(conditions, condition => {
       return valueArray.map(answerValue => {
         return {
           id: `answer` + condition.answer.id,
-          condition: condition.comparator,
-          value: answerValue.value
+          condition: toRunner(condition.comparator),
+          value: answerValue.label
         };
       });
     });

@@ -25,7 +25,7 @@ describe("Rule", () => {
     pageType: "Question",
     type: "General",
     answers: [],
-    RoutingRuleSet: {
+    routingRuleSet: {
       else: {
         __typename: typename,
         id: 2,
@@ -54,15 +54,15 @@ describe("Rule", () => {
                 options: [
                   {
                     id: 1,
-                    value: "yes"
+                    label: "yes"
                   },
                   {
                     id: 2,
-                    value: "no"
+                    label: "no"
                   },
                   {
                     id: 3,
-                    value: "maybe"
+                    label: "maybe"
                   }
                 ]
               },
@@ -80,8 +80,8 @@ describe("Rule", () => {
     const testOperation = "And";
 
     const jsonWithoutDestinations = omit(createRuleJSON(testOperation), [
-      "RoutingRuleSet.else",
-      "RoutingRuleSet.routingRules[0].goto"
+      "routingRuleSet.else",
+      "routingRuleSet.routingRules[0].goto"
     ]);
     const block = new Block(
       "section title",
@@ -100,8 +100,8 @@ describe("Rule", () => {
           goto: {
             block: "block2",
             when: [
-              { id: "answer2", condition: "Equal", value: "yes" },
-              { id: "answer2", condition: "Equal", value: "no" }
+              { id: "answer2", condition: "equals", value: "yes" },
+              { id: "answer2", condition: "equals", value: "no" }
             ]
           }
         },
@@ -130,8 +130,8 @@ describe("Rule", () => {
           goto: {
             block: "block2",
             when: [
-              { id: "answer2", condition: "Equal", value: "yes" },
-              { id: "answer2", condition: "Equal", value: "no" }
+              { id: "answer2", condition: "equals", value: "yes" },
+              { id: "answer2", condition: "equals", value: "no" }
             ]
           }
         },
@@ -160,8 +160,8 @@ describe("Rule", () => {
           goto: {
             group: "group2",
             when: [
-              { id: "answer2", condition: "Equal", value: "yes" },
-              { id: "answer2", condition: "Equal", value: "no" }
+              { id: "answer2", condition: "equals", value: "yes" },
+              { id: "answer2", condition: "equals", value: "no" }
             ]
           }
         },
@@ -189,13 +189,13 @@ describe("Rule", () => {
         {
           goto: {
             block: "block2",
-            when: [{ id: "answer2", condition: "Equal", value: "yes" }]
+            when: [{ id: "answer2", condition: "equals", value: "yes" }]
           }
         },
         {
           goto: {
             block: "block2",
-            when: [{ id: "answer2", condition: "Equal", value: "no" }]
+            when: [{ id: "answer2", condition: "equals", value: "no" }]
           }
         },
         { goto: { block: "block2" } }
@@ -222,13 +222,13 @@ describe("Rule", () => {
         {
           goto: {
             group: "group2",
-            when: [{ id: "answer2", condition: "Equal", value: "yes" }]
+            when: [{ id: "answer2", condition: "equals", value: "yes" }]
           }
         },
         {
           goto: {
             group: "group2",
-            when: [{ id: "answer2", condition: "Equal", value: "no" }]
+            when: [{ id: "answer2", condition: "equals", value: "no" }]
           }
         },
         { goto: { group: "group2" } }

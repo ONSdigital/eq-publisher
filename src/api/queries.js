@@ -69,10 +69,11 @@ exports.getQuestionnaire = `
                   id
                   comparator
                   answer {
+                    id
                     ...on MultipleChoiceAnswer{
                       options {
                         id
-                        value
+                        label
                       }
                     }
                   }

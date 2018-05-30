@@ -15,11 +15,11 @@ class Block {
     this.description = getInnerHTML(description);
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page, ctx);
-    if (!isNil(page.RoutingRuleSet)) {
+    if (!isNil(page.routingRuleSet)) {
       // eslint-disable-next-line camelcase
       this.routing_rules = this.buildRoutingRules(
-        page.RoutingRuleSet.routingRules,
-        page.RoutingRuleSet,
+        page.routingRuleSet.routingRules,
+        page.routingRuleSet,
         page.id,
         ctx
       );
@@ -30,7 +30,7 @@ class Block {
     return [new Question(page, ctx)];
   }
 
-  buildRoutingRules(routingRules, RoutingRuleSet, pageId, ctx) {
+  buildRoutingRules(routingRules, routingRuleSet, pageId, ctx) {
     const flattenedRules = flatMap(routingRules, rule => {
       if (rule.operation === "And") {
         return rule;
@@ -65,7 +65,7 @@ class Block {
     const rules = flattenedRules.map(
       rule => new RoutingRule(rule, pageId, ctx)
     );
-    return rules.concat(new RoutingRule(elseRule(RoutingRuleSet), pageId, ctx));
+    return rules.concat(new RoutingRule(elseRule(routingRuleSet), pageId, ctx));
   }
 
   convertPageType(type) {
