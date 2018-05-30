@@ -6,7 +6,6 @@ const mapping = {
 const toRunner = mapFields(mapping);
 
 const {
-  invert,
   isNil,
   filter,
   flatMap,
