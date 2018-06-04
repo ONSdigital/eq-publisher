@@ -1,7 +1,6 @@
 const Block = require("./Block");
 const Question = require("./Question");
 const { omit, set } = require("lodash");
-const util = require("util");
 
 const secondCondition = {
   id: 2,
