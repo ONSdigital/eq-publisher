@@ -39,6 +39,9 @@ class Questionnaire {
       },
       period_id: {
         validator: "string"
+      },
+      ru_name: {
+        validator: "string"
       }
     };
   }
