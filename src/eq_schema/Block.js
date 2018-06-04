@@ -1,5 +1,6 @@
 const Question = require("./Question");
 const RoutingRule = require("./RoutingRule");
+const RoutingDestination = require("./RoutingDestination");
 const { get, flatMap, isNil } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
 
@@ -14,11 +15,10 @@ class Block {
     this.title = getInnerHTML(title);
     this.description = getInnerHTML(description);
     this.type = this.convertPageType(page.pageType);
-    this.questions = this.buildQuestions(page, ctx);
+    this.questions = this.buildQuestions(page);
     if (!isNil(page.routingRuleSet)) {
       // eslint-disable-next-line camelcase
       this.routing_rules = this.buildRoutingRules(
-        page.routingRuleSet.routingRules,
         page.routingRuleSet,
         page.id,
         ctx
@@ -26,11 +26,11 @@ class Block {
     }
   }
 
-  buildQuestions(page, ctx) {
-    return [new Question(page, ctx)];
+  buildQuestions(page) {
+    return [new Question(page)];
   }
 
-  buildRoutingRules(routingRules, routingRuleSet, pageId, ctx) {
+  buildRoutingRules({ routingRules, else: elseDest }, pageId, ctx) {
     const flattenedRules = flatMap(routingRules, rule => {
       if (rule.operation === "And") {
         return rule;
@@ -56,16 +56,14 @@ class Block {
       });
     });
 
-    const elseRule = function(elseRule) {
-      return {
-        goto: elseRule.else
-      };
+    const elseRule = function(elseDest, pageId, ctx) {
+      return { goto: new RoutingDestination(elseDest, pageId, ctx) };
     };
 
     const rules = flattenedRules.map(
       rule => new RoutingRule(rule, pageId, ctx)
     );
-    return rules.concat(new RoutingRule(elseRule(routingRuleSet), pageId, ctx));
+    return rules.concat(elseRule(elseDest, pageId, ctx));
   }
 
   convertPageType(type) {

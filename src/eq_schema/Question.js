@@ -10,7 +10,7 @@ const processGuidance = flow(convertPipes, parseGuidance);
 const { isNil } = require("lodash");
 
 class Question {
-  constructor(question, ctx) {
+  constructor(question) {
     this.id = `question${question.id}`;
     this.title = processPipedText(question.title);
     this.guidance = processGuidance(question.guidance);
@@ -20,14 +20,14 @@ class Question {
 
     if (dateRange) {
       this.type = "DateRange";
-      this.answers = this.buildDateRangeAnswers(dateRange, ctx);
+      this.answers = this.buildDateRangeAnswers(dateRange);
     } else {
       this.type = "General";
-      this.answers = this.buildAnswers(question.answers, ctx);
+      this.answers = this.buildAnswers(question.answers);
     }
   }
 
-  buildAnswers(answers, ctx) {
+  buildAnswers(answers) {
     const answerArray = flatten(
       answers.map(answer => {
         if (!isNil(answer.other)) {
@@ -39,24 +39,22 @@ class Question {
         return answer;
       })
     );
-    return answerArray.map(answer => new Answer(answer, ctx));
+    return answerArray.map(answer => new Answer(answer));
   }
 
-  buildDateRangeAnswers({ id, label, secondaryLabel }, ctx) {
+  buildDateRangeAnswers({ id, label, secondaryLabel }) {
     return [
       new Answer({
         label,
         type: "Date",
         id: `${id}from`,
-        mandatory: true,
-        ctx
+        mandatory: true
       }),
       new Answer({
         label: secondaryLabel,
         type: "Date",
         id: `${id}to`,
-        mandatory: true,
-        ctx
+        mandatory: true
       })
     ];
   }
