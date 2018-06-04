@@ -1,11 +1,11 @@
 const mapFields = require("../utils/mapFields");
+const { flatMap, keyBy } = require("lodash");
+
 const mapping = {
   Equal: "equals",
   NotEqual: "not equals"
 };
 const toRunner = mapFields(mapping);
-
-const { filter, flatMap, flatMapDeep, pick, includes } = require("lodash");
 
 class RoutingConditions {
   constructor(conditions) {
@@ -13,30 +13,22 @@ class RoutingConditions {
   }
 
   buildRoutingConditions(conditions) {
-    const idArray = flatMap(conditions, condition => {
-      return condition.routingValue.value;
+    const valueIds = flatMap(conditions, "routingValue.value");
+
+    const options = flatMap(conditions, ({ answer, comparator }) => {
+      return answer.options.map(option => ({
+        id: option.id,
+        answerId: `answer${answer.id}`,
+        condition: toRunner(comparator),
+        value: option.label
+      }));
     });
 
-    let valueArray = flatMapDeep(idArray, id => {
-      return conditions.map(condition => {
-        return filter(condition.answer.options, { id });
-      });
-    });
+    const optionsById = keyBy(options, "id");
 
-    valueArray = valueArray.map(answerValue => {
-      return pick(answerValue, "label");
-    });
-
-    return flatMapDeep(conditions, condition => {
-      return valueArray.map(answerValue => {
-        if (includes(condition.answer.options, { label: answerValue })) {
-          return {
-            id: `answer` + condition.answer.id,
-            condition: toRunner(condition.comparator),
-            value: answerValue.label
-          };
-        }
-      });
+    return valueIds.map(valueId => {
+      const { condition, value, answerId: id } = optionsById[valueId];
+      return { id, condition, value };
     });
   }
 }
