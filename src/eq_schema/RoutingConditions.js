@@ -5,7 +5,7 @@ const mapping = {
 };
 const toRunner = mapFields(mapping);
 
-const { filter, flatMap, flatMapDeep, pick } = require("lodash");
+const { filter, flatMap, flatMapDeep, pick, includes } = require("lodash");
 
 class RoutingConditions {
   constructor(conditions) {
@@ -29,11 +29,13 @@ class RoutingConditions {
 
     return flatMapDeep(conditions, condition => {
       return valueArray.map(answerValue => {
-        return {
-          id: `answer` + condition.answer.id,
-          condition: toRunner(condition.comparator),
-          value: answerValue.label
-        };
+        if (includes(condition.answer.options, { label: answerValue })) {
+          return {
+            id: `answer` + condition.answer.id,
+            condition: toRunner(condition.comparator),
+            value: answerValue.label
+          };
+        }
       });
     });
   }
