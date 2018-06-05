@@ -1,5 +1,5 @@
 const mapFields = require("../utils/mapFields");
-const { flatMap, keyBy } = require("lodash");
+const { flatMap, keyBy, at } = require("lodash");
 
 const mapping = {
   Equal: "equals",
@@ -13,22 +13,15 @@ class RoutingConditions {
   }
 
   buildRoutingConditions(conditions) {
-    const valueIds = flatMap(conditions, "routingValue.value");
+    return flatMap(conditions, ({ answer, routingValue, comparator }) => {
+      const optionsById = keyBy(answer.options, "id");
+      const filteredOptions = at(optionsById, routingValue.value);
 
-    const options = flatMap(conditions, ({ answer, comparator }) => {
-      return answer.options.map(option => ({
-        id: option.id,
-        answerId: `answer${answer.id}`,
+      return filteredOptions.map(option => ({
+        id: `answer${answer.id}`,
         condition: toRunner(comparator),
         value: option.label
       }));
-    });
-
-    const optionsById = keyBy(options, "id");
-
-    return valueIds.map(valueId => {
-      const { condition, value, answerId: id } = optionsById[valueId];
-      return { id, condition, value };
     });
   }
 }
