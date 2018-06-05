@@ -1,4 +1,4 @@
-const { flatMap, flatten, get, findIndex } = require("lodash");
+const { flatMap, get, findIndex } = require("lodash");
 
 class RoutingDestination {
   constructor(goto, pageId, ctx) {
