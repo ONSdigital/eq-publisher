@@ -14,21 +14,19 @@ class RoutingDestination {
   }
 
   getGotoBlock(destination) {
-    return "block" + get(destination, "id").toString();
+    return `block${destination.id}`;
   }
 
   getGotoGroup(destination) {
-    return "group" + get(destination, "id").toString();
+    return `group${destination.id}`;
   }
 
   getUndefinedGoto(pageId, ctx) {
-    const pages = flatten(
-      flatMap(ctx.sections).map(sections => sections.pages)
-    );
+    const pages = flatMap(ctx.sections, "pages");
     const currentPageIndex = findIndex(pages, { id: pageId });
-    const nextPage = get(pages, `[${currentPageIndex + 1}].id`, null);
+    const nextPage = pages[currentPageIndex + 1];
     return nextPage
-      ? "block" + nextPage
+      ? "block" + nextPage.id
       : get(ctx, "summary") ? "summary" : "confirmation";
   }
 }

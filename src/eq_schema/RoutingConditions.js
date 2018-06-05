@@ -1,11 +1,11 @@
-const mapFields = require("../utils/mapFields");
+const mapValues = require("../utils/mapValues");
 const { flatMap, keyBy, at } = require("lodash");
 
 const mapping = {
   Equal: "equals",
   NotEqual: "not equals"
 };
-const toRunner = mapFields(mapping);
+const toRunner = mapValues(mapping);
 
 class RoutingConditions {
   constructor(conditions) {

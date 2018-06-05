@@ -17,6 +17,18 @@ exports.getQuestionnaire = `
     qCode  
   }
 
+fragment destinationFragment on RoutingDestination {
+  ... on Section {
+    id
+  }
+  ... on Page {
+    id
+    section {
+      id
+    }
+  }
+}
+
   query GetQuestionnaire($questionnaireId: ID!) {
     questionnaire(id: $questionnaireId) {
       id
@@ -40,37 +52,21 @@ exports.getQuestionnaire = `
             pageType
             routingRuleSet {
               id  
-              else{
-                ... on Section {
-                  id
-                }
-                ... on Page {
-                  id
-                  section {
-                    id
+            else {
+              ...destinationFragment
                   }
-                }
-              }
               routingRules {
                 id
                 operation  
-                goto{
-                  ... on Section {
-                    id
-                  }
-                  ... on Page {
-                    id
-                    section {
-                      id
+              goto {
+                ...destinationFragment
                     }
-                  }
-                }
                 conditions {
                   id
                   comparator
                   answer {
                     id
-                    ...on MultipleChoiceAnswer{
+                  ... on MultipleChoiceAnswer {
                       options {
                         id
                         label
@@ -78,14 +74,12 @@ exports.getQuestionnaire = `
                     }
                   }
                   routingValue {
-                    ...on IDArrayValue {
+                  ... on IDArrayValue {
                       value
                     }  
                   }
                 }
-              
               }
-            
             }
             answers {
               ...answerFragment
@@ -100,7 +94,7 @@ exports.getQuestionnaire = `
                   option {
                     ...optionFragment
                   }
-                  answer{
+                answer {
                     ...answerFragment
                   }
                 }
