@@ -1,6 +1,32 @@
 const Block = require("./Block");
 const Question = require("./Question");
-const { omit, set } = require("lodash");
+const { set } = require("lodash");
+
+const nextPageGoto = {
+  __typename: "LogicalDestination",
+  logicalDestination: "NextPage"
+};
+
+const endQuestionnaireGoto = {
+  __typename: "LogicalDestination",
+  logicalDestination: "EndOfQuestionnaire"
+};
+
+const absoluteSectionGoto = {
+  __typename: "AbsoluteDestination",
+  absoluteDestination: {
+    __typename: "Section",
+    id: 2
+  }
+};
+
+const absolutePageGoto = {
+  __typename: "AbsoluteDestination",
+  absoluteDestination: {
+    __typename: "QuestionPage",
+    id: 2
+  }
+};
 
 const secondCondition = {
   id: 2,
@@ -27,6 +53,7 @@ const secondCondition = {
   }
 };
 const ctx = {
+  summary: true,
   sections: [
     {
       id: 1,
@@ -44,32 +71,20 @@ const ctx = {
 };
 
 describe("Rule", () => {
-  const createRuleJSON = (testOperation, typename) => ({
+  const createRuleJSON = (testOperation, destination) => ({
     id: 1,
     title: "Question 1",
     pageType: "Question",
     type: "General",
     answers: [],
     routingRuleSet: {
-      else: {
-        __typename: typename,
-        id: 2,
-        section: {
-          id: 1
-        }
-      },
+      else: destination,
       id: 1,
       routingRules: [
         {
           id: 1,
           operation: testOperation,
-          goto: {
-            __typename: typename,
-            id: 2,
-            section: {
-              id: 1
-            }
-          },
+          goto: destination,
           conditions: [
             {
               id: 1,
@@ -101,17 +116,13 @@ describe("Rule", () => {
     }
   });
 
-  it("should build valid runner routing to next page if destination is null", () => {
+  it("should build valid runner routing to next page", () => {
     const testOperation = "And";
 
-    const jsonWithoutDestinations = omit(createRuleJSON(testOperation), [
-      "routingRuleSet.else",
-      "routingRuleSet.routingRules[0].goto"
-    ]);
     const block = new Block(
       "section title",
       "section description",
-      jsonWithoutDestinations,
+      createRuleJSON(testOperation, nextPageGoto),
       ctx
     );
     expect(block).toMatchObject({
@@ -135,13 +146,41 @@ describe("Rule", () => {
     });
   });
 
-  it("should build valid runner routing from Author page to page with And", () => {
+  it("should build valid runner routing to the End of Questionnaire", () => {
     const testOperation = "And";
-    const typename = "QuestionPage";
     const block = new Block(
       "section title",
       "section description",
-      createRuleJSON(testOperation, typename),
+      createRuleJSON(testOperation, endQuestionnaireGoto),
+      ctx
+    );
+    expect(block).toMatchObject({
+      id: "block1",
+      title: "section title",
+      description: "section description",
+      questions: [expect.any(Question)],
+      // eslint-disable-next-line camelcase
+      routing_rules: [
+        {
+          goto: {
+            block: "summary",
+            when: [
+              { id: "answer2", condition: "equals", value: "yes" },
+              { id: "answer2", condition: "equals", value: "no" }
+            ]
+          }
+        },
+        { goto: { block: "summary" } }
+      ]
+    });
+  });
+
+  it("should build valid runner routing from Author page to page with And", () => {
+    const testOperation = "And";
+    const block = new Block(
+      "section title",
+      "section description",
+      createRuleJSON(testOperation, absolutePageGoto),
       ctx
     );
     expect(block).toMatchObject({
@@ -167,11 +206,10 @@ describe("Rule", () => {
 
   it("should build valid runner routing from Author page to section with And", () => {
     const testOperation = "And";
-    const typename = "Section";
     const block = new Block(
       "section title",
       "section description",
-      createRuleJSON(testOperation, typename),
+      createRuleJSON(testOperation, absoluteSectionGoto),
       ctx
     );
     expect(block).toMatchObject({
@@ -197,11 +235,10 @@ describe("Rule", () => {
 
   it("should build valid runner routing from Author page to page with Or", () => {
     const testOperation = "Or";
-    const typename = "QuestionPage";
     const block = new Block(
       "section title",
       "section description",
-      createRuleJSON(testOperation, typename),
+      createRuleJSON(testOperation, absolutePageGoto),
       ctx
     );
     expect(block).toMatchObject({
@@ -230,11 +267,10 @@ describe("Rule", () => {
 
   it("should build valid runner routing from Author page to section with Or", () => {
     const testOperation = "Or";
-    const typename = "Section";
     const block = new Block(
       "section title",
       "section description",
-      createRuleJSON(testOperation, typename),
+      createRuleJSON(testOperation, absoluteSectionGoto),
       ctx
     );
     expect(block).toMatchObject({
@@ -263,9 +299,7 @@ describe("Rule", () => {
 
   it("should build valid runner routing from Author with multiple And'ed conditions", () => {
     const testOperation = "And";
-    const typename = "Section";
-
-    let mulitCondtions = createRuleJSON(testOperation, typename);
+    let mulitCondtions = createRuleJSON(testOperation, absoluteSectionGoto);
 
     set(
       mulitCondtions,
@@ -305,9 +339,7 @@ describe("Rule", () => {
 
   it("should build valid runner routing from Author with multiple Or'ed conditions", () => {
     const testOperation = "Or";
-    const typename = "Section";
-
-    let mulitCondtions = createRuleJSON(testOperation, typename);
+    let mulitCondtions = createRuleJSON(testOperation, absoluteSectionGoto);
 
     set(
       mulitCondtions,

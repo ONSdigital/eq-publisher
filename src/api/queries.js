@@ -1,102 +1,107 @@
 exports.getQuestionnaire = `
-  fragment answerFragment on Answer {
-    id
-    type
-    label
-    description
-    guidance
-    mandatory
-    qCode
-  }
+fragment answerFragment on Answer {
+  id
+  type
+  label
+  description
+  guidance
+  mandatory
+  qCode
+}
 
-  fragment optionFragment on Option {
-    id
-    label
-    description
-    value
-    qCode  
-  }
+fragment optionFragment on Option {
+  id
+  label
+  description
+  value
+  qCode
+}
 
 fragment destinationFragment on RoutingDestination {
-  ... on Section {
-    id
+  ... on LogicalDestination {
+    logicalDestination
   }
-  ... on Page {
-    id
-    section {
-      id
+  ... on AbsoluteDestination {
+    absoluteDestination {
+      ... on QuestionPage {
+        id
+        __typename
+      }
+      ... on Section {
+        id
+        __typename
+      }
     }
   }
 }
 
-  query GetQuestionnaire($questionnaireId: ID!) {
-    questionnaire(id: $questionnaireId) {
+query GetQuestionnaire($questionnaireId: ID!) {
+  questionnaire(id: $questionnaireId) {
+    id
+    title
+    description
+    theme
+    legalBasis
+    navigation
+    surveyId
+    summary
+    sections {
       id
       title
       description
-      theme
-      legalBasis
-      navigation
-      surveyId
-      summary
-      sections {
-        id
-        title
-        description
-        pages {
-          ... on QuestionPage {
+      pages {
+        ... on QuestionPage {
+          id
+          title
+          description
+          guidance
+          pageType
+          routingRuleSet {
             id
-            title
-            description
-            guidance
-            pageType
-            routingRuleSet {
-              id  
             else {
               ...destinationFragment
-                  }
-              routingRules {
-                id
-                operation  
+            }
+            routingRules {
+              id
+              operation
               goto {
                 ...destinationFragment
-                    }
-                conditions {
+              }
+              conditions {
+                id
+                comparator
+                answer {
                   id
-                  comparator
-                  answer {
-                    id
                   ... on MultipleChoiceAnswer {
-                      options {
-                        id
-                        label
-                      }
+                    options {
+                      id
+                      label
                     }
                   }
-                  routingValue {
+                }
+                routingValue {
                   ... on IDArrayValue {
-                      value
-                    }  
+                    value
                   }
                 }
               }
             }
-            answers {
-              ...answerFragment
-              ... on BasicAnswer {
-                secondaryLabel
+          }
+          answers {
+            ...answerFragment
+            ... on BasicAnswer {
+              secondaryLabel
+            }
+            ... on MultipleChoiceAnswer {
+              options {
+                ...optionFragment
               }
-              ... on MultipleChoiceAnswer {
-                options {
+              other {
+                option {
                   ...optionFragment
                 }
-                other {
-                  option {
-                    ...optionFragment
-                  }
                 answer {
-                    ...answerFragment
-                  }
+                  ...answerFragment
                 }
               }
             }
@@ -105,4 +110,4 @@ fragment destinationFragment on RoutingDestination {
       }
     }
   }
-`;
+}`;

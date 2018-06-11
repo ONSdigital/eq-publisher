@@ -1,27 +1,50 @@
 const { flatMap, get, findIndex } = require("lodash");
+const mapValues = require("../utils/mapValues");
+
+const mapping = {
+  Section: "group",
+  QuestionPage: "block"
+};
+const toRunner = mapValues(mapping);
 
 class RoutingDestination {
   constructor(goto, pageId, ctx) {
-    if (!goto) {
-      this.block = this.getUndefinedGoto(pageId, ctx);
-    } else if (goto.__typename === "QuestionPage") {
-      this.block = this.getGotoBlock(goto);
-    } else if (goto.__typename === "Section") {
-      this.group = this.getGotoGroup(goto);
+    if (goto.__typename === "LogicalDestination") {
+      this.block = this.getLogicalDestination(
+        pageId,
+        ctx,
+        goto.logicalDestination
+      );
+    } else if (goto.__typename === "AbsoluteDestination") {
+      this[
+        toRunner(goto.absoluteDestination.__typename)
+      ] = this.getAbsoluteDestination(goto.absoluteDestination);
     } else {
       throw new Error(`${goto} is not a valid destination object`);
     }
   }
 
-  getGotoBlock(destination) {
-    return `block${destination.id}`;
+  getAbsoluteDestination(destination) {
+    if (destination.__typename === "QuestionPage") {
+      return `block${destination.id}`;
+    } else if (destination.__typename === "Section") {
+      return `group${destination.id}`;
+    } else {
+      throw new Error(`${destination} is not a valid destination object`);
+    }
   }
 
-  getGotoGroup(destination) {
-    return `group${destination.id}`;
+  getLogicalDestination(pageId, ctx, logicalDestination) {
+    if (logicalDestination === "EndOfQuestionnaire") {
+      return get(ctx, "summary") ? "summary" : "confirmation";
+    } else if (logicalDestination === "NextPage") {
+      return this.getNextPageDestination(pageId, ctx);
+    } else {
+      throw new Error(`${logicalDestination} is not a valid destination type`);
+    }
   }
 
-  getUndefinedGoto(pageId, ctx) {
+  getNextPageDestination(pageId, ctx) {
     const pages = flatMap(ctx.sections, "pages");
     const currentPageIndex = findIndex(pages, { id: pageId });
     const nextPage = pages[currentPageIndex + 1];
