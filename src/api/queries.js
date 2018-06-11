@@ -1,107 +1,108 @@
 exports.getQuestionnaire = `
-fragment answerFragment on Answer {
-  id
-  type
-  label
-  description
-  guidance
-  mandatory
-  qCode
-}
-
-fragment optionFragment on Option {
-  id
-  label
-  description
-  value
-  qCode
-}
-
-fragment destinationFragment on RoutingDestination {
-  ... on LogicalDestination {
-    logicalDestination
+  fragment answerFragment on Answer {
+    id
+    type
+    label
+    description
+    guidance
+    mandatory
+    qCode
   }
-  ... on AbsoluteDestination {
-    absoluteDestination {
-      ... on QuestionPage {
-        id
-        __typename
-      }
-      ... on Section {
-        id
-        __typename
+
+  fragment optionFragment on Option {
+    id
+    label
+    description
+    value
+    qCode
+  }
+
+  fragment destinationFragment on RoutingDestination {
+    ... on LogicalDestination {
+      logicalDestination
+    }
+    ... on AbsoluteDestination {
+      absoluteDestination {
+        ... on QuestionPage {
+          id
+          __typename
+        }
+        ... on Section {
+          id
+          __typename
+        }
       }
     }
   }
-}
 
-query GetQuestionnaire($questionnaireId: ID!) {
-  questionnaire(id: $questionnaireId) {
-    id
-    title
-    description
-    theme
-    legalBasis
-    navigation
-    surveyId
-    summary
-    sections {
+  query GetQuestionnaire($questionnaireId: ID!) {
+    questionnaire(id: $questionnaireId) {
       id
       title
       description
-      pages {
-        ... on QuestionPage {
-          id
-          title
-          description
-          guidance
-          pageType
-          routingRuleSet {
+      theme
+      legalBasis
+      navigation
+      surveyId
+      summary
+      sections {
+        id
+        title
+        description
+        pages {
+          ... on QuestionPage {
             id
-            else {
-              ...destinationFragment
-            }
-            routingRules {
+            title
+            description
+            guidance
+            pageType
+            routingRuleSet {
               id
-              operation
-              goto {
+              else {
                 ...destinationFragment
               }
-              conditions {
+              routingRules {
                 id
-                comparator
-                answer {
+                operation
+                goto {
+                  ...destinationFragment
+                }
+                conditions {
                   id
-                  ... on MultipleChoiceAnswer {
-                    options {
-                      id
-                      label
+                  comparator
+                  answer {
+                    id
+                    ... on MultipleChoiceAnswer {
+                      options {
+                        id
+                        label
+                      }
+                    }
+                  }
+                  routingValue {
+                    ... on IDArrayValue {
+                      value
                     }
                   }
                 }
-                routingValue {
-                  ... on IDArrayValue {
-                    value
-                  }
-                }
               }
             }
-          }
-          answers {
-            ...answerFragment
-            ... on BasicAnswer {
-              secondaryLabel
-            }
-            ... on MultipleChoiceAnswer {
-              options {
-                ...optionFragment
+            answers {
+              ...answerFragment
+              ... on BasicAnswer {
+                secondaryLabel
               }
-              other {
-                option {
+              ... on MultipleChoiceAnswer {
+                options {
                   ...optionFragment
                 }
-                answer {
-                  ...answerFragment
+                other {
+                  option {
+                    ...optionFragment
+                  }
+                  answer {
+                    ...answerFragment
+                  }
                 }
               }
             }
@@ -109,5 +110,4 @@ query GetQuestionnaire($questionnaireId: ID!) {
         }
       }
     }
-  }
-}`;
+  }`;
