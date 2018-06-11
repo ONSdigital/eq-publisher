@@ -30,7 +30,9 @@ class RoutingDestination {
     } else if (destination.__typename === "Section") {
       return `group${destination.id}`;
     } else {
-      throw new Error(`${destination} is not a valid destination object`);
+      throw new Error(
+        `${destination.__typename} is not a valid destination type`
+      );
     }
   }
 
