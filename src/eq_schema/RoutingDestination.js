@@ -34,7 +34,9 @@ class RoutingDestination {
 
   getLogicalDestination(pageId, ctx, logicalDestination) {
     if (logicalDestination === "EndOfQuestionnaire") {
-      return (this.block = get(ctx, "summary") ? "summary" : "confirmation");
+      return (this.group = get(ctx, "summary")
+        ? "summary-group"
+        : "confirmation-group");
     } else if (logicalDestination === "NextPage") {
       return this.getNextPageDestination(pageId, ctx);
     } else {

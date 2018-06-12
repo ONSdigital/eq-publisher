@@ -1,7 +1,13 @@
 class Summary {
   constructor() {
-    this.type = "Summary";
-    this.id = "summary";
+    this.id = "summary-group";
+    this.title = "Summary";
+    this.blocks = [
+      {
+        type: "Summary",
+        id: "summary-block"
+      }
+    ];
   }
 }
 

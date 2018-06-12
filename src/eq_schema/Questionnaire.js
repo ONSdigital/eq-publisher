@@ -32,7 +32,7 @@ class Questionnaire {
 
   buildSummaryOrConfirmation(summary) {
     const finalPage = summary ? new Summary() : new Confirmation();
-    last(last(this.sections).groups).blocks.push(finalPage);
+    last(this.sections).groups.push(finalPage);
   }
 
   buildMetadata() {
