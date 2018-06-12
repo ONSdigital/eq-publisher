@@ -19,9 +19,11 @@ exports.getQuestionnaire = `
 
   fragment destinationFragment on RoutingDestination {
     ... on LogicalDestination {
+      __typename
       logicalDestination
     }
-    ... on AbsoluteDestination {
+    ... on AbsoluteDestination {    
+      __typename
       absoluteDestination {
         ... on QuestionPage {
           id

@@ -1,4 +1,4 @@
-const { flatMap, get, findIndex } = require("lodash");
+const { flatMap, get, findIndex, keyBy, isNil } = require("lodash");
 const mapValues = require("../utils/mapValues");
 
 const mapping = {
@@ -10,11 +10,7 @@ const toRunner = mapValues(mapping);
 class RoutingDestination {
   constructor(goto, pageId, ctx) {
     if (goto.__typename === "LogicalDestination") {
-      this.block = this.getLogicalDestination(
-        pageId,
-        ctx,
-        goto.logicalDestination
-      );
+      this.getLogicalDestination(pageId, ctx, goto.logicalDestination);
     } else if (goto.__typename === "AbsoluteDestination") {
       this[
         toRunner(goto.absoluteDestination.__typename)
@@ -38,7 +34,7 @@ class RoutingDestination {
 
   getLogicalDestination(pageId, ctx, logicalDestination) {
     if (logicalDestination === "EndOfQuestionnaire") {
-      return get(ctx, "summary") ? "summary" : "confirmation";
+      return (this.block = get(ctx, "summary") ? "summary" : "confirmation");
     } else if (logicalDestination === "NextPage") {
       return this.getNextPageDestination(pageId, ctx);
     } else {
@@ -47,12 +43,23 @@ class RoutingDestination {
   }
 
   getNextPageDestination(pageId, ctx) {
-    const pages = flatMap(ctx.sections, "pages");
+    const pages = flatMap(ctx.sections, section => {
+      return section.pages.map(page => {
+        return { id: page.id, sectionId: section.id };
+      });
+    });
+
     const currentPageIndex = findIndex(pages, { id: pageId });
+    const currentPage = pages[currentPageIndex];
     const nextPage = pages[currentPageIndex + 1];
-    return nextPage
-      ? "block" + nextPage.id
-      : get(ctx, "summary") ? "summary" : "confirmation";
+
+    if (currentPage.sectionId === nextPage.sectionId) {
+      return (this.block = `block${nextPage.id}`);
+    } else if (currentPage.sectionId !== nextPage.sectionId) {
+      return (this.group = `group${nextPage.sectionId}`);
+    } else if (isNil(nextPage)) {
+      return get(ctx, "summary") ? "summary" : "confirmation";
+    }
   }
 }
 
