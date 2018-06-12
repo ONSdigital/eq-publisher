@@ -60,7 +60,7 @@ class RoutingDestination {
     } else if (currentPage.sectionId !== nextPage.sectionId) {
       return (this.group = `group${nextPage.sectionId}`);
     } else if (isNil(nextPage)) {
-      return get(ctx, "summary") ? "summary" : "confirmation";
+      return get(ctx, "summary") ? "summary-group" : "confirmation-group";
     }
   }
 }
