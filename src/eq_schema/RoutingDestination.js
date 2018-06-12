@@ -1,20 +1,11 @@
 const { flatMap, get, findIndex, isNil } = require("lodash");
-const mapValues = require("../utils/mapValues");
-
-const mapping = {
-  Section: "group",
-  QuestionPage: "block"
-};
-const toRunner = mapValues(mapping);
 
 class RoutingDestination {
   constructor(goto, pageId, ctx) {
     if (goto.__typename === "LogicalDestination") {
       this.getLogicalDestination(pageId, ctx, goto.logicalDestination);
     } else if (goto.__typename === "AbsoluteDestination") {
-      this[
-        toRunner(goto.absoluteDestination.__typename)
-      ] = this.getAbsoluteDestination(goto.absoluteDestination);
+      this.getAbsoluteDestination(goto.absoluteDestination);
     } else {
       throw new Error(`${goto} is not a valid destination object`);
     }
@@ -22,9 +13,9 @@ class RoutingDestination {
 
   getAbsoluteDestination(destination) {
     if (destination.__typename === "QuestionPage") {
-      return `block${destination.id}`;
+      return (this.block = `block${destination.id}`);
     } else if (destination.__typename === "Section") {
-      return `group${destination.id}`;
+      return (this.group = `group${destination.id}`);
     } else {
       throw new Error(
         `${destination.__typename} is not a valid destination type`
