@@ -2,27 +2,32 @@
 
 exports[`Confirmation should build valid runner Confirmation 1`] = `
 Confirmation {
-  "description": "",
-  "id": "confirmation",
-  "questions": Array [
+  "blocks": Array [
     Object {
-      "answers": Array [],
-      "guidance": Object {
-        "content": Array [
-          Object {
-            "list": Array [
-              "You will not be able to access or change your answers on submitting the questionnaire",
-              "If you wish to review your answers please select the relevant completed sections",
+      "description": "",
+      "id": "confirmation",
+      "questions": Array [
+        Object {
+          "answers": Array [],
+          "guidance": Object {
+            "content": Array [
+              Object {
+                "list": Array [
+                  "You will not be able to access or change your answers on submitting the questionnaire",
+                  "If you wish to review your answers please select the relevant completed sections",
+                ],
+              },
             ],
           },
-        ],
-      },
-      "id": "ready-to-submit-completed-question",
-      "title": "Submission",
-      "type": "General",
+          "id": "ready-to-submit-completed-question",
+          "title": "Submission",
+          "type": "General",
+        },
+      ],
+      "type": "Confirmation",
     },
   ],
+  "id": "confirmation-group",
   "title": "You are now ready to submit this survey",
-  "type": "Confirmation",
 }
 `;
