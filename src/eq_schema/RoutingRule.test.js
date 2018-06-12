@@ -163,14 +163,14 @@ describe("Rule", () => {
       routing_rules: [
         {
           goto: {
-            block: "summary",
+            group: "summary-group",
             when: [
               { id: "answer2", condition: "equals", value: "yes" },
               { id: "answer2", condition: "equals", value: "no" }
             ]
           }
         },
-        { goto: { block: "summary" } }
+        { goto: { group: "summary-group" } }
       ]
     });
   });
