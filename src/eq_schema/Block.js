@@ -37,14 +37,14 @@ class Block {
         return rule;
       }
 
-      return flatMap(rule.conditions, (cond, i) => {
+      return flatMap(rule.conditions, cond => {
         return cond.routingValue.value.map(answerValue => {
           return {
-            id: `${rule.id}-${i}`,
+            id: `${rule.id}-${cond.id}`,
             operation: "And",
             conditions: [
               {
-                id: i,
+                id: cond.id,
                 comparator: cond.comparator,
                 answer: cond.answer,
                 routingValue: {
