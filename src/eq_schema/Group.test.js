@@ -1,5 +1,6 @@
 const Group = require("./Group");
 const Block = require("./Block");
+const ctx = {};
 
 describe("Group", () => {
   const createGroupJSON = options =>
@@ -23,7 +24,8 @@ describe("Group", () => {
       groupJSON.id,
       groupJSON.title,
       groupJSON.description,
-      groupJSON.pages
+      groupJSON.pages,
+      ctx
     );
 
     expect(group).toMatchObject({
@@ -39,7 +41,8 @@ describe("Group", () => {
       groupJSON.id,
       groupJSON.title,
       groupJSON.description,
-      groupJSON.pages
+      groupJSON.pages,
+      ctx
     );
 
     expect(group).toMatchObject({

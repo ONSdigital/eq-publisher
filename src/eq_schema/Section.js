@@ -2,15 +2,15 @@ const Group = require("./Group");
 const { getText } = require("../utils/HTMLUtils");
 
 class Section {
-  constructor(section) {
+  constructor(section, ctx) {
     this.id = `section${section.id}`;
     this.title = getText(section.title);
-    this.groups = this.buildGroups(section.id, this.title, section);
+    this.groups = this.buildGroups(section.id, this.title, section, ctx);
   }
 
-  buildGroups(id, title, { description, pages }) {
+  buildGroups(id, title, { description, pages }, ctx) {
     // Sections always contain a single group currently
-    return [new Group(id, title, description, pages)];
+    return [new Group(id, title, description, pages, ctx)];
   }
 }
 

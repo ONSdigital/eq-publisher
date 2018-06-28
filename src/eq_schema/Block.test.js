@@ -1,5 +1,6 @@
 const Block = require("./Block");
 const Question = require("./Question");
+const ctx = {};
 
 describe("Block", () => {
   const createBlockJSON = block =>
@@ -18,7 +19,8 @@ describe("Block", () => {
     const block = new Block(
       "section title",
       "section description",
-      createBlockJSON()
+      createBlockJSON(),
+      ctx
     );
 
     expect(block).toMatchObject({
@@ -33,7 +35,8 @@ describe("Block", () => {
     const block = new Block(
       "<p>section <em>title</em>",
       "<p>section <strong>description</strong></p>",
-      createBlockJSON()
+      createBlockJSON(),
+      ctx
     );
 
     expect(block).toMatchObject({
@@ -49,7 +52,8 @@ describe("Block", () => {
       const block = new Block(
         "section title",
         "section description",
-        createBlockJSON({ pageType: "QuestionPage" })
+        createBlockJSON({ pageType: "QuestionPage" }),
+        ctx
       );
 
       expect(block.type).toEqual("Question");
@@ -59,7 +63,8 @@ describe("Block", () => {
       const block = new Block(
         "section title",
         "section description",
-        createBlockJSON({ pageType: "InterstitialPage" })
+        createBlockJSON({ pageType: "InterstitialPage" }),
+        ctx
       );
 
       expect(block.type).toEqual("Interstitial");
