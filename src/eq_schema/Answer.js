@@ -1,14 +1,18 @@
 /* eslint-disable camelcase */
 const { isNil } = require("lodash/fp");
-const { merge } = require("lodash");
+const { has, merge } = require("lodash");
 
 class Answer {
   constructor(answer) {
     this.id = `answer${answer.id}`;
-    this.mandatory = answer.mandatory;
+    this.mandatory = answer.properties.required;
     this.type = answer.type;
     this.label = answer.label;
     this.description = answer.description;
+
+    if (has(answer, "properties.decimals")) {
+      this.decimal_places = answer.properties.decimals;
+    }
 
     if (!isNil(answer.parentAnswerId)) {
       this.parent_answer_id = `answer${answer.parentAnswerId}`;
@@ -28,12 +32,12 @@ class Answer {
   }
 
   static buildChildAnswer(
-    { id, mandatory, type, label, description },
+    { id, properties, type, label, description },
     parentAnswerId
   ) {
     return {
       id,
-      mandatory,
+      properties,
       type,
       label,
       description,

@@ -9,7 +9,14 @@ describe("Question", () => {
         title: "question title",
         description: "question description",
         type: "General",
-        answers: [{ id: "1" }]
+        answers: [
+          {
+            id: "1",
+            properties: {
+              required: true
+            }
+          }
+        ]
       },
       options
     );
@@ -64,7 +71,8 @@ describe("Question", () => {
           type: "DateRange",
           id: "1",
           label: "Period from",
-          secondaryLabel: "Period to"
+          secondaryLabel: "Period to",
+          properties: { required: true }
         }
       ];
       const question = new Question(createQuestionJSON({ answers }));
@@ -107,6 +115,7 @@ describe("Question", () => {
         {
           type: "Checkbox",
           id: "1",
+          properties: { required: true },
           options: [
             {
               id: "1",
@@ -120,7 +129,8 @@ describe("Question", () => {
             },
             answer: {
               id: "2",
-              type: "TextField"
+              type: "TextField",
+              properties: { required: true }
             }
           }
         }
@@ -142,6 +152,7 @@ describe("Question", () => {
         {
           type: "Checkbox",
           id: "1",
+          properties: { required: true },
           options: [
             {
               id: "1",

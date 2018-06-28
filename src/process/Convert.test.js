@@ -14,7 +14,8 @@ const result = {
               answers: [
                 {
                   id: 1,
-                  type: "TextField"
+                  type: "TextField",
+                  properties: { required: true }
                 }
               ]
             }

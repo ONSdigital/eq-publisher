@@ -5,7 +5,7 @@ exports.getQuestionnaire = `
     label
     description
     guidance
-    mandatory
+    properties
     qCode
   }
 

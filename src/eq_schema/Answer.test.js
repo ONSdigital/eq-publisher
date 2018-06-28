@@ -11,19 +11,23 @@ describe("Answer", () => {
         guidance: null,
         qCode: "51",
         label: "Number of male employees working more than 30 hours per week",
-        mandatory: false,
-        type: "PositiveInteger"
+        type: "PositiveInteger",
+        properties: {
+          required: true,
+          decimals: 2
+        }
       },
       answer
     );
 
-  it("should generate  a valid eQ answer from an author answer", () => {
+  it("should generate a valid eQ answer from an author answer", () => {
     const answer = new Answer(createAnswerJSON({ type: "PositiveInteger" }));
 
     expect(answer).toMatchObject({
       id: "answer1",
       type: "PositiveInteger",
-      mandatory: false,
+      mandatory: true,
+      decimal_places: 2,
       description: "This is a description"
     });
   });
@@ -159,7 +163,9 @@ describe("Answer", () => {
             id: 4,
             description: "This is a description",
             guidance: "Here's your guidance",
-            mandatory: false,
+            properties: {
+              required: false
+            },
             qCode: "20",
             label: "This is not a label",
             type: "TextField"
