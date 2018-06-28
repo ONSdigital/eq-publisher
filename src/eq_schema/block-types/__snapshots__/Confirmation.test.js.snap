@@ -24,10 +24,11 @@ Confirmation {
           "type": "General",
         },
       ],
+      "title": "You are now ready to submit this survey",
       "type": "Confirmation",
     },
   ],
   "id": "confirmation-group",
-  "title": "You are now ready to submit this survey",
+  "title": "confirmation",
 }
 `;
