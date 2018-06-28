@@ -4,6 +4,7 @@ class Confirmation {
     this.title = "confirmation";
     this.blocks = [
       {
+        title: "You are now ready to submit this survey",
         type: "Confirmation",
         id: "confirmation",
         description: "",
@@ -27,7 +28,6 @@ class Confirmation {
         ]
       }
     ];
-    this.title = "You are now ready to submit this survey";
   }
 }
 
