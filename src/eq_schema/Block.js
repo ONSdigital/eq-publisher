@@ -1,7 +1,7 @@
 const Question = require("./Question");
 const RoutingRule = require("./RoutingRule");
 const RoutingDestination = require("./RoutingDestination");
-const { get, isNil } = require("lodash");
+const { get, isNil, remove, isEmpty } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
 
 const pageTypeMappings = {
@@ -32,7 +32,14 @@ class Block {
   }
 
   buildRoutingRules({ routingRules, else: elseDest }, pageId, ctx) {
-    const rules = routingRules.map(rule => new RoutingRule(rule, pageId, ctx));
+    routingRules.forEach(rule => {
+      remove(rule.conditions, condition => isNil(condition.answer));
+    });
+
+    const rules = routingRules
+      .filter(rule => !isEmpty(rule.conditions))
+      .map(rule => new RoutingRule(rule, pageId, ctx));
+
     const elseRule = { goto: new RoutingDestination(elseDest, pageId, ctx) };
 
     return rules.concat(elseRule);

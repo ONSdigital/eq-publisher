@@ -1,6 +1,6 @@
 const Block = require("./Block");
 const Question = require("./Question");
-const { set } = require("lodash");
+const { concat, set } = require("lodash");
 
 const nextPageGoto = {
   __typename: "LogicalDestination",
@@ -20,45 +20,30 @@ const absoluteSectionGoto = {
   }
 };
 
-const absolutePageGoto = {
-  __typename: "AbsoluteDestination",
-  absoluteDestination: {
-    __typename: "QuestionPage",
-    id: 2
-  }
-};
-
-const secondRule = {
+const secondCondition = {
   id: 2,
-  operation: "And",
-  goto: absoluteSectionGoto,
-  conditions: [
-    {
-      id: 2,
-      comparator: "Equal",
-      answer: {
-        id: 3,
-        type: "Radio",
-        options: [
-          {
-            id: 4,
-            label: "pepperoni"
-          },
-          {
-            id: 5,
-            label: "pineapple"
-          },
-          {
-            id: 6,
-            label: "chorizo"
-          }
-        ]
+  comparator: "Equal",
+  answer: {
+    id: 3,
+    type: "Radio",
+    options: [
+      {
+        id: 4,
+        label: "pepperoni"
       },
-      routingValue: {
-        value: 5
+      {
+        id: 5,
+        label: "pineapple"
+      },
+      {
+        id: 6,
+        label: "chorizo"
       }
-    }
-  ]
+    ]
+  },
+  routingValue: {
+    value: [5]
+  }
 };
 
 const basicRadioCondition = [
@@ -84,60 +69,7 @@ const basicRadioCondition = [
       ]
     },
     routingValue: {
-      value: 1
-    }
-  }
-];
-
-const basicCheckboxCondition = [
-  {
-    id: 1,
-    comparator: "Equal",
-    answer: {
-      id: 2,
-      type: "Checkbox",
-      options: [
-        {
-          id: 1,
-          label: "yes"
-        },
-        {
-          id: 2,
-          label: "no"
-        },
-        {
-          id: 3,
-          label: "maybe"
-        }
-      ]
-    },
-    routingValue: {
-      value: 1
-    }
-  },
-  {
-    id: 1,
-    comparator: "Equal",
-    answer: {
-      id: 2,
-      type: "Checkbox",
-      options: [
-        {
-          id: 1,
-          label: "yes"
-        },
-        {
-          id: 2,
-          label: "no"
-        },
-        {
-          id: 3,
-          label: "maybe"
-        }
-      ]
-    },
-    routingValue: {
-      value: 2
+      value: [1]
     }
   }
 ];
@@ -198,7 +130,10 @@ describe("Rule", () => {
         {
           goto: {
             block: "block2",
-            when: [{ id: "answer2", condition: "equals", value: "yes" }]
+            when: [
+              { id: "answer2", condition: "not equals", value: "no" },
+              { id: "answer2", condition: "not equals", value: "maybe" }
+            ]
           }
         },
         { goto: { block: "block2" } }
@@ -223,7 +158,10 @@ describe("Rule", () => {
         {
           goto: {
             group: "summary-group",
-            when: [{ id: "answer2", condition: "equals", value: "yes" }]
+            when: [
+              { id: "answer2", condition: "not equals", value: "no" },
+              { id: "answer2", condition: "not equals", value: "maybe" }
+            ]
           }
         },
         { goto: { group: "summary-group" } }
@@ -253,7 +191,10 @@ describe("Rule", () => {
         {
           goto: {
             group: "group2",
-            when: [{ id: "answer2", condition: "equals", value: "yes" }]
+            when: [
+              { id: "answer2", condition: "not equals", value: "no" },
+              { id: "answer2", condition: "not equals", value: "maybe" }
+            ]
           }
         },
         { goto: { group: "group2" } }
@@ -261,38 +202,10 @@ describe("Rule", () => {
     });
   });
 
-  it("should build valid runner routing with multiple checkbox options", () => {
-    const block = new Block(
-      "section title",
-      "section description",
-      createRuleJSON(absolutePageGoto, basicCheckboxCondition)
-    );
-    expect(block).toMatchObject({
-      id: "block1",
-      title: "section title",
-      description: "section description",
-      questions: [expect.any(Question)],
-      // eslint-disable-next-line camelcase
-      routing_rules: [
-        {
-          goto: {
-            block: "block2",
-            when: [
-              { id: "answer2", condition: "contains", value: "yes" },
-              { id: "answer2", condition: "contains", value: "no" },
-              { id: "answer2", condition: "not contains", value: "maybe" }
-            ]
-          }
-        },
-        { goto: { block: "block2" } }
-      ]
-    });
-  });
+  it("should build valid runner routing with multiple conditions", () => {
+    const twoConditions = concat(basicRadioCondition, secondCondition);
 
-  it("should build valid runner routing with multiple rules", () => {
-    const multiRules = createRuleJSON(absoluteSectionGoto, basicRadioCondition);
-
-    set(multiRules, "routingRuleSet.routingRules[1]", secondRule);
+    const multiRules = createRuleJSON(absoluteSectionGoto, twoConditions);
 
     const block = new Block("section title", "section description", multiRules);
 
@@ -306,18 +219,49 @@ describe("Rule", () => {
         {
           goto: {
             group: "group2",
-            when: [{ id: "answer2", condition: "equals", value: "yes" }]
-          }
-        },
-        {
-          goto: {
-            group: "group2",
-            when: [{ id: "answer3", condition: "equals", value: "pineapple" }]
+            when: [
+              { id: "answer2", condition: "not equals", value: "no" },
+              { id: "answer2", condition: "not equals", value: "maybe" },
+              { id: "answer3", condition: "not equals", value: "pepperoni" },
+              { id: "answer3", condition: "not equals", value: "chorizo" }
+            ]
           }
         },
         {
           goto: { group: "group2" }
         }
+      ]
+    });
+  });
+
+  it("should build valid runner routing to next page if its the last page in questionnaire", () => {
+    const lastPage = createRuleJSON(nextPageGoto, basicRadioCondition);
+
+    set(lastPage, "id", 9);
+
+    const block = new Block(
+      "section title",
+      "section description",
+      lastPage,
+      ctx
+    );
+    expect(block).toMatchObject({
+      id: "block9",
+      title: "section title",
+      description: "section description",
+      questions: [expect.any(Question)],
+      // eslint-disable-next-line camelcase
+      routing_rules: [
+        {
+          goto: {
+            group: "summary-group",
+            when: [
+              { id: "answer2", condition: "not equals", value: "no" },
+              { id: "answer2", condition: "not equals", value: "maybe" }
+            ]
+          }
+        },
+        { goto: { group: "summary-group" } }
       ]
     });
   });
