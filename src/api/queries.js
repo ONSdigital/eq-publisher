@@ -83,7 +83,7 @@ exports.getQuestionnaire = `
                     }
                   }
                   routingValue {
-                    ... on IDValue {
+                    ... on IDArrayValue {
                       value
                     }
                   }
