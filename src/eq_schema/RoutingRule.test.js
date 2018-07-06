@@ -132,7 +132,8 @@ describe("Rule", () => {
             block: "block2",
             when: [
               { id: "answer2", condition: "not equals", value: "no" },
-              { id: "answer2", condition: "not equals", value: "maybe" }
+              { id: "answer2", condition: "not equals", value: "maybe" },
+              { id: "answer2", condition: "set" }
             ]
           }
         },
@@ -160,7 +161,8 @@ describe("Rule", () => {
             group: "summary-group",
             when: [
               { id: "answer2", condition: "not equals", value: "no" },
-              { id: "answer2", condition: "not equals", value: "maybe" }
+              { id: "answer2", condition: "not equals", value: "maybe" },
+              { id: "answer2", condition: "set" }
             ]
           }
         },
@@ -189,8 +191,10 @@ describe("Rule", () => {
             when: [
               { id: "answer2", condition: "not equals", value: "no" },
               { id: "answer2", condition: "not equals", value: "maybe" },
+              { id: "answer2", condition: "set" },
               { id: "answer3", condition: "not equals", value: "pepperoni" },
-              { id: "answer3", condition: "not equals", value: "chorizo" }
+              { id: "answer3", condition: "not equals", value: "chorizo" },
+              { id: "answer3", condition: "set" }
             ]
           }
         },
