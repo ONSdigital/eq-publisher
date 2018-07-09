@@ -3,11 +3,24 @@ const RoutingRule = require("./RoutingRule");
 const RoutingDestination = require("./RoutingDestination");
 const { get, isNil, remove, isEmpty } = require("lodash");
 const { getInnerHTML } = require("../utils/HTMLUtils");
+const { flow, getOr, last, map, some } = require("lodash/fp");
 
 const pageTypeMappings = {
   QuestionPage: "Question",
   InterstitialPage: "Interstitial"
 };
+
+const getLastPage = flow(
+  getOr([], "pages"),
+  last
+);
+
+const isLastPageInSection = (page, ctx) =>
+  flow(
+    getOr([], "sections"),
+    map(getLastPage),
+    some({ id: page.id })
+  )(ctx);
 
 class Block {
   constructor(title, description, page, ctx) {
@@ -17,7 +30,7 @@ class Block {
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page);
 
-    if (!isNil(page.routingRuleSet)) {
+    if (!isLastPageInSection(page, ctx) && !isNil(page.routingRuleSet)) {
       // eslint-disable-next-line camelcase
       this.routing_rules = this.buildRoutingRules(
         page.routingRuleSet,
@@ -51,3 +64,4 @@ class Block {
 }
 
 module.exports = Block;
+module.exports.isLastPageInSection = isLastPageInSection;
