@@ -1,6 +1,6 @@
 const Block = require("./Block");
 const Question = require("./Question");
-const { concat, set } = require("lodash");
+const { concat } = require("lodash");
 
 const nextPageGoto = {
   __typename: "LogicalDestination",
@@ -169,43 +169,6 @@ describe("Rule", () => {
     });
   });
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  xit(
-    "should route to next section if next is chosen while at the end of a section",
-    () => {
-      let ruleJSON = createRuleJSON(nextPageGoto, basicRadioCondition);
-
-      ruleJSON.id = 3;
-
-      const block = new Block(
-        "section title",
-        "section description",
-        ruleJSON,
-        ctx
-      );
-
-      expect(block).toMatchObject({
-        id: "block3",
-        title: "section title",
-        description: "section description",
-        questions: [expect.any(Question)],
-        // eslint-disable-next-line camelcase
-        routing_rules: [
-          {
-            goto: {
-              group: "group2",
-              when: [
-                { id: "answer2", condition: "not equals", value: "no" },
-                { id: "answer2", condition: "not equals", value: "maybe" }
-              ]
-            }
-          },
-          { goto: { group: "group2" } }
-        ]
-      });
-    }
-  );
-
   it("should build valid runner routing with multiple conditions", () => {
     const twoConditions = concat(basicRadioCondition, secondCondition);
 
@@ -237,40 +200,4 @@ describe("Rule", () => {
       ]
     });
   });
-
-  // eslint-disable-next-line jest/no-disabled-tests
-  xit(
-    "should build valid runner routing to next page if its the last page in questionnaire",
-    () => {
-      const lastPage = createRuleJSON(nextPageGoto, basicRadioCondition);
-
-      set(lastPage, "id", 9);
-
-      const block = new Block(
-        "section title",
-        "section description",
-        lastPage,
-        ctx
-      );
-      expect(block).toMatchObject({
-        id: "block9",
-        title: "section title",
-        description: "section description",
-        questions: [expect.any(Question)],
-        // eslint-disable-next-line camelcase
-        routing_rules: [
-          {
-            goto: {
-              group: "summary-group",
-              when: [
-                { id: "answer2", condition: "not equals", value: "no" },
-                { id: "answer2", condition: "not equals", value: "maybe" }
-              ]
-            }
-          },
-          { goto: { group: "summary-group" } }
-        ]
-      });
-    }
-  );
 });
