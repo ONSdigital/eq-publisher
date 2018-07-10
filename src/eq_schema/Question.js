@@ -48,13 +48,13 @@ class Question {
         label,
         type: "Date",
         id: `${id}from`,
-        mandatory: true
+        properties: { required: true }
       }),
       new Answer({
         label: secondaryLabel,
         type: "Date",
         id: `${id}to`,
-        mandatory: true
+        properties: { required: true }
       })
     ];
   }
