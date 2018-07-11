@@ -12,13 +12,18 @@ class RoutingConditions {
 
     return flatMap(condition => {
       const optionIds = map("id", condition.answer.options);
-      const notIds = xor(condition.routingValue.value, optionIds);
+      const unselectedIds = xor(condition.routingValue.value, optionIds);
 
-      return notIds.map(id => ({
-        id: `answer${condition.answer.id}`,
-        condition: "not equals",
-        value: optionById[id].label
-      }));
+      return unselectedIds
+        .map(id => ({
+          id: `answer${condition.answer.id}`,
+          condition: "not equals",
+          value: optionById[id].label
+        }))
+        .concat({
+          id: `answer${condition.answer.id}`,
+          condition: "set"
+        });
     }, conditions);
   }
 }
