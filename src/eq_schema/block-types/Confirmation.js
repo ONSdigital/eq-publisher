@@ -10,10 +10,9 @@ class Confirmation {
         description: "",
         questions: [
           {
-            answers: [],
             id: "ready-to-submit-completed-question",
             title: "Submission",
-            type: "General",
+            type: "Content",
             guidance: {
               content: [
                 {

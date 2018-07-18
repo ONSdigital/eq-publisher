@@ -8,7 +8,6 @@ Confirmation {
       "id": "confirmation",
       "questions": Array [
         Object {
-          "answers": Array [],
           "guidance": Object {
             "content": Array [
               Object {
@@ -21,7 +20,7 @@ Confirmation {
           },
           "id": "ready-to-submit-completed-question",
           "title": "Submission",
-          "type": "General",
+          "type": "Content",
         },
       ],
       "title": "You are now ready to submit this survey",
