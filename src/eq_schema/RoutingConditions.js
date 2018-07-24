@@ -1,6 +1,17 @@
-const { flow, keyBy, map, flatMap, xor } = require("lodash/fp");
+const { flow, keyBy, map, flatMap, xor, concat } = require("lodash/fp");
 
-const createOptionByIdLookup = flow(flatMap("answer.options"), keyBy("id"));
+const getAllOptions = condition => {
+  if (condition.answer.other) {
+    return concat(condition.answer.options, condition.answer.other.option);
+  } else {
+    return condition.answer.options;
+  }
+};
+
+const createOptionByIdLookup = flow(
+  flatMap(getAllOptions),
+  keyBy("id")
+);
 
 class RoutingConditions {
   constructor(conditions) {
@@ -11,7 +22,7 @@ class RoutingConditions {
     const optionById = createOptionByIdLookup(conditions);
 
     return flatMap(condition => {
-      const optionIds = map("id", condition.answer.options);
+      const optionIds = map("id", getAllOptions(condition));
       const unselectedIds = xor(condition.routingValue.value, optionIds);
 
       return unselectedIds

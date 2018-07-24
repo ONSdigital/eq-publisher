@@ -20,6 +20,36 @@ const absoluteSectionGoto = {
   }
 };
 
+const otherCondition = [
+  {
+    id: 1,
+    comparator: "Equal",
+    answer: {
+      id: 3,
+      type: "Radio",
+      options: [
+        {
+          id: 4,
+          label: "pepperoni"
+        },
+        {
+          id: 5,
+          label: "pineapple"
+        }
+      ],
+      other: {
+        option: {
+          id: 6,
+          label: "other"
+        }
+      }
+    },
+    routingValue: {
+      value: [5]
+    }
+  }
+];
+
 const secondCondition = {
   id: 2,
   comparator: "Equal",
@@ -167,6 +197,36 @@ describe("Rule", () => {
           }
         },
         { goto: { group: "summary-group" } }
+      ]
+    });
+  });
+
+  it("should build valid runner routing with 'other' answers", () => {
+    const block = new Block(
+      "section title",
+      "section description",
+      createRuleJSON(nextPageGoto, otherCondition),
+      ctx
+    );
+
+    expect(block).toMatchObject({
+      id: "block1",
+      title: "section title",
+      description: "section description",
+      questions: [expect.any(Question)],
+      // eslint-disable-next-line camelcase
+      routing_rules: [
+        {
+          goto: {
+            block: "block2",
+            when: [
+              { id: "answer3", condition: "not equals", value: "pepperoni" },
+              { id: "answer3", condition: "not equals", value: "other" },
+              { id: "answer3", condition: "set" }
+            ]
+          }
+        },
+        { goto: { block: "block2" } }
       ]
     });
   });
