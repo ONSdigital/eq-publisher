@@ -80,6 +80,12 @@ exports.getQuestionnaire = `
                         id
                         label
                       }
+                      other {
+                        option {
+                          id
+                          label
+                        }
+                      }
                     }
                   }
                   routingValue {
