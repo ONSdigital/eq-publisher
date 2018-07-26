@@ -7,6 +7,12 @@ exports.getQuestionnaire = `
     guidance
     properties
     qCode
+    ...on CompositeAnswer{
+      childAnswers{
+        id
+        label
+      }
+    }
   }
 
   fragment optionFragment on Option {
@@ -98,9 +104,6 @@ exports.getQuestionnaire = `
             }
             answers {
               ...answerFragment
-              ... on BasicAnswer {
-                secondaryLabel
-              }
               ... on MultipleChoiceAnswer {
                 options {
                   ...optionFragment

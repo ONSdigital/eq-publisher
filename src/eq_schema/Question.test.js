@@ -71,8 +71,11 @@ describe("Question", () => {
           type: "DateRange",
           id: "1",
           label: "Period from",
-          secondaryLabel: "Period to",
-          properties: { required: true }
+          properties: { required: true },
+          childAnswers: [
+            { id: "1from", label: "Period from" },
+            { id: "1to", label: "Period to" }
+          ]
         }
       ];
       const question = new Question(createQuestionJSON({ answers }));
@@ -98,7 +101,15 @@ describe("Question", () => {
 
     it("discards any other answers if DateRange used", () => {
       const answers = [
-        { type: "DateRange", id: "1" },
+        {
+          type: "DateRange",
+          id: "1",
+          properties: { required: true },
+          childAnswers: [
+            { id: "1from", label: "Period from" },
+            { id: "1to", label: "Period to" }
+          ]
+        },
         { type: "TextField", id: "2" }
       ];
       const question = new Question(createQuestionJSON({ answers }));
@@ -173,9 +184,11 @@ describe("Question", () => {
   });
 
   describe("piping", () => {
-    const createPipe = (
-      { id = "123", type = "TextField", text = "foo" } = {}
-    ) =>
+    const createPipe = ({
+      id = "123",
+      type = "TextField",
+      text = "foo"
+    } = {}) =>
       `<span data-piped="answers" data-id="${id}" data-type="${type}">${text}</span>`;
 
     it("should handle piped values in title", () => {
