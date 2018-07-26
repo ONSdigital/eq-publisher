@@ -36,17 +36,20 @@ class Questionnaire {
   }
 
   buildMetadata() {
-    return {
-      user_id: {
+    return [
+      {
+        name: "user_id",
         validator: "string"
       },
-      period_id: {
+      {
+        name: "period_id",
         validator: "string"
       },
-      ru_name: {
+      {
+        name: "ru_name",
         validator: "string"
       }
-    };
+    ];
   }
 }
 
