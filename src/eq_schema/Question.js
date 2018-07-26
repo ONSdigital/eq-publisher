@@ -1,13 +1,21 @@
 const Answer = require("./Answer");
 const { getInnerHTML, parseGuidance } = require("../utils/HTMLUtils");
-const { find, get, flow, flatten } = require("lodash/fp");
+const { find, get, flow, flatten, isNil, assign } = require("lodash/fp");
 const convertPipes = require("../utils/convertPipes");
 
-const findDateRange = flow(get("answers"), find({ type: "DateRange" }));
+const findDateRange = flow(
+  get("answers"),
+  find({ type: "DateRange" })
+);
 
-const processPipedText = flow(convertPipes, getInnerHTML);
-const processGuidance = flow(convertPipes, parseGuidance);
-const { isNil } = require("lodash");
+const processPipedText = flow(
+  convertPipes,
+  getInnerHTML
+);
+const processGuidance = flow(
+  convertPipes,
+  parseGuidance
+);
 
 class Question {
   constructor(question) {
@@ -42,21 +50,13 @@ class Question {
     return answerArray.map(answer => new Answer(answer));
   }
 
-  buildDateRangeAnswers({ id, label, secondaryLabel }) {
-    return [
-      new Answer({
-        label,
-        type: "Date",
-        id: `${id}from`,
-        properties: { required: true }
-      }),
-      new Answer({
-        label: secondaryLabel,
-        type: "Date",
-        id: `${id}to`,
-        properties: { required: true }
-      })
-    ];
+  buildDateRangeAnswers(answer) {
+    return answer.childAnswers.map(
+      childAnswer =>
+        new Answer(
+          assign(childAnswer, { type: "Date", properties: answer.properties })
+        )
+    );
   }
 }
 
