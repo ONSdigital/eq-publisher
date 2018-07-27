@@ -3,7 +3,8 @@ const cheerio = require("cheerio");
 const filterMap = {
   Number: "format_number",
   Currency: "format_currency",
-  Date: "format_date"
+  Date: "format_date",
+  DateRange: "format_date"
 };
 
 const convertElementToPipe = $elem => {
