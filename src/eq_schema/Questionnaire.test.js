@@ -148,17 +148,20 @@ describe("Questionnaire", () => {
 
   it("should build the default metadata", () => {
     expect(questionnaire).toMatchObject({
-      metadata: {
-        user_id: {
+      metadata: [
+        {
+          name: "user_id",
           validator: "string"
         },
-        period_id: {
+        {
+          name: "period_id",
           validator: "string"
         },
-        ru_name: {
+        {
+          name: "ru_name",
           validator: "string"
         }
-      }
+      ]
     });
   });
 });
