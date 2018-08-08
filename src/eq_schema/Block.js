@@ -23,10 +23,9 @@ const isLastPageInSection = (page, ctx) =>
   )(ctx);
 
 class Block {
-  constructor(title, description, page, ctx) {
+  constructor(title, page, ctx) {
     this.id = `block${page.id}`;
     this.title = getInnerHTML(title);
-    this.description = getInnerHTML(description);
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page);
 

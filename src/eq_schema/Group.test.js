@@ -23,7 +23,6 @@ describe("Group", () => {
     const group = new Group(
       groupJSON.id,
       groupJSON.title,
-      groupJSON.description,
       groupJSON.pages,
       ctx
     );
@@ -40,7 +39,6 @@ describe("Group", () => {
     const group = new Group(
       groupJSON.id,
       groupJSON.title,
-      groupJSON.description,
       groupJSON.pages,
       ctx
     );
