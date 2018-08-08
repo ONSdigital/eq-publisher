@@ -2,14 +2,14 @@ const Block = require("./Block");
 const { getInnerHTML } = require("../utils/HTMLUtils");
 
 class Group {
-  constructor(id, title, description, pages, ctx) {
+  constructor(id, title, pages, ctx) {
     this.id = `group${id}`;
     this.title = getInnerHTML(title);
-    this.blocks = this.buildBlocks(this.title, description, pages, ctx);
+    this.blocks = this.buildBlocks(this.title, pages, ctx);
   }
 
-  buildBlocks(title, description, pages, ctx) {
-    return pages.map(page => new Block(title, description, page, ctx));
+  buildBlocks(title, pages, ctx) {
+    return pages.map(page => new Block(title, page, ctx));
   }
 }
 

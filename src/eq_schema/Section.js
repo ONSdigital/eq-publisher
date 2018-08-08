@@ -8,9 +8,9 @@ class Section {
     this.groups = this.buildGroups(section.id, this.title, section, ctx);
   }
 
-  buildGroups(id, title, { description, pages }, ctx) {
+  buildGroups(id, title, { pages }, ctx) {
     // Sections always contain a single group currently
-    return [new Group(id, title, description, pages, ctx)];
+    return [new Group(id, title, pages, ctx)];
   }
 }
 

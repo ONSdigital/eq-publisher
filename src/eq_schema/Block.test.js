@@ -17,17 +17,11 @@ describe("Block", () => {
     );
 
   it("should build valid runner Block from Author page", () => {
-    const block = new Block(
-      "section title",
-      "section description",
-      createBlockJSON(),
-      ctx
-    );
+    const block = new Block("section title", createBlockJSON(), ctx);
 
     expect(block).toMatchObject({
       id: "block1",
       title: "section title",
-      description: "section description",
       questions: [expect.any(Question)]
     });
   });
@@ -35,7 +29,6 @@ describe("Block", () => {
   it("should handle HTML values", () => {
     const block = new Block(
       "<p>section <em>title</em>",
-      "<p>section <strong>description</strong></p>",
       createBlockJSON(),
       ctx
     );
@@ -43,7 +36,6 @@ describe("Block", () => {
     expect(block).toMatchObject({
       id: "block1",
       title: "section <em>title</em>",
-      description: "section <strong>description</strong>",
       questions: [expect.any(Question)]
     });
   });
@@ -52,7 +44,6 @@ describe("Block", () => {
     it("should convert QuestionPage to Questionnaire", () => {
       const block = new Block(
         "section title",
-        "section description",
         createBlockJSON({ pageType: "QuestionPage" }),
         ctx
       );
@@ -63,7 +54,6 @@ describe("Block", () => {
     it("should convert InterstitialPage to Interstitial", () => {
       const block = new Block(
         "section title",
-        "section description",
         createBlockJSON({ pageType: "InterstitialPage" }),
         ctx
       );

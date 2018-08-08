@@ -146,14 +146,12 @@ describe("Rule", () => {
   it("should build valid runner routing to next page", () => {
     const block = new Block(
       "section title",
-      "section description",
       createRuleJSON(nextPageGoto, basicRadioCondition),
       ctx
     );
     expect(block).toMatchObject({
       id: "block1",
       title: "section title",
-      description: "section description",
       questions: [expect.any(Question)],
       // eslint-disable-next-line camelcase
       routing_rules: [
@@ -175,14 +173,12 @@ describe("Rule", () => {
   it("should build valid runner routing to the End of Questionnaire", () => {
     const block = new Block(
       "section title",
-      "section description",
       createRuleJSON(endQuestionnaireGoto, basicRadioCondition),
       ctx
     );
     expect(block).toMatchObject({
       id: "block1",
       title: "section title",
-      description: "section description",
       questions: [expect.any(Question)],
       // eslint-disable-next-line camelcase
       routing_rules: [
@@ -204,7 +200,6 @@ describe("Rule", () => {
   it("should build valid runner routing with 'other' answers", () => {
     const block = new Block(
       "section title",
-      "section description",
       createRuleJSON(nextPageGoto, otherCondition),
       ctx
     );
@@ -212,7 +207,6 @@ describe("Rule", () => {
     expect(block).toMatchObject({
       id: "block1",
       title: "section title",
-      description: "section description",
       questions: [expect.any(Question)],
       // eslint-disable-next-line camelcase
       routing_rules: [
@@ -236,12 +230,11 @@ describe("Rule", () => {
 
     const multiRules = createRuleJSON(absoluteSectionGoto, twoConditions);
 
-    const block = new Block("section title", "section description", multiRules);
+    const block = new Block("section title", multiRules);
 
     expect(block).toMatchObject({
       id: "block1",
       title: "section title",
-      description: "section description",
       questions: [expect.any(Question)],
       // eslint-disable-next-line camelcase
       routing_rules: [
