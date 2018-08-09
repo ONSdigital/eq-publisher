@@ -10,6 +10,10 @@ class Answer {
     this.label = answer.label;
     this.description = answer.description;
 
+    if (has(answer, "validation")) {
+      this.buildValidations(answer.validation);
+    }
+
     if (has(answer, "properties.decimals")) {
       this.decimal_places = answer.properties.decimals;
     }
@@ -55,6 +59,17 @@ class Answer {
       description,
       parentAnswerId
     };
+  }
+
+  buildValidations({ minValue }) {
+    if (get(minValue, "custom", null) && minValue.enabled === true) {
+      Object.assign(this, {
+        min_value: {
+          value: minValue.custom,
+          exclusive: !minValue.inclusive
+        }
+      });
+    }
   }
 
   buildOption({ label, description }) {
