@@ -16,6 +16,12 @@ exports.getQuestionnaire = `
             enabled
             custom
           }
+          maxValue{
+            id
+            inclusive
+            enabled
+            custom
+          }
         }
       }
     }

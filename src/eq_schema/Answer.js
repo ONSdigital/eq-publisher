@@ -11,7 +11,9 @@ class Answer {
     this.description = answer.description;
 
     if (has(answer, "validation")) {
-      this.buildValidations(answer.validation);
+      const { minValue, maxValue } = answer.validation;
+      this.buildValidation(minValue, "min_value");
+      this.buildValidation(maxValue, "max_value");
     }
 
     if (has(answer, "properties.decimals")) {
@@ -61,12 +63,15 @@ class Answer {
     };
   }
 
-  buildValidations({ minValue }) {
-    if (get(minValue, "custom", null) && minValue.enabled === true) {
+  buildValidation(validationRule, validationType) {
+    if (
+      get(validationRule, "custom", null) &&
+      validationRule.enabled === true
+    ) {
       Object.assign(this, {
-        min_value: {
-          value: minValue.custom,
-          exclusive: !minValue.inclusive
+        [validationType]: {
+          value: validationRule.custom,
+          exclusive: !validationRule.inclusive
         }
       });
     }

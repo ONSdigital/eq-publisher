@@ -68,6 +68,24 @@ describe("Answer", () => {
     );
     expect(yearDate.type).toBe("YearDate");
   });
+  it("should add a max value validation rule", () => {
+    const answer = new Answer(
+      createAnswerJSON({
+        validation: {
+          maxValue: {
+            id: "1",
+            inclusive: false,
+            enabled: true,
+            custom: 5
+          }
+        }
+      })
+    );
+    expect(answer.max_value).toMatchObject({
+      value: 5,
+      exclusive: true
+    });
+  });
 
   describe("converting options", () => {
     it("should not add options for basic answer types", () => {
