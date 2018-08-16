@@ -25,7 +25,9 @@ class RoutingDestination {
 
   getLogicalDestination(pageId, logicalDestination, ctx) {
     if (logicalDestination === "EndOfQuestionnaire") {
-      this.group = get(ctx, "summary") ? "summary-group" : "confirmation-group";
+      this.group = get(ctx.questionnaireJson, "summary")
+        ? "summary-group"
+        : "confirmation-group";
     } else if (logicalDestination === "NextPage") {
       this.getNextPageDestination(pageId, ctx);
     } else {
@@ -34,7 +36,7 @@ class RoutingDestination {
   }
 
   getNextPageDestination(pageId, ctx) {
-    const pages = flatMap(ctx.sections, section => {
+    const pages = flatMap(ctx.questionnaireJson.sections, section => {
       return section.pages.map(page => {
         return { id: page.id, sectionId: section.id };
       });
@@ -45,7 +47,9 @@ class RoutingDestination {
     const nextPage = pages[currentPageIndex + 1];
 
     if (isNil(nextPage)) {
-      this.group = get(ctx, "summary") ? "summary-group" : "confirmation-group";
+      this.group = get(ctx, "questionnaireJson.summary")
+        ? "summary-group"
+        : "confirmation-group";
     } else if (currentPage.sectionId === nextPage.sectionId) {
       this.block = `block${nextPage.id}`;
     } else {
