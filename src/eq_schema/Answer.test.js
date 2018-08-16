@@ -37,6 +37,38 @@ describe("Answer", () => {
     expect(answer.currency).toBe("GBP");
   });
 
+  it("should set correct to answer type for different date formats", () => {
+    const date = new Answer(
+      createAnswerJSON({
+        type: "Date",
+        properties: {
+          format: "dd/mm/yyyy"
+        }
+      })
+    );
+    expect(date.type).toBe("Date");
+
+    const monthYearDate = new Answer(
+      createAnswerJSON({
+        type: "Date",
+        properties: {
+          format: "mm/yyyy"
+        }
+      })
+    );
+    expect(monthYearDate.type).toBe("MonthYearDate");
+
+    const yearDate = new Answer(
+      createAnswerJSON({
+        type: "Date",
+        properties: {
+          format: "yyyy"
+        }
+      })
+    );
+    expect(yearDate.type).toBe("YearDate");
+  });
+
   describe("converting options", () => {
     it("should not add options for basic answer types", () => {
       const answer = new Answer(createAnswerJSON());

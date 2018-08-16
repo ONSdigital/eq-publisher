@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { isNil } = require("lodash/fp");
-const { has, merge } = require("lodash");
+const { get, has, merge } = require("lodash");
 
 class Answer {
   constructor(answer) {
@@ -20,6 +20,18 @@ class Answer {
 
     if (answer.type === "Currency") {
       this.currency = "GBP";
+    }
+
+    if (answer.type === "Date") {
+      const format = get(answer, "properties.format");
+
+      if (format === "yyyy") {
+        this.type = "YearDate";
+      }
+
+      if (format === "mm/yyyy") {
+        this.type = "MonthYearDate";
+      }
     }
 
     if (!isNil(answer.options)) {
