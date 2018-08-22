@@ -87,6 +87,15 @@ describe("Answer", () => {
     });
   });
 
+  it("should not add validation if undefined", () => {
+    const answer = new Answer(
+      createAnswerJSON({
+        validation: null
+      })
+    );
+    expect(answer.validation).toBeUndefined();
+  });
+
   describe("converting options", () => {
     it("should not add options for basic answer types", () => {
       const answer = new Answer(createAnswerJSON());

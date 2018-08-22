@@ -10,7 +10,7 @@ class Answer {
     this.label = answer.label;
     this.description = answer.description;
 
-    if (has(answer, "validation")) {
+    if (!isNil(answer.validation)) {
       const { minValue, maxValue } = answer.validation;
       this.buildValidation(minValue, "min_value");
       this.buildValidation(maxValue, "max_value");
