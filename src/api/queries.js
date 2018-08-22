@@ -6,7 +6,25 @@ exports.getQuestionnaire = `
     description
     guidance
     properties
-    qCode
+    qCode          
+    ...on BasicAnswer{
+      validation{
+        ...on NumberValidation{
+          minValue{
+            id
+            inclusive
+            enabled
+            custom
+          }
+          maxValue{
+            id
+            inclusive
+            enabled
+            custom
+          }
+        }
+      }
+    }
     ...on CompositeAnswer{
       childAnswers{
         id
