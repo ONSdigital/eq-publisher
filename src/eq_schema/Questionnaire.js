@@ -14,16 +14,22 @@ class Questionnaire {
     this.data_version = "0.0.2";
     this.survey_id = questionnaireJson.surveyId || questionnaireId;
     this.title = questionnaireJson.title;
-    this.sections = this.buildSections(
-      questionnaireJson.sections,
-      questionnaireJson
-    );
+
+    const ctx = this.createContext(questionnaireJson);
+    this.sections = this.buildSections(questionnaireJson.sections, ctx);
     this.theme = questionnaireJson.theme;
     this.legal_basis = questionnaireJson.legalBasis;
     this.navigation = { visible: questionnaireJson.navigation };
     this.metadata = this.buildMetadata();
 
     this.buildSummaryOrConfirmation(questionnaireJson.summary);
+  }
+
+  createContext(questionnaireJson) {
+    return {
+      routingGotos: [],
+      questionnaireJson
+    };
   }
 
   buildSections(sections, ctx) {

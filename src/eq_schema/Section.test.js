@@ -1,6 +1,6 @@
 const Block = require("./Block");
 const Section = require("./Section");
-const ctx = {};
+const ctx = { routingGotos: [] };
 
 describe("Section", () => {
   const createSectionJSON = options =>

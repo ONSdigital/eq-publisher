@@ -23,7 +23,7 @@ const isLastPageInSection = (page, ctx) =>
   )(ctx);
 
 class Block {
-  constructor(title, page, ctx) {
+  constructor(title, page, groupId, ctx) {
     this.id = `block${page.id}`;
     this.title = getInnerHTML(title);
     this.type = this.convertPageType(page.pageType);
@@ -34,6 +34,7 @@ class Block {
       this.routing_rules = this.buildRoutingRules(
         page.routingRuleSet,
         page.id,
+        groupId,
         ctx
       );
     }
@@ -43,16 +44,18 @@ class Block {
     return [new Question(page)];
   }
 
-  buildRoutingRules({ routingRules, else: elseDest }, pageId, ctx) {
+  buildRoutingRules({ routingRules, else: elseDest }, pageId, groupId, ctx) {
     routingRules.forEach(rule => {
       remove(rule.conditions, condition => isNil(condition.answer));
     });
 
     const rules = routingRules
       .filter(rule => !isEmpty(rule.conditions))
-      .map(rule => new RoutingRule(rule, pageId, ctx));
+      .map(rule => new RoutingRule(rule, pageId, groupId, ctx));
 
-    const elseRule = { goto: new RoutingDestination(elseDest, pageId, ctx) };
+    const elseRule = {
+      goto: new RoutingDestination(elseDest, pageId, ctx)
+    };
 
     return rules.concat(elseRule);
   }

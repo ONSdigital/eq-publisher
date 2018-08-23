@@ -104,25 +104,8 @@ const basicRadioCondition = [
   }
 ];
 
-const ctx = {
-  summary: true,
-  sections: [
-    {
-      id: 1,
-      pages: [{ id: 1 }, { id: 2 }, { id: 3 }]
-    },
-    {
-      id: 2,
-      pages: [{ id: 4 }, { id: 5 }, { id: 6 }]
-    },
-    {
-      id: 3,
-      pages: [{ id: 7 }, { id: 8 }, { id: 9 }]
-    }
-  ]
-};
-
 describe("Rule", () => {
+  let ctx;
   const createRuleJSON = (destination, conditions) => ({
     id: 1,
     title: "Question 1",
@@ -142,11 +125,34 @@ describe("Rule", () => {
       ]
     }
   });
+  beforeEach(() => {
+    ctx = {
+      routingGotos: [],
+      questionnaireJson: {
+        summary: true,
+        sections: [
+          {
+            id: 1,
+            pages: [{ id: 1 }, { id: 2 }, { id: 3 }]
+          },
+          {
+            id: 2,
+            pages: [{ id: 4 }, { id: 5 }, { id: 6 }]
+          },
+          {
+            id: 3,
+            pages: [{ id: 7 }, { id: 8 }, { id: 9 }]
+          }
+        ]
+      }
+    };
+  });
 
   it("should build valid runner routing to next page", () => {
     const block = new Block(
       "section title",
       createRuleJSON(nextPageGoto, basicRadioCondition),
+      "1",
       ctx
     );
     expect(block).toMatchObject({
@@ -174,6 +180,7 @@ describe("Rule", () => {
     const block = new Block(
       "section title",
       createRuleJSON(endQuestionnaireGoto, basicRadioCondition),
+      "1",
       ctx
     );
     expect(block).toMatchObject({
@@ -201,6 +208,7 @@ describe("Rule", () => {
     const block = new Block(
       "section title",
       createRuleJSON(nextPageGoto, otherCondition),
+      "1",
       ctx
     );
 
@@ -230,7 +238,7 @@ describe("Rule", () => {
 
     const multiRules = createRuleJSON(absoluteSectionGoto, twoConditions);
 
-    const block = new Block("section title", multiRules);
+    const block = new Block("section title", multiRules, "1", ctx);
 
     expect(block).toMatchObject({
       id: "block1",
@@ -255,6 +263,27 @@ describe("Rule", () => {
           goto: { group: "group2" }
         }
       ]
+    });
+  });
+
+  it("should add routing rule to ctx for out of section routing", () => {
+    /* eslint-disable-next-line no-new */
+    new Block(
+      "section title",
+      createRuleJSON(endQuestionnaireGoto, basicRadioCondition),
+      "1",
+      ctx
+    );
+
+    expect(ctx.routingGotos).toHaveLength(1);
+    expect(ctx.routingGotos[0]).toMatchObject({
+      group: "summary-group",
+      when: [
+        { condition: "not equals", id: "answer2", value: "no" },
+        { condition: "not equals", id: "answer2", value: "maybe" },
+        { condition: "set", id: "answer2" }
+      ],
+      groupId: "group1"
     });
   });
 });
