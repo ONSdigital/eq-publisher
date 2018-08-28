@@ -126,6 +126,9 @@ exports.getQuestionnaire = `
                 options {
                   ...optionFragment
                 }
+                mutuallyExclusiveOption {
+                  ...optionFragment
+                }
                 other {
                   option {
                     ...optionFragment
