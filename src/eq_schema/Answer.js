@@ -47,6 +47,13 @@ class Answer {
     if (!isNil(answer.other)) {
       this.options = this.options.concat(this.buildOtherOption(answer.other));
     }
+
+    if (!isNil(answer.mutuallyExclusiveOption)) {
+      this.type = "MutuallyExclusiveCheckbox";
+      this.options = this.options.concat(
+        this.buildOption(answer.mutuallyExclusiveOption)
+      );
+    }
   }
 
   static buildChildAnswer(

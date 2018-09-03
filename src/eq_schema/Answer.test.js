@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const Answer = require("./Answer");
 const Question = require("./Question");
+const { last } = require("lodash");
 
 describe("Answer", () => {
   const createAnswerJSON = answer =>
@@ -133,6 +134,57 @@ describe("Answer", () => {
           description: "Another description"
         }
       ]);
+    });
+
+    it("should should always put Exclusive options at the end", () => {
+      const answer = new Answer(
+        createAnswerJSON({
+          type: "Checkbox",
+          options: [
+            {
+              id: 5,
+              label: "Option one",
+              description: "A short description"
+            },
+            {
+              id: 2,
+              label: "Option two",
+              description: "Another description"
+            }
+          ],
+          other: {
+            option: {
+              id: 3,
+              label: "Other",
+              description: "Hello"
+            },
+            answer: {
+              id: 4,
+              description: "This is a description",
+              guidance: "Here's your guidance",
+              properties: {
+                required: false
+              },
+              qCode: "20",
+              label: "This is not a label",
+              type: "TextField"
+            }
+          },
+          mutuallyExclusiveOption: {
+            id: 1,
+            label: "Option three",
+            description: "I am mutually Exclusive"
+          }
+        })
+      );
+
+      expect(answer.type).toEqual("MutuallyExclusiveCheckbox");
+
+      expect(last(answer.options)).toEqual({
+        label: "Option three",
+        value: "Option three",
+        description: "I am mutually Exclusive"
+      });
     });
 
     it("should omit child_answer_id if not supplied", () => {
