@@ -11,9 +11,14 @@ class Answer {
     this.description = answer.description;
 
     if (!isNil(answer.validation)) {
-      const { minValue, maxValue } = answer.validation;
-      this.buildValidation(minValue, "min_value");
-      this.buildValidation(maxValue, "max_value");
+      if (["Number", "Currency"].includes(answer.type)) {
+        const { minValue, maxValue } = answer.validation;
+        this.buildNumberValidation(minValue, "min_value");
+        this.buildNumberValidation(maxValue, "max_value");
+      } else if (answer.type === "Date") {
+        const { earliestDate } = answer.validation;
+        this.buildDateValidation(earliestDate, "minimum");
+      }
     }
 
     if (has(answer, "properties.decimals")) {
@@ -70,18 +75,39 @@ class Answer {
     };
   }
 
-  buildValidation(validationRule, validationType) {
-    if (
-      get(validationRule, "custom", null) &&
-      validationRule.enabled === true
-    ) {
-      Object.assign(this, {
-        [validationType]: {
-          value: validationRule.custom,
-          exclusive: !validationRule.inclusive
-        }
-      });
+  buildNumberValidation(validationRule, validationType) {
+    const { enabled, custom } = validationRule;
+    if (!enabled || isNil(custom)) {
+      return;
     }
+
+    Object.assign(this, {
+      [validationType]: {
+        value: custom,
+        exclusive: !validationRule.inclusive
+      }
+    });
+  }
+
+  buildDateValidation(validationRule, validationType) {
+    const { enabled, custom } = validationRule;
+    if (!enabled || isNil(custom)) {
+      return;
+    }
+
+    const { offset, relativePosition } = validationRule;
+    const multiplier = relativePosition === "Before" ? -1 : 1;
+    const offsetValue = offset.value * multiplier;
+    const offsetUnit = offset.unit.toLowerCase();
+
+    Object.assign(this, {
+      [validationType]: {
+        value: custom,
+        offset_by: {
+          [offsetUnit]: offsetValue
+        }
+      }
+    });
   }
 
   buildOption({ label, description }) {
