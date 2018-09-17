@@ -12,7 +12,7 @@ describe("Answer", () => {
         guidance: null,
         qCode: "51",
         label: "Number of male employees working more than 30 hours per week",
-        type: "PositiveInteger",
+        type: "Number",
         properties: {
           required: true,
           decimals: 2
@@ -22,11 +22,11 @@ describe("Answer", () => {
     );
 
   it("should generate a valid eQ answer from an author answer", () => {
-    const answer = new Answer(createAnswerJSON({ type: "PositiveInteger" }));
+    const answer = new Answer(createAnswerJSON({ type: "Number" }));
 
     expect(answer).toMatchObject({
       id: "answer1",
-      type: "PositiveInteger",
+      type: "Number",
       mandatory: true,
       decimal_places: 2,
       description: "This is a description"
@@ -69,32 +69,101 @@ describe("Answer", () => {
     );
     expect(yearDate.type).toBe("YearDate");
   });
-  it("should add a max value validation rule", () => {
-    const answer = new Answer(
-      createAnswerJSON({
-        validation: {
-          maxValue: {
-            id: "1",
-            inclusive: false,
-            enabled: true,
-            custom: 5
+  describe("validation", () => {
+    it("should add a max value validation rule", () => {
+      const answer = new Answer(
+        createAnswerJSON({
+          validation: {
+            minValue: {
+              id: "2",
+              enabled: false
+            },
+            maxValue: {
+              id: "1",
+              inclusive: false,
+              enabled: true,
+              custom: 5
+            }
           }
-        }
-      })
-    );
-    expect(answer.max_value).toMatchObject({
-      value: 5,
-      exclusive: true
+        })
+      );
+      expect(answer.max_value).toMatchObject({
+        value: 5,
+        exclusive: true
+      });
     });
-  });
 
-  it("should not add validation if undefined", () => {
-    const answer = new Answer(
-      createAnswerJSON({
-        validation: null
-      })
-    );
-    expect(answer.validation).toBeUndefined();
+    describe("Earliest date", () => {
+      let authorDateAnswer;
+      beforeEach(() => {
+        authorDateAnswer = {
+          type: "Date",
+          validation: {
+            earliestDate: {
+              id: "1",
+              enabled: true,
+              custom: "2017-02-17",
+              offset: {
+                value: 4,
+                unit: "Days"
+              },
+              relativePosition: "Before"
+            }
+          }
+        };
+      });
+
+      it("should add earliest date custom value", () => {
+        authorDateAnswer.validation.earliestDate.custom = "2017-02-17";
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.minimum.value).toEqual("2017-02-17");
+      });
+
+      it("should add a positive days offset", () => {
+        authorDateAnswer.validation.earliestDate.relativePosition = "After";
+        authorDateAnswer.validation.earliestDate.offset = {
+          value: 4,
+          unit: "Days"
+        };
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.minimum.offset_by).toMatchObject({
+          days: 4
+        });
+      });
+
+      it("should add a negative months offset", () => {
+        authorDateAnswer.validation.earliestDate.relativePosition = "Before";
+        authorDateAnswer.validation.earliestDate.offset = {
+          value: 7,
+          unit: "Months"
+        };
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.minimum.offset_by).toMatchObject({
+          months: -7
+        });
+      });
+
+      it("should not output the minimum validation if it is not enabled", () => {
+        authorDateAnswer.validation.earliestDate.enabled = false;
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.minimum).toBeUndefined();
+      });
+
+      it("should not add the output if the custom date is not specified", () => {
+        authorDateAnswer.validation.earliestDate.custom = null;
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.minimum).toBeUndefined();
+      });
+    });
+
+    it("should not add validation if undefined", () => {
+      const answer = new Answer(
+        createAnswerJSON({
+          validation: null
+        })
+      );
+      expect(answer.validation).toBeUndefined();
+    });
   });
 
   describe("converting options", () => {

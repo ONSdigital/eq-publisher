@@ -6,7 +6,7 @@ exports.getQuestionnaire = `
     description
     guidance
     properties
-    qCode          
+    qCode
     ...on BasicAnswer{
       validation{
         ...on NumberValidation{
@@ -21,6 +21,18 @@ exports.getQuestionnaire = `
             inclusive
             enabled
             custom
+          }
+        }
+        ...on DateValidation{
+          earliestDate{
+            id
+            enabled
+            custom
+            offset {
+              value
+              unit
+            }
+            relativePosition
           }
         }
       }
@@ -46,7 +58,7 @@ exports.getQuestionnaire = `
       __typename
       logicalDestination
     }
-    ... on AbsoluteDestination {    
+    ... on AbsoluteDestination {
       __typename
       absoluteDestination {
         ... on QuestionPage {
