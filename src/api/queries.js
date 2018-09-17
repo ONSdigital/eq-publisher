@@ -34,6 +34,16 @@ exports.getQuestionnaire = `
             }
             relativePosition
           }
+          latestDate{
+            id
+            enabled
+            custom
+            offset {
+              value
+              unit
+            }
+            relativePosition
+          }
         }
       }
     }
