@@ -108,6 +108,9 @@ describe("Answer", () => {
                 unit: "Days"
               },
               relativePosition: "Before"
+            },
+            latestDate: {
+              enabled: false
             }
           }
         };
@@ -153,6 +156,72 @@ describe("Answer", () => {
         authorDateAnswer.validation.earliestDate.custom = null;
         const answer = new Answer(createAnswerJSON(authorDateAnswer));
         expect(answer.minimum).toBeUndefined();
+      });
+    });
+
+    describe("Latest date", () => {
+      let authorDateAnswer;
+      beforeEach(() => {
+        authorDateAnswer = {
+          type: "Date",
+          validation: {
+            earliestDate: {
+              enabled: false
+            },
+            latestDate: {
+              id: "1",
+              enabled: true,
+              custom: "2017-02-17",
+              offset: {
+                value: 4,
+                unit: "Days"
+              },
+              relativePosition: "Before"
+            }
+          }
+        };
+      });
+
+      it("should add latest date custom value", () => {
+        authorDateAnswer.validation.latestDate.custom = "2017-02-17";
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.maximum.value).toEqual("2017-02-17");
+      });
+
+      it("should add a positive days offset", () => {
+        authorDateAnswer.validation.latestDate.relativePosition = "After";
+        authorDateAnswer.validation.latestDate.offset = {
+          value: 4,
+          unit: "Days"
+        };
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.maximum.offset_by).toMatchObject({
+          days: 4
+        });
+      });
+
+      it("should add a negative months offset", () => {
+        authorDateAnswer.validation.latestDate.relativePosition = "Before";
+        authorDateAnswer.validation.latestDate.offset = {
+          value: 7,
+          unit: "Months"
+        };
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.maximum.offset_by).toMatchObject({
+          months: -7
+        });
+      });
+
+      it("should not output the maximum validation if it is not enabled", () => {
+        authorDateAnswer.validation.latestDate.enabled = false;
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.maximum).toBeUndefined();
+      });
+
+      it("should not add the output if the custom date is not specified", () => {
+        authorDateAnswer.validation.latestDate.custom = null;
+        const answer = new Answer(createAnswerJSON(authorDateAnswer));
+        expect(answer.maximum).toBeUndefined();
       });
     });
 

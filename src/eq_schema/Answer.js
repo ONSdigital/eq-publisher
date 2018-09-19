@@ -16,8 +16,9 @@ class Answer {
         this.buildNumberValidation(minValue, "min_value");
         this.buildNumberValidation(maxValue, "max_value");
       } else if (answer.type === "Date") {
-        const { earliestDate } = answer.validation;
+        const { earliestDate, latestDate } = answer.validation;
         this.buildDateValidation(earliestDate, "minimum");
+        this.buildDateValidation(latestDate, "maximum");
       }
     }
 
