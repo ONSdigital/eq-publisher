@@ -44,7 +44,17 @@ To run the application:
 yarn start
 ```
 
-**Note that some [configuration](#configuration) may be necessary to run the service in isolation**
+**Note that some [configuration](#environment-variables) may be necessary to run the service in isolation**
+
+## Environment Variables
+
+The following environment variables can be configured.
+
+| Name | Description | Required |
+| --- | --- | --- |
+| `EQ_SCHEMA_VALIDATOR_URL` | The URL of the schema validation service. See [Running with Docker Compose](#running-with-docker-compose). | Yes |
+| `EQ_AUTHOR_API_URL` | The URL of the GraphQL API server | Yes |
+| `EQ_PUBLISHER_VERSION` | The current Publisher version. This is what gets reported on the /status endpoint | No |
 
 ## Testing
 
@@ -52,15 +62,6 @@ To run all tests:
 ```
 yarn test
 ```
-
-## Configuration
-
-The following environment variables can be configured.
-
-| Name | Description | Required |
-| --- | --- | --- |
-| `EQ_SCHEMA_VALIDATOR_URL` | The URL of the schema validation service. See [Running with Docker Compose](#running-with-docker-compose). | Yes |
-| `EQ_AUTHOR_API_URL` | The URL of the GraphQL API server. If not supplied, mock API will be used. | Yes |
 
 ## Routes
 
