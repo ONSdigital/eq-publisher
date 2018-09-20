@@ -1,29 +1,51 @@
 const cheerio = require("cheerio");
 
-const filterMap = {
-  Number: "format_number",
-  Currency: "format_currency",
-  Date: "format_date",
-  DateRange: "format_date"
+const getMetadata = (ctx, metadataId) =>
+  ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
+
+const FILTER_MAP = {
+  Number: "|format_number",
+  Currency: "|format_currency",
+  Date: "|format_date",
+  DateRange: "|format_date"
 };
 
-const convertElementToPipe = $elem => {
-  const { piped, id, type } = $elem.data();
-  const filter = filterMap[type];
-  let inner = `${piped}.answer${id}`;
+const PIPE_TYPES = {
+  answers: {
+    retrieve: element => element,
+    render: ({ id }) => `answers.answer${id}`,
+    getType: ({ type }) => type
+  },
+  metadata: {
+    retrieve: ({ id }, ctx) => getMetadata(ctx, id.toString()),
+    render: ({ key }) => `metadata.${key}`,
+    getType: ({ type }) => type
+  }
+};
 
-  if (filter) {
-    inner += `|${filter}`;
+const convertElementToPipe = ($elem, ctx) => {
+  const { piped, ...elementData } = $elem.data();
+  const pipeConfig = PIPE_TYPES[piped];
+  if (!pipeConfig) {
+    return "";
   }
 
-  return `{{${inner}}}`;
+  const entity = pipeConfig.retrieve(elementData, ctx);
+  if (!entity) {
+    return "";
+  }
+  const output = pipeConfig.render(entity);
+  const dataType = pipeConfig.getType(entity);
+
+  const filter = FILTER_MAP[dataType] || "";
+  return `{{${output}${filter}}}`;
 };
 
-const parseHTML = (html = "") => {
+const parseHTML = html => {
   return cheerio.load(html)("body");
 };
 
-const convertPipes = html => {
+const convertPipes = ctx => html => {
   if (!html) {
     return html;
   }
@@ -32,7 +54,7 @@ const convertPipes = html => {
 
   $.find("[data-piped]").each((i, elem) => {
     const $elem = cheerio(elem);
-    $elem.replaceWith(convertElementToPipe($elem));
+    $elem.replaceWith(convertElementToPipe($elem, ctx));
   });
 
   return $.html();

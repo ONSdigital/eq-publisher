@@ -185,17 +185,27 @@ describe("Question", () => {
 
   describe("piping", () => {
     const createPipe = ({
-      id = "123",
+      id = 123,
       type = "TextField",
-      text = "foo"
+      text = "foo",
+      pipeType = "answers"
     } = {}) =>
-      `<span data-piped="answers" data-id="${id}" data-type="${type}">${text}</span>`;
+      `<span data-piped="${pipeType}" data-id="${id}" data-type="${type}">${text}</span>`;
+
+    const createContext = (
+      metadata = [{ id: "123", type: "Text", key: "my_metadata" }]
+    ) => ({
+      questionnaireJson: {
+        metadata
+      }
+    });
 
     it("should handle piped values in title", () => {
       const question = new Question(
         createQuestionJSON({
           title: createPipe()
-        })
+        }),
+        createContext()
       );
 
       expect(question.title).toEqual("{{answers.answer123}}");
@@ -204,12 +214,13 @@ describe("Question", () => {
     it("should handle piped values in guidance", () => {
       const question = new Question(
         createQuestionJSON({
-          guidance: `<h2>${createPipe()}</h2>`
-        })
+          guidance: `<h2>${createPipe({ pipeType: "metadata" })}</h2>`
+        }),
+        createContext()
       );
 
       expect(question.guidance.content[0]).toEqual({
-        title: "{{answers.answer123}}"
+        title: "{{metadata.my_metadata}}"
       });
     });
 
@@ -217,7 +228,8 @@ describe("Question", () => {
       const question = new Question(
         createQuestionJSON({
           description: `<h2>${createPipe()}</h2>`
-        })
+        }),
+        createContext()
       );
 
       expect(question.description).toEqual("{{answers.answer123}}");

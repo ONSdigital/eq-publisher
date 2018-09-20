@@ -25,7 +25,7 @@ class Block {
   constructor(page, groupId, ctx) {
     this.id = `block${page.id}`;
     this.type = this.convertPageType(page.pageType);
-    this.questions = this.buildQuestions(page);
+    this.questions = this.buildQuestions(page, ctx);
 
     if (!isLastPageInSection(page, ctx) && !isNil(page.routingRuleSet)) {
       // eslint-disable-next-line camelcase
@@ -38,8 +38,8 @@ class Block {
     }
   }
 
-  buildQuestions(page) {
-    return [new Question(page)];
+  buildQuestions(page, ctx) {
+    return [new Question(page, ctx)];
   }
 
   buildRoutingRules({ routingRules, else: elseDest }, pageId, groupId, ctx) {

@@ -5,6 +5,7 @@ const result = {
   data: {
     questionnaire: {
       id: 1,
+      metadata: [],
       sections: [
         {
           id: 1,

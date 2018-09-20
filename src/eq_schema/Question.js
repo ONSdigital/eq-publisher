@@ -8,21 +8,23 @@ const findDateRange = flow(
   find({ type: "DateRange" })
 );
 
-const processPipedText = flow(
-  convertPipes,
-  getInnerHTML
-);
-const processGuidance = flow(
-  convertPipes,
-  parseGuidance
-);
+const processPipedText = ctx =>
+  flow(
+    convertPipes(ctx),
+    getInnerHTML
+  );
+const processGuidance = ctx =>
+  flow(
+    convertPipes(ctx),
+    parseGuidance
+  );
 
 class Question {
-  constructor(question) {
+  constructor(question, ctx) {
     this.id = `question${question.id}`;
-    this.title = processPipedText(question.title);
-    this.guidance = processGuidance(question.guidance);
-    this.description = processPipedText(question.description);
+    this.title = processPipedText(ctx)(question.title);
+    this.guidance = processGuidance(ctx)(question.guidance);
+    this.description = processPipedText(ctx)(question.description);
 
     const dateRange = findDateRange(question);
 
