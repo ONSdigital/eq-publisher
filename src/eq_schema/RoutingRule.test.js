@@ -150,14 +150,12 @@ describe("Rule", () => {
 
   it("should build valid runner routing to next page", () => {
     const block = new Block(
-      "section title",
       createRuleJSON(nextPageGoto, basicRadioCondition),
       "1",
       ctx
     );
     expect(block).toMatchObject({
       id: "block1",
-      title: "section title",
       questions: [expect.any(Question)],
       // eslint-disable-next-line camelcase
       routing_rules: [
@@ -178,14 +176,12 @@ describe("Rule", () => {
 
   it("should build valid runner routing to the End of Questionnaire", () => {
     const block = new Block(
-      "section title",
       createRuleJSON(endQuestionnaireGoto, basicRadioCondition),
       "1",
       ctx
     );
     expect(block).toMatchObject({
       id: "block1",
-      title: "section title",
       questions: [expect.any(Question)],
       // eslint-disable-next-line camelcase
       routing_rules: [
@@ -206,7 +202,6 @@ describe("Rule", () => {
 
   it("should build valid runner routing with 'other' answers", () => {
     const block = new Block(
-      "section title",
       createRuleJSON(nextPageGoto, otherCondition),
       "1",
       ctx
@@ -214,7 +209,6 @@ describe("Rule", () => {
 
     expect(block).toMatchObject({
       id: "block1",
-      title: "section title",
       questions: [expect.any(Question)],
       // eslint-disable-next-line camelcase
       routing_rules: [
@@ -238,11 +232,10 @@ describe("Rule", () => {
 
     const multiRules = createRuleJSON(absoluteSectionGoto, twoConditions);
 
-    const block = new Block("section title", multiRules, "1", ctx);
+    const block = new Block(multiRules, "1", ctx);
 
     expect(block).toMatchObject({
       id: "block1",
-      title: "section title",
       questions: [expect.any(Question)],
       // eslint-disable-next-line camelcase
       routing_rules: [
@@ -269,7 +262,6 @@ describe("Rule", () => {
   it("should add routing rule to ctx for out of section routing", () => {
     /* eslint-disable-next-line no-new */
     new Block(
-      "section title",
       createRuleJSON(endQuestionnaireGoto, basicRadioCondition),
       "1",
       ctx

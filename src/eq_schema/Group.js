@@ -7,7 +7,7 @@ class Group {
   constructor(id, title, pages, ctx) {
     this.id = `group${id}`;
     this.title = getInnerHTML(title);
-    this.blocks = this.buildBlocks(this.title, pages, id, ctx);
+    this.blocks = this.buildBlocks(pages, id, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
       this.filterContext(this.id, ctx);
@@ -34,8 +34,8 @@ class Group {
     );
   }
 
-  buildBlocks(title, pages, groupId, ctx) {
-    return pages.map(page => new Block(title, page, groupId, ctx));
+  buildBlocks(pages, groupId, ctx) {
+    return pages.map(page => new Block(page, groupId, ctx));
   }
 }
 

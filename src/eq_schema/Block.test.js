@@ -8,7 +8,6 @@ describe("Block", () => {
     Object.assign(
       {
         id: 1,
-        title: "Question 1",
         pageType: "Question",
         type: "General",
         answers: []
@@ -17,33 +16,23 @@ describe("Block", () => {
     );
 
   it("should build valid runner Block from Author page", () => {
-    const block = new Block("section title", createBlockJSON(), ctx);
+    const block = new Block(createBlockJSON(), ctx);
 
     expect(block).toMatchObject({
       id: "block1",
-      title: "section title",
       questions: [expect.any(Question)]
     });
   });
 
-  it("should handle HTML values", () => {
-    const block = new Block(
-      "<p>section <em>title</em>",
-      createBlockJSON(),
-      ctx
-    );
+  it("should not have a title", () => {
+    const block = new Block(createBlockJSON(), ctx);
 
-    expect(block).toMatchObject({
-      id: "block1",
-      title: "section <em>title</em>",
-      questions: [expect.any(Question)]
-    });
+    expect(block.title).toBeUndefined();
   });
 
   describe("conversion of page types", () => {
     it("should convert QuestionPage to Questionnaire", () => {
       const block = new Block(
-        "section title",
         createBlockJSON({ pageType: "QuestionPage" }),
         ctx
       );
@@ -53,7 +42,6 @@ describe("Block", () => {
 
     it("should convert InterstitialPage to Interstitial", () => {
       const block = new Block(
-        "section title",
         createBlockJSON({ pageType: "InterstitialPage" }),
         ctx
       );

@@ -2,7 +2,6 @@ const Question = require("./Question");
 const RoutingRule = require("./RoutingRule");
 const RoutingDestination = require("./RoutingDestination");
 const { get, isNil, remove, isEmpty } = require("lodash");
-const { getInnerHTML } = require("../utils/HTMLUtils");
 const { flow, getOr, last, map, some } = require("lodash/fp");
 
 const pageTypeMappings = {
@@ -23,9 +22,8 @@ const isLastPageInSection = (page, ctx) =>
   )(ctx);
 
 class Block {
-  constructor(title, page, groupId, ctx) {
+  constructor(page, groupId, ctx) {
     this.id = `block${page.id}`;
-    this.title = getInnerHTML(title);
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page);
 
