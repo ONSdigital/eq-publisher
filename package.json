@@ -26,7 +26,7 @@
     "eslint-config-eq-author": "^1.0.2",
     "express": "^4.15.3",
     "express-pino-logger": "^4.0.0",
-    "graphql": "^0.13.2",
+    "graphql": "^14.0.2",
     "json-schema": "^0.2.3",
     "jsonschema": "^1.1.1",
     "lodash": "^4.17.4",
