@@ -14,7 +14,10 @@
     "eslint-scope": "3.7.1"
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "apollo-fetch": "^0.7.0",
@@ -34,18 +37,22 @@
   },
   "devDependencies": {
     "eslint": "^5.0.1",
-    "husky": "^0.14.3",
+    "husky": "1.0.1",
     "jest": "^22.4.3",
     "lint-staged": "^7.0.5",
     "prettier": "^1.5.3"
   },
-  "moduleRoots": ["src/"],
+  "moduleRoots": [
+    "src/"
+  ],
   "engines": {
     "node": ">=7.10.0"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/**/*.js"]
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
   }
 }
