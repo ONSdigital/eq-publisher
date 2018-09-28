@@ -22,7 +22,8 @@ describe("Questionnaire", () => {
             title: "Section",
             pages: []
           }
-        ]
+        ],
+        metadata: []
       },
       questionnaire
     );
@@ -42,7 +43,8 @@ describe("Questionnaire", () => {
       title: "Quarterly Business Survey",
       theme: "default",
       sections: [expect.any(Section)],
-      legal_basis: "StatisticsOfTradeAct"
+      legal_basis: "StatisticsOfTradeAct",
+      metadata: expect.arrayContaining(Questionnaire.DEFAULT_METADATA)
     });
   });
 
@@ -85,7 +87,14 @@ describe("Questionnaire", () => {
       navigation: {
         visible: true
       },
-      sections: [{ id: "section2" }, { id: "section3" }]
+      sections: [
+        {
+          id: "section2"
+        },
+        {
+          id: "section3"
+        }
+      ]
     });
   });
 
@@ -130,7 +139,9 @@ describe("Questionnaire", () => {
 
   it("should add a summary page if toggled on", () => {
     const questionnaire = new Questionnaire(
-      createQuestionnaireJSON({ summary: true })
+      createQuestionnaireJSON({
+        summary: true
+      })
     );
     const lastSection = last(questionnaire.sections);
     const lastGroup = last(lastSection.groups);
@@ -139,7 +150,9 @@ describe("Questionnaire", () => {
 
   it("should add a confirmation page if summary is toggled off", () => {
     const questionnaire = new Questionnaire(
-      createQuestionnaireJSON({ summary: false })
+      createQuestionnaireJSON({
+        summary: false
+      })
     );
     const lastSection = last(questionnaire.sections);
     const lastGroup = last(lastSection.groups);
@@ -163,5 +176,85 @@ describe("Questionnaire", () => {
         }
       ]
     });
+  });
+
+  it("should add user defined metadata", () => {
+    const questionnaireJson = createQuestionnaireJSON({
+      metadata: [
+        {
+          key: "example_date",
+          type: "Date"
+        },
+        {
+          key: "example_text",
+          type: "Text"
+        },
+        {
+          key: "example_region",
+          type: "Region"
+        },
+        {
+          key: "example_language",
+          type: "Language"
+        }
+      ]
+    });
+
+    expect(new Questionnaire(questionnaireJson)).toHaveProperty("metadata", [
+      {
+        name: "user_id",
+        validator: "string"
+      },
+      {
+        name: "period_id",
+        validator: "string"
+      },
+      {
+        name: "ru_name",
+        validator: "string"
+      },
+      {
+        name: "example_date",
+        validator: "date"
+      },
+      {
+        name: "example_text",
+        validator: "string"
+      },
+      {
+        name: "example_region",
+        validator: "string"
+      },
+      {
+        name: "example_language",
+        validator: "string"
+      }
+    ]);
+  });
+
+  it("should not overwrite the default metadata", () => {
+    const questionnaireJson = createQuestionnaireJSON({
+      metadata: [
+        {
+          key: "ru_name",
+          type: "Date"
+        }
+      ]
+    });
+
+    expect(new Questionnaire(questionnaireJson)).toHaveProperty("metadata", [
+      {
+        name: "user_id",
+        validator: "string"
+      },
+      {
+        name: "period_id",
+        validator: "string"
+      },
+      {
+        name: "ru_name",
+        validator: "string"
+      }
+    ]);
   });
 });

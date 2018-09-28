@@ -83,6 +83,12 @@ exports.getQuestionnaire = `
     }
   }
 
+  fragment metadataFragment on Metadata {
+    id
+    key
+    type
+  }
+
   query GetQuestionnaire($questionnaireId: ID!) {
     questionnaire(id: $questionnaireId) {
       id
@@ -93,6 +99,9 @@ exports.getQuestionnaire = `
       navigation
       surveyId
       summary
+      metadata {
+        ...metadataFragment
+      }
       sections {
         id
         title

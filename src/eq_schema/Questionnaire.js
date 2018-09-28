@@ -4,6 +4,23 @@ const Summary = require("./block-types/Summary");
 const Confirmation = require("./block-types/Confirmation");
 const { last } = require("lodash");
 
+const DEFAULT_METADATA = [
+  {
+    name: "user_id",
+    validator: "string"
+  },
+  {
+    name: "period_id",
+    validator: "string"
+  },
+  {
+    name: "ru_name",
+    validator: "string"
+  }
+];
+
+const DEFAULT_METADATA_NAMES = DEFAULT_METADATA.map(({ name }) => name);
+
 class Questionnaire {
   constructor(questionnaireJson) {
     const questionnaireId = questionnaireJson.id;
@@ -19,8 +36,10 @@ class Questionnaire {
     this.sections = this.buildSections(questionnaireJson.sections, ctx);
     this.theme = questionnaireJson.theme;
     this.legal_basis = questionnaireJson.legalBasis;
-    this.navigation = { visible: questionnaireJson.navigation };
-    this.metadata = this.buildMetadata();
+    this.navigation = {
+      visible: questionnaireJson.navigation
+    };
+    this.metadata = this.buildMetadata(questionnaireJson.metadata);
 
     this.buildSummaryOrConfirmation(questionnaireJson.summary);
   }
@@ -41,22 +60,17 @@ class Questionnaire {
     last(this.sections).groups.push(finalPage);
   }
 
-  buildMetadata() {
-    return [
-      {
-        name: "user_id",
-        validator: "string"
-      },
-      {
-        name: "period_id",
-        validator: "string"
-      },
-      {
-        name: "ru_name",
-        validator: "string"
-      }
-    ];
+  buildMetadata(metadata) {
+    const userMetadata = metadata
+      .filter(({ key }) => !DEFAULT_METADATA_NAMES.includes(key))
+      .map(({ key, type }) => ({
+        name: key,
+        validator: type === "Date" ? "date" : "string"
+      }));
+
+    return [...DEFAULT_METADATA, ...userMetadata];
   }
 }
 
+Questionnaire.DEFAULT_METADATA = DEFAULT_METADATA;
 module.exports = Questionnaire;
