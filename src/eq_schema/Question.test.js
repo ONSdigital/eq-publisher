@@ -40,8 +40,20 @@ describe("Question", () => {
     );
 
     expect(question).toMatchObject({
-      title: "question title"
+      title: "<p>question title</p>"
     });
+  });
+
+  it("should not drop sibling elements", () => {
+    const question = new Question(
+      createQuestionJSON({
+        description:
+          "<p>Definition of &#x27;internal Research and Development&#x27;:</p><p>Creative work undertaken within your business that increases knowledge for the developing new and improved goods or services and processes. </p>"
+      })
+    );
+    expect(question.description).toEqual(
+      "<p>Definition of &apos;internal Research and Development&apos;:</p><p>Creative work undertaken within your business that increases knowledge for the developing new and improved goods or services and processes. </p>"
+    );
   });
 
   describe("guidance", () => {
@@ -232,7 +244,7 @@ describe("Question", () => {
         createContext()
       );
 
-      expect(question.description).toEqual("{{answers.answer123}}");
+      expect(question.description).toEqual("<h2>{{answers.answer123}}</h2>");
     });
   });
 });

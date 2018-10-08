@@ -2,7 +2,18 @@ const cheerio = require("cheerio");
 
 const isPlainText = elem => typeof elem === "string" && !elem.startsWith("<");
 
-const getInnerHTML = elem => (isPlainText(elem) ? elem : cheerio(elem).html());
+const getInnerHTML = elem => {
+  if (isPlainText(elem)) {
+    return elem;
+  }
+
+  let el = elem;
+  if (typeof elem !== "string") {
+    el = cheerio(elem).html();
+  }
+
+  return cheerio(`<div>${el}</div>`).html();
+};
 
 const getText = elem => (isPlainText(elem) ? elem : cheerio(elem).text());
 
@@ -11,7 +22,10 @@ const description = elem => ({ description: getInnerHTML(elem) });
 const title = elem => ({ title: getInnerHTML(elem) });
 
 const list = elem => ({
-  list: cheerio(elem).find("li").map((i, li) => getInnerHTML(li)).toArray()
+  list: cheerio(elem)
+    .find("li")
+    .map((i, li) => getInnerHTML(li))
+    .toArray()
 });
 
 const mapElementToObject = elem => {
