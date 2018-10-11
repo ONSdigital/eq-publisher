@@ -41,7 +41,7 @@ describe("convertPipes", () => {
     it("should convert relevant elements to pipe format", () => {
       const html = createPipe();
       expect(convertPipes(createContext())(html)).toEqual(
-        "{{answers.answer123}}"
+        "{{ answers['answer123'] }}"
       );
     });
 
@@ -51,7 +51,7 @@ describe("convertPipes", () => {
       const html = `${pipe1}${pipe2}`;
 
       expect(convertPipes(createContext())(html)).toEqual(
-        "{{answers.answer123}}{{answers.answer456}}"
+        "{{ answers['answer123'] }}{{ answers['answer456'] }}"
       );
     });
 
@@ -61,7 +61,7 @@ describe("convertPipes", () => {
       const html = `hello ${pipe1}${pipe2} world`;
 
       expect(convertPipes(createContext())(html)).toEqual(
-        "hello {{answers.answer123}}{{answers.answer456}} world"
+        "hello {{ answers['answer123'] }}{{ answers['answer456'] }} world"
       );
     });
 
@@ -69,21 +69,21 @@ describe("convertPipes", () => {
       it("should format Date answers with `format_date`", () => {
         const html = createPipe({ id: "123", type: "Date" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{answers.answer123|format_date}}"
+          "{{ answers['answer123'] | format_date }}"
         );
       });
 
       it("should format Currency answers with `format_currency`", () => {
         const html = createPipe({ id: "123", type: "Currency" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{answers.answer123|format_currency}}"
+          "{{ format_currency(answers['answer123'], 'GBP') }}"
         );
       });
 
       it("should format Number answers with `format_number`", () => {
         const html = createPipe({ id: "123", type: "Number" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{answers.answer123|format_number}}"
+          "{{ answers['answer123'] | format_number }}"
         );
       });
     });
@@ -94,7 +94,7 @@ describe("convertPipes", () => {
       const html = createPipe({ pipeType: "metadata" });
       const metadata = [{ id: "123", key: "my_metadata", type: "Text" }];
       expect(convertPipes(createContext(metadata))(html)).toEqual(
-        "{{metadata.my_metadata}}"
+        "{{ metadata['my_metadata'] }}"
       );
     });
 
@@ -109,7 +109,7 @@ describe("convertPipes", () => {
         const html = createPipe({ pipeType: "metadata" });
         const metadata = [{ id: "123", key: "my_metadata", type: "Date" }];
         expect(convertPipes(createContext(metadata))(html)).toEqual(
-          "{{metadata.my_metadata|format_date}}"
+          "{{ metadata['my_metadata'] | format_date }}"
         );
       });
     });

@@ -1,5 +1,5 @@
 const Answer = require("./Answer");
-const { getInnerHTML, parseGuidance } = require("../utils/HTMLUtils");
+const { parseGuidance, getInnerHTMLWithPiping } = require("../utils/HTMLUtils");
 const { find, get, flow, flatten, isNil, assign } = require("lodash/fp");
 const convertPipes = require("../utils/convertPipes");
 
@@ -11,7 +11,7 @@ const findDateRange = flow(
 const processPipedText = ctx =>
   flow(
     convertPipes(ctx),
-    getInnerHTML
+    getInnerHTMLWithPiping
   );
 const processGuidance = ctx =>
   flow(
