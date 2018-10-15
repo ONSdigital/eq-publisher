@@ -21,6 +21,10 @@ exports.getQuestionnaire = `
             inclusive
             enabled
             custom
+            entityType
+            previousAnswer {
+              id
+            }
           }
         }
         ...on DateValidation{
