@@ -159,6 +159,9 @@ exports.getQuestionnaire = `
                     ... on IDArrayValue {
                       value
                     }
+                    ... on NumberValue {
+                      numberValue
+                    }                
                   }
                 }
               }
