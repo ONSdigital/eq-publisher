@@ -1,24 +1,25 @@
 const cheerio = require("cheerio");
+const { unescapePiping } = require("./HTMLUtils");
 
 const getMetadata = (ctx, metadataId) =>
   ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
 
 const FILTER_MAP = {
-  Number: "|format_number",
-  Currency: "|format_currency",
-  Date: "|format_date",
-  DateRange: "|format_date"
+  Number: value => `${value} | format_number`,
+  Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
+  Date: value => `${value} | format_date`,
+  DateRange: value => `${value} | format_date`
 };
 
 const PIPE_TYPES = {
   answers: {
     retrieve: element => element,
-    render: ({ id }) => `answers.answer${id}`,
+    render: ({ id }) => `answers['answer${id}']`,
     getType: ({ type }) => type
   },
   metadata: {
     retrieve: ({ id }, ctx) => getMetadata(ctx, id.toString()),
-    render: ({ key }) => `metadata.${key}`,
+    render: ({ key }) => `metadata['${key}']`,
     getType: ({ type }) => type
   }
 };
@@ -37,8 +38,9 @@ const convertElementToPipe = ($elem, ctx) => {
   const output = pipeConfig.render(entity);
   const dataType = pipeConfig.getType(entity);
 
-  const filter = FILTER_MAP[dataType] || "";
-  return `{{${output}${filter}}}`;
+  const filter = FILTER_MAP[dataType];
+
+  return filter ? `{{ ${filter(output)} }}` : `{{ ${output} }}`;
 };
 
 const parseHTML = html => {
@@ -57,7 +59,7 @@ const convertPipes = ctx => html => {
     $elem.replaceWith(convertElementToPipe($elem, ctx));
   });
 
-  return $.html();
+  return unescapePiping($.html());
 };
 
 module.exports = convertPipes;

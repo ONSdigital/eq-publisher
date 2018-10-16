@@ -208,7 +208,7 @@ describe("Question", () => {
         createContext()
       );
 
-      expect(question.title).toEqual("{{answers.answer123}}");
+      expect(question.title).toEqual("{{ answers['answer123'] }}");
     });
 
     it("should handle piped values in guidance", () => {
@@ -220,7 +220,7 @@ describe("Question", () => {
       );
 
       expect(question.guidance.content[0]).toEqual({
-        title: "{{metadata.my_metadata}}"
+        title: "{{ metadata['my_metadata'] }}"
       });
     });
 
@@ -232,7 +232,7 @@ describe("Question", () => {
         createContext()
       );
 
-      expect(question.description).toEqual("{{answers.answer123}}");
+      expect(question.description).toEqual("{{ answers['answer123'] }}");
     });
   });
 });
