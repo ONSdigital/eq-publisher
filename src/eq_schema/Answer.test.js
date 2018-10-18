@@ -70,7 +70,16 @@ describe("Answer", () => {
     expect(yearDate.type).toBe("YearDate");
   });
   describe("validation", () => {
-    it("should add a max value validation rule", () => {
+    it("should not add validation if undefined", () => {
+      const answer = new Answer(
+        createAnswerJSON({
+          validation: null
+        })
+      );
+      expect(answer.validation).toBeUndefined();
+    });
+
+    it("should drop validations with unknown entityTypes", () => {
       const answer = new Answer(
         createAnswerJSON({
           validation: {
@@ -82,14 +91,104 @@ describe("Answer", () => {
               id: "1",
               inclusive: false,
               enabled: true,
-              custom: 5
+              custom: 5,
+              entityType: "Typefoo"
             }
           }
         })
       );
-      expect(answer.max_value).toMatchObject({
-        value: 5,
-        exclusive: true
+      expect(answer.max_value).toBeUndefined();
+    });
+
+    describe("Max value", () => {
+      it("should add a max value validation rule", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            validation: {
+              minValue: {
+                id: "2",
+                enabled: false
+              },
+              maxValue: {
+                id: "1",
+                inclusive: false,
+                enabled: true,
+                custom: 5
+              }
+            }
+          })
+        );
+        expect(answer.max_value).toMatchObject({
+          value: 5,
+          exclusive: true
+        });
+      });
+
+      it("should drop validation rule when no custom value and entityType is Custom", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            validation: {
+              minValue: {
+                id: "2",
+                enabled: false
+              },
+              maxValue: {
+                id: "1",
+                inclusive: false,
+                enabled: true,
+                custom: null,
+                entityType: "Custom"
+              }
+            }
+          })
+        );
+        expect(answer.max_value).toBeUndefined();
+      });
+
+      it("should add a previous answer max validation when entityType is PreviousAnswer", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            validation: {
+              minValue: {
+                id: "2",
+                enabled: false
+              },
+              maxValue: {
+                id: "1",
+                inclusive: true,
+                enabled: true,
+                entityType: "PreviousAnswer",
+                previousAnswer: {
+                  id: "3"
+                }
+              }
+            }
+          })
+        );
+        expect(answer.max_value).toMatchObject({
+          answer_id: "answer3"
+        });
+      });
+
+      it("should drop max values that have an entity type of PreviousAnswer but no answer", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            validation: {
+              minValue: {
+                id: "2",
+                enabled: false
+              },
+              maxValue: {
+                id: "1",
+                inclusive: true,
+                enabled: true,
+                entityType: "PreviousAnswer",
+                previousAnswer: null
+              }
+            }
+          })
+        );
+        expect(answer.max_value).toBeUndefined();
       });
     });
 
@@ -223,15 +322,6 @@ describe("Answer", () => {
         const answer = new Answer(createAnswerJSON(authorDateAnswer));
         expect(answer.maximum).toBeUndefined();
       });
-    });
-
-    it("should not add validation if undefined", () => {
-      const answer = new Answer(
-        createAnswerJSON({
-          validation: null
-        })
-      );
-      expect(answer.validation).toBeUndefined();
     });
   });
 

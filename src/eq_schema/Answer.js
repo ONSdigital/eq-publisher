@@ -77,17 +77,37 @@ class Answer {
   }
 
   buildNumberValidation(validationRule, validationType) {
-    const { enabled, custom } = validationRule;
-    if (!enabled || isNil(custom)) {
+    const { enabled } = validationRule;
+    if (!enabled) {
       return;
     }
 
-    Object.assign(this, {
-      [validationType]: {
-        value: custom,
-        exclusive: !validationRule.inclusive
+    const comparator = this.buildNumberComparator(validationRule);
+    if (isNil(comparator)) {
+      return;
+    }
+
+    this[validationType] = {
+      ...comparator,
+      exclusive: !validationRule.inclusive
+    };
+  }
+
+  buildNumberComparator(validationRule) {
+    const { entityType = "Custom", custom, previousAnswer } = validationRule;
+    if (entityType === "Custom") {
+      if (isNil(custom)) {
+        return;
       }
-    });
+      return { value: custom };
+    }
+    if (entityType === "PreviousAnswer") {
+      if (isNil(previousAnswer)) {
+        return;
+      }
+      return { answer_id: `answer${previousAnswer.id}` };
+    }
+    return;
   }
 
   buildDateValidation(validationRule, validationType) {
