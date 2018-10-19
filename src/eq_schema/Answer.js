@@ -55,7 +55,7 @@ class Answer {
     }
 
     if (!isNil(answer.mutuallyExclusiveOption)) {
-      this.type = "MutuallyExclusiveCheckbox";
+      this.type = "Checkbox";
       this.options = this.options.concat(
         this.buildOption(answer.mutuallyExclusiveOption)
       );

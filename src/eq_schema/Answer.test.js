@@ -406,7 +406,7 @@ describe("Answer", () => {
         })
       );
 
-      expect(answer.type).toEqual("MutuallyExclusiveCheckbox");
+      expect(answer.type).toEqual("Checkbox");
 
       expect(last(answer.options)).toEqual({
         label: "Option three",
