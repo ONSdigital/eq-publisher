@@ -37,6 +37,10 @@ exports.getQuestionnaire = `
               unit
             }
             relativePosition
+            entityType
+            previousAnswer {
+              id
+            }
           }
           latestDate{
             id
@@ -47,6 +51,10 @@ exports.getQuestionnaire = `
               unit
             }
             relativePosition
+            entityType
+            previousAnswer {
+              id
+            }
           }
         }
       }

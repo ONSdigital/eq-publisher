@@ -221,6 +221,63 @@ describe("Answer", () => {
         expect(answer.minimum.value).toEqual("2017-02-17");
       });
 
+      it("should add earliest date previous answer", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              earliestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "PreviousAnswer",
+                custom: null,
+                previousAnswer: {
+                  id: "3"
+                },
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              latestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+
+        expect(answer.minimum).toMatchObject({
+          answer_id: "answer3"
+        });
+      });
+
+      it("should drop validation that has an entity type of PreviousAnswer but no answer", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              earliestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "PreviousAnswer",
+                custom: null,
+                previousAnswer: null,
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              latestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+        expect(answer.minimum).toBeUndefined();
+      });
+
       it("should add a positive days offset", () => {
         authorDateAnswer.validation.earliestDate.relativePosition = "After";
         authorDateAnswer.validation.earliestDate.offset = {
@@ -285,6 +342,63 @@ describe("Answer", () => {
         authorDateAnswer.validation.latestDate.custom = "2017-02-17";
         const answer = new Answer(createAnswerJSON(authorDateAnswer));
         expect(answer.maximum.value).toEqual("2017-02-17");
+      });
+
+      it("should add latest date previous answer", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              latestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "PreviousAnswer",
+                custom: null,
+                previousAnswer: {
+                  id: "3"
+                },
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              earliestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+
+        expect(answer.maximum).toMatchObject({
+          answer_id: "answer3"
+        });
+      });
+
+      it("should drop validation that has an entity type of PreviousAnswer but no answer", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              latestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "PreviousAnswer",
+                custom: null,
+                previousAnswer: null,
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              earliestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+        expect(answer.maximum).toBeUndefined();
       });
 
       it("should add a positive days offset", () => {
