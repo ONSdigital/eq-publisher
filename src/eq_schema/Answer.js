@@ -88,7 +88,12 @@ class Answer {
   }
 
   buildComparator(validationRule) {
-    const { entityType = "Custom", custom, previousAnswer } = validationRule;
+    const {
+      entityType = "Custom",
+      custom,
+      previousAnswer,
+      metadata
+    } = validationRule;
     if (entityType === "Custom") {
       if (isNil(custom)) {
         return;
@@ -100,6 +105,13 @@ class Answer {
         return;
       }
       return { answer_id: `answer${previousAnswer.id}` };
+    }
+
+    if (entityType === "Metadata") {
+      if (isNil(metadata)) {
+        return;
+      }
+      return { meta: metadata.key };
     }
     return;
   }

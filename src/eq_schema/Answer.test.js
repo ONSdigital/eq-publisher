@@ -251,6 +251,38 @@ describe("Answer", () => {
         });
       });
 
+      it("should add earliest date metadata", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              earliestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "Metadata",
+                custom: null,
+                previousAnswer: null,
+                metadata: {
+                  key: "test_ref"
+                },
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              latestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+
+        expect(answer.minimum).toMatchObject({
+          meta: "test_ref"
+        });
+      });
+
       it("should drop validation that has an entity type of PreviousAnswer but no answer", () => {
         const answer = new Answer(
           createAnswerJSON({
@@ -262,6 +294,33 @@ describe("Answer", () => {
                 entityType: "PreviousAnswer",
                 custom: null,
                 previousAnswer: null,
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              latestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+        expect(answer.minimum).toBeUndefined();
+      });
+
+      it("should drop validation that has an entity type of Metadata but no metadata", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              earliestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "Metadata",
+                custom: null,
+                previousAnswer: null,
+                metadata: null,
                 offset: {
                   value: 4,
                   unit: "Days"
@@ -374,6 +433,38 @@ describe("Answer", () => {
         });
       });
 
+      it("should add latest date metadata", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              latestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "Metadata",
+                custom: null,
+                previousAnswer: null,
+                metadata: {
+                  key: "test_ref"
+                },
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              earliestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+
+        expect(answer.maximum).toMatchObject({
+          meta: "test_ref"
+        });
+      });
+
       it("should drop validation that has an entity type of PreviousAnswer but no answer", () => {
         const answer = new Answer(
           createAnswerJSON({
@@ -385,6 +476,33 @@ describe("Answer", () => {
                 entityType: "PreviousAnswer",
                 custom: null,
                 previousAnswer: null,
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              earliestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+        expect(answer.maximum).toBeUndefined();
+      });
+
+      it("should drop validation that has an entity type of Metadata but no metadata", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              latestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "Metadata",
+                custom: null,
+                previousAnswer: null,
+                metadata: null,
                 offset: {
                   value: 4,
                   unit: "Days"
