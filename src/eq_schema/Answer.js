@@ -82,7 +82,8 @@ class Answer {
       return;
     }
 
-    const comparator = this.buildNumberComparator(validationRule);
+    const comparator = this.buildComparator(validationRule);
+
     if (isNil(comparator)) {
       return;
     }
@@ -93,7 +94,7 @@ class Answer {
     };
   }
 
-  buildNumberComparator(validationRule) {
+  buildComparator(validationRule) {
     const { entityType = "Custom", custom, previousAnswer } = validationRule;
     if (entityType === "Custom") {
       if (isNil(custom)) {
@@ -111,8 +112,14 @@ class Answer {
   }
 
   buildDateValidation(validationRule, validationType) {
-    const { enabled, custom } = validationRule;
-    if (!enabled || isNil(custom)) {
+    const { enabled } = validationRule;
+    if (!enabled) {
+      return;
+    }
+
+    const comparator = this.buildComparator(validationRule);
+
+    if (isNil(comparator)) {
       return;
     }
 
@@ -123,7 +130,7 @@ class Answer {
 
     Object.assign(this, {
       [validationType]: {
-        value: custom,
+        ...comparator,
         offset_by: {
           [offsetUnit]: offsetValue
         }
