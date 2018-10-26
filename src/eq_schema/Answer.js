@@ -47,18 +47,11 @@ class Answer {
     }
 
     if (!isNil(answer.options)) {
-      this.options = answer.options.map(this.buildOption);
+      this.options = answer.options.map(Answer.buildOption);
     }
 
     if (!isNil(answer.other)) {
-      this.options = this.options.concat(this.buildOtherOption(answer.other));
-    }
-
-    if (!isNil(answer.mutuallyExclusiveOption)) {
-      this.type = "Checkbox";
-      this.options = this.options.concat(
-        this.buildOption(answer.mutuallyExclusiveOption)
-      );
+      this.options = this.options.concat(Answer.buildOtherOption(answer.other));
     }
   }
 
@@ -138,7 +131,7 @@ class Answer {
     });
   }
 
-  buildOption({ label, description }) {
+  static buildOption({ label, description }) {
     const option = {
       label,
       value: label
@@ -150,8 +143,8 @@ class Answer {
     return option;
   }
 
-  buildOtherOption(other) {
-    return merge({}, this.buildOption(other.option), {
+  static buildOtherOption(other) {
+    return merge({}, Answer.buildOption(other.option), {
       child_answer_id: `answer${other.answer.id}`
     });
   }
