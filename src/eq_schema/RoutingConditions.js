@@ -1,17 +1,26 @@
-const { flow, keyBy, map, flatMap, xor, concat } = require("lodash/fp");
+const { flatMap, get, isNil } = require("lodash/fp");
+const RadioRoutingCondition = require("./builders/routingcondition/RadioRoutingCondition");
+const NumberRoutingCondition = require("./builders/routingcondition/NumberRoutingCondition");
 
-const getAllOptions = condition => {
-  if (condition.answer.other) {
-    return concat(condition.answer.options, condition.answer.other.option);
-  } else {
-    return condition.answer.options;
+const createBuilder = (answerType, condition, conditions) => {
+  let builder = null;
+
+  switch (answerType) {
+    case "Radio":
+      builder = new RadioRoutingCondition(condition, conditions);
+      break;
+    case "Number":
+    case "Currency":
+      builder = new NumberRoutingCondition(condition);
+      break;
+    default:
+      throw new Error(
+        `Routing condition with answer type ${answerType} is not supported.`
+      );
   }
-};
 
-const createOptionByIdLookup = flow(
-  flatMap(getAllOptions),
-  keyBy("id")
-);
+  return builder;
+};
 
 class RoutingConditions {
   constructor(conditions) {
@@ -19,22 +28,18 @@ class RoutingConditions {
   }
 
   buildRoutingConditions(conditions) {
-    const optionById = createOptionByIdLookup(conditions);
-
     return flatMap(condition => {
-      const optionIds = map("id", getAllOptions(condition));
-      const unselectedIds = xor(condition.routingValue.value, optionIds);
+      const answerType = get("answer.type", condition);
 
-      return unselectedIds
-        .map(id => ({
-          id: `answer${condition.answer.id}`,
-          condition: "not equals",
-          value: optionById[id].label
-        }))
-        .concat({
-          id: `answer${condition.answer.id}`,
-          condition: "set"
-        });
+      if (isNil(answerType)) {
+        throw new Error("Answer type is null or undefined");
+      }
+
+      return createBuilder(
+        answerType,
+        condition,
+        conditions
+      ).buildRoutingCondition();
     }, conditions);
   }
 }
