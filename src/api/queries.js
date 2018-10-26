@@ -41,6 +41,9 @@ exports.getQuestionnaire = `
             previousAnswer {
               id
             }
+            metadata {
+              key
+            }
           }
           latestDate{
             id
@@ -54,6 +57,9 @@ exports.getQuestionnaire = `
             entityType
             previousAnswer {
               id
+            }
+            metadata {
+              key
             }
           }
         }
