@@ -123,6 +123,9 @@ exports.getQuestionnaire = `
       sections {
         id
         title
+        introductionTitle
+        introductionContent
+        introductionEnabled
         pages {
           ... on QuestionPage {
             id
