@@ -100,6 +100,9 @@ class Answer {
       }
       return { value: custom };
     }
+    if (entityType === "Now") {
+      return { value: "now" };
+    }
     if (entityType === "PreviousAnswer") {
       if (isNil(previousAnswer)) {
         return;
