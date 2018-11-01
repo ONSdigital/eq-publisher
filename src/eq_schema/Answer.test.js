@@ -475,16 +475,16 @@ describe("Answer", () => {
                 entityType: "Now",
                 custom: null,
                 offset: {
-                  value: 4,
-                  unit: "Days"
+                  value: 3,
+                  unit: "Years"
                 },
-                relativePosition: "Before"
+                relativePosition: "After"
               }
             }
           })
         );
         expect(answer.maximum).toMatchObject({
-          offset_by: { days: -4 },
+          offset_by: { years: 3 },
           value: "now"
         });
       });
