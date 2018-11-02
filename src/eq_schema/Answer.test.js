@@ -220,6 +220,34 @@ describe("Answer", () => {
         expect(answer.minimum.value).toEqual("2017-02-17");
       });
 
+      it("should add earliest date current date value", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              earliestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "Now",
+                custom: null,
+                offset: {
+                  value: 4,
+                  unit: "Days"
+                },
+                relativePosition: "Before"
+              },
+              latestDate: {
+                enabled: false
+              }
+            }
+          })
+        );
+        expect(answer.minimum).toMatchObject({
+          offset_by: { days: -4 },
+          value: "now"
+        });
+      });
+
       it("should add earliest date previous answer", () => {
         const answer = new Answer(
           createAnswerJSON({
@@ -430,6 +458,34 @@ describe("Answer", () => {
 
         expect(answer.maximum).toMatchObject({
           answer_id: "answer3"
+        });
+      });
+
+      it("should add latest date current date value", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            type: "Date",
+            validation: {
+              earliestDate: {
+                enabled: false
+              },
+              latestDate: {
+                id: "1",
+                enabled: true,
+                entityType: "Now",
+                custom: null,
+                offset: {
+                  value: 3,
+                  unit: "Years"
+                },
+                relativePosition: "After"
+              }
+            }
+          })
+        );
+        expect(answer.maximum).toMatchObject({
+          offset_by: { years: 3 },
+          value: "now"
         });
       });
 
