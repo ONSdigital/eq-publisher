@@ -238,27 +238,30 @@ describe("Question", () => {
   });
 
   describe("mutually exclusive questions", () => {
-    const answers = [
-      {
-        type: "Checkbox",
-        id: "1",
-        properties: { required: true },
-        options: [
-          {
-            id: "1",
-            label: "Option 1"
-          },
-          {
-            id: "2",
-            label: "Option 2"
+    let answers;
+    beforeEach(() => {
+      answers = [
+        {
+          type: "Checkbox",
+          id: "1",
+          properties: { required: true },
+          options: [
+            {
+              id: "1",
+              label: "Option 1"
+            },
+            {
+              id: "2",
+              label: "Option 2"
+            }
+          ],
+          mutuallyExclusiveOption: {
+            id: "3",
+            label: "Mutually exclusive"
           }
-        ],
-        mutuallyExclusiveOption: {
-          id: "3",
-          label: "Mutually exclusive"
         }
-      }
-    ];
+      ];
+    });
 
     it("should have a question type of mutually exclusive", () => {
       const question = new Question(createQuestionJSON({ answers }));
@@ -313,10 +316,15 @@ describe("Question", () => {
       expect(question).toHaveProperty("mandatory");
     });
 
-    it("should inherit mandatory property from mutually exclusive answer", () => {
+    it("should set mandatory on exclusive child answers to false", () => {
       const question = new Question(createQuestionJSON({ answers }));
       expect(question).toMatchObject({
         mandatory: true
+      });
+      question.answers.map(answer => {
+        expect(answer).toMatchObject({
+          mandatory: false
+        });
       });
     });
 
