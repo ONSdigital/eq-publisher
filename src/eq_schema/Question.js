@@ -82,6 +82,7 @@ class Question {
   }
 
   buildMutuallyExclusiveAnswers(mutuallyExclusive) {
+    Object.assign(mutuallyExclusive.properties, { required: false });
     const mutuallyExclusiveAnswer = new Answer({
       ...omit("other", mutuallyExclusive),
       id: `${mutuallyExclusive.id}-exclusive`,
