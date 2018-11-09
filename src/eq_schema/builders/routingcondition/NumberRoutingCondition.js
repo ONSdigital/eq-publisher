@@ -2,7 +2,9 @@ const comparatorLookup = {
   Equal: "equals",
   NotEqual: "not equals",
   GreaterThan: "greater than",
-  LessThan: "less than"
+  GreaterOrEqual: "greater than or equal to",
+  LessThan: "less than",
+  LessOrEqual: "less than or equal to"
 };
 
 class NumberRoutingCondition {
