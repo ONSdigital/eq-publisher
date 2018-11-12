@@ -9,6 +9,11 @@ describe("Group", () => {
       {
         id: "1",
         title: "Section 1",
+        introduction: {
+          introductionTitle: "Intro Title",
+          introductionContent: "Intro Content",
+          introductionEnabled: false
+        },
         pages: [
           {
             id: "2",
@@ -25,6 +30,7 @@ describe("Group", () => {
       groupJSON.id,
       groupJSON.title,
       groupJSON.pages,
+      groupJSON.introduction,
       ctx
     );
 
@@ -41,6 +47,7 @@ describe("Group", () => {
       groupJSON.id,
       groupJSON.title,
       groupJSON.pages,
+      groupJSON.introduction,
       ctx
     );
 
@@ -49,22 +56,110 @@ describe("Group", () => {
     });
   });
 
+  it("returns a schema with an introduction when there is one", () => {
+    const groupJSON = createGroupJSON();
+
+    const runnerJSON = new Group(
+      groupJSON.id,
+      groupJSON.title,
+      groupJSON.pages,
+      {
+        ...groupJSON.introduction,
+        introductionEnabled: true
+      },
+      ctx
+    );
+
+    expect(runnerJSON).toMatchObject({
+      id: "group1",
+      title: "Section 1",
+      blocks: [
+        {
+          description: "Intro Content",
+          id: "group1-introduction",
+          title: "Intro Title",
+          type: "Interstitial"
+        },
+        expect.any(Block)
+      ]
+    });
+  });
+
+  it("returns a schema with an empty introduction when null title and content", () => {
+    const groupJSON = createGroupJSON();
+
+    const runnerJSON = new Group(
+      groupJSON.id,
+      groupJSON.title,
+      groupJSON.pages,
+      {
+        introductionTitle: null,
+        introductionContent: null,
+        introductionEnabled: true
+      },
+      ctx
+    );
+
+    expect(runnerJSON).toMatchObject({
+      id: "group1",
+      title: "Section 1",
+      blocks: [
+        {
+          id: "group1-introduction",
+          title: "",
+          description: "",
+          type: "Interstitial"
+        },
+        expect.any(Block)
+      ]
+    });
+  });
+
+  it("returns a schema without an introduction when it is disabled", () => {
+    const groupJSON = createGroupJSON();
+
+    const runnerJSON = new Group(
+      groupJSON.id,
+      groupJSON.title,
+      groupJSON.pages,
+      groupJSON.introduction,
+      ctx
+    );
+
+    expect(runnerJSON.blocks).toHaveLength(1);
+  });
+
   describe("skip conditions", () => {
     const createGroupsJSON = () => [
       {
         id: 1,
         title: "Group 1",
-        pages: []
+        pages: [],
+        introduction: {
+          introductionTitle: "Intro Title",
+          introductionContent: "Intro Content",
+          introductionEnabled: false
+        }
       },
       {
         id: 2,
         title: "Group 2",
-        pages: []
+        pages: [],
+        introduction: {
+          introductionTitle: "Intro Title",
+          introductionContent: "Intro Content",
+          introductionEnabled: false
+        }
       },
       {
         id: 3,
         title: "Group 3",
-        pages: []
+        pages: [],
+        introduction: {
+          introductionTitle: "Intro Title",
+          introductionContent: "Intro Content",
+          introductionEnabled: false
+        }
       }
     ];
 
@@ -86,7 +181,8 @@ describe("Group", () => {
       };
 
       const runnerJson = groupsJson.map(
-        group => new Group(group.id, group.title, group.pages, ctx)
+        group =>
+          new Group(group.id, group.title, group.pages, group.introduction, ctx)
       );
 
       const expectedrunnerJson = [
@@ -141,7 +237,8 @@ describe("Group", () => {
       };
 
       const runnerJson = groupsJson.map(
-        group => new Group(group.id, group.title, group.pages, ctx)
+        group =>
+          new Group(group.id, group.title, group.pages, group.introduction, ctx)
       );
 
       const expectedrunnerJson = [

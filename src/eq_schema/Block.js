@@ -38,6 +38,15 @@ class Block {
     }
   }
 
+  static buildIntroBlock({ introductionTitle, introductionContent }, groupId) {
+    return {
+      type: "Interstitial",
+      id: `group${groupId}-introduction`,
+      title: introductionTitle || "",
+      description: introductionContent || ""
+    };
+  }
+
   buildQuestions(page, ctx) {
     return [new Question(page, ctx)];
   }

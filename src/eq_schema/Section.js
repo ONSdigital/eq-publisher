@@ -8,9 +8,28 @@ class Section {
     this.groups = this.buildGroups(section.id, this.title, section, ctx);
   }
 
-  buildGroups(id, title, { pages }, ctx) {
+  buildGroups(id, title, section, ctx) {
+    const {
+      pages,
+      introductionTitle,
+      introductionContent,
+      introductionEnabled
+    } = section;
+
     // Sections always contain a single group currently
-    return [new Group(id, title, pages, ctx)];
+    return [
+      new Group(
+        id,
+        title,
+        pages,
+        {
+          introductionTitle,
+          introductionContent,
+          introductionEnabled
+        },
+        ctx
+      )
+    ];
   }
 }
 

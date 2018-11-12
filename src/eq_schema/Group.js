@@ -4,10 +4,10 @@ const { getInnerHTML } = require("../utils/HTMLUtils");
 const { isEmpty, reject } = require("lodash");
 
 class Group {
-  constructor(id, title, pages, ctx) {
+  constructor(id, title, pages, introduction, ctx) {
     this.id = `group${id}`;
     this.title = getInnerHTML(title);
-    this.blocks = this.buildBlocks(pages, id, ctx);
+    this.blocks = this.buildBlocks(pages, id, introduction, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
       this.filterContext(this.id, ctx);
@@ -34,8 +34,12 @@ class Group {
     );
   }
 
-  buildBlocks(pages, groupId, ctx) {
-    return pages.map(page => new Block(page, groupId, ctx));
+  buildBlocks(pages, groupId, introduction, ctx) {
+    const blocks = pages.map(page => new Block(page, groupId, ctx));
+    if (introduction.introductionEnabled) {
+      return [Block.buildIntroBlock(introduction, groupId), ...blocks];
+    }
+    return blocks;
   }
 }
 
