@@ -27,7 +27,11 @@ class Block {
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page, ctx);
 
-    if (!isLastPageInSection(page, ctx) && !isNil(page.routingRuleSet)) {
+    if (
+      !isLastPageInSection(page, ctx) &&
+      !isNil(page.routingRuleSet) &&
+      isNil(page.confirmation)
+    ) {
       // eslint-disable-next-line camelcase
       this.routing_rules = this.buildRoutingRules(
         page.routingRuleSet,
