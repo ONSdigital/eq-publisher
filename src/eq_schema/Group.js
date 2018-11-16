@@ -1,7 +1,10 @@
 /* eslint-disable camelcase */
 const Block = require("./Block");
 const { getInnerHTML } = require("../utils/HTMLUtils");
-const { isEmpty, reject } = require("lodash");
+const { isEmpty, reject, flatten } = require("lodash");
+const {
+  buildAuthorConfirmationQuestion
+} = require("./builders/confirmationPage/ConfirmationPage");
 
 class Group {
   constructor(id, title, pages, introduction, ctx) {
@@ -35,7 +38,24 @@ class Group {
   }
 
   buildBlocks(pages, groupId, introduction, ctx) {
-    const blocks = pages.map(page => new Block(page, groupId, ctx));
+    const blocks = flatten(
+      pages.map(page => {
+        const block = new Block(page, groupId, ctx);
+        if (page.confirmation) {
+          return [
+            block,
+            buildAuthorConfirmationQuestion(
+              page,
+              groupId,
+              page.routingRuleSet,
+              ctx
+            )
+          ];
+        }
+        return block;
+      })
+    );
+
     if (introduction.introductionEnabled) {
       return [Block.buildIntroBlock(introduction, groupId), ...blocks];
     }

@@ -30,6 +30,21 @@ describe("Block", () => {
     expect(block.title).toBeUndefined();
   });
 
+  it("should not build routing rules when there is a confirmation page", () => {
+    const block = new Block(
+      createBlockJSON({
+        confirmation: {
+          id: "2",
+          title: "<p>Are you sure?</p>"
+        },
+        routingRuleSet: { id: "2" }
+      }),
+      ctx
+    );
+
+    expect(block.routingRuleSet).toBeUndefined();
+  });
+
   describe("conversion of page types", () => {
     it("should convert QuestionPage to Questionnaire", () => {
       const block = new Block(
