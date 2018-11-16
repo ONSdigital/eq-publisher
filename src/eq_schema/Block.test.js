@@ -87,4 +87,54 @@ describe("Block", () => {
       expect(isLastPageInSection({ id: "3" }, questionnaire)).toBe(false);
     });
   });
+
+  describe("piping", () => {
+    const createPipe = ({
+      id = 123,
+      type = "TextField",
+      text = "foo",
+      pipeType = "answers"
+    } = {}) =>
+      `<span data-piped="${pipeType}" data-id="${id}" data-type="${type}">${text}</span>`;
+
+    const createContext = (
+      metadata = [{ id: "123", type: "Text", key: "my_metadata" }]
+    ) => ({
+      questionnaireJson: {
+        metadata
+      }
+    });
+
+    it("should handle piped values in title", () => {
+      // noinspection JSAnnotator
+      let introduction = {
+        introductionTitle: createPipe(),
+        introductionContent: ""
+      };
+
+      const introBlock = Block.buildIntroBlock(
+        introduction,
+        0,
+        createContext()
+      );
+
+      expect(introBlock.title).toEqual("{{ answers['answer123'] }}");
+    });
+
+    it("should handle piped values in description", () => {
+      // noinspection JSAnnotator
+      let introduction = {
+        introductionTitle: "",
+        introductionContent: createPipe()
+      };
+
+      const introBlock = Block.buildIntroBlock(
+        introduction,
+        0,
+        createContext()
+      );
+
+      expect(introBlock.description).toEqual("{{ answers['answer123'] }}");
+    });
+  });
 });
