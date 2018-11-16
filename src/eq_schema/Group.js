@@ -57,7 +57,7 @@ class Group {
     );
 
     if (introduction.introductionEnabled) {
-      return [Block.buildIntroBlock(introduction, groupId), ...blocks];
+      return [Block.buildIntroBlock(introduction, groupId, ctx), ...blocks];
     }
     return blocks;
   }
